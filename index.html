@@ -183,14 +183,17 @@
     border-radius: 0.45rem; padding: 0.18rem 0.5rem; margin-top: 0.38rem;
   }
 
-  /* ── COPY CARD ── (card with copy button, no <a> wrapper) */
+  /* ── COPY CARD (whole card tappable) ── */
   .copy-card {
+    display: block;
     background: var(--surface);
     border: 1px solid var(--border);
     border-radius: 1rem;
     padding: 1rem 1.05rem;
     margin-bottom: 0.55rem;
+    text-decoration: none; color: var(--text-primary);
     box-shadow: var(--shadow-sm);
+    transition: box-shadow 0.2s, border-color 0.2s, transform 0.15s, background 0.2s;
     position: relative; overflow: hidden;
   }
   .copy-card::before {
@@ -199,34 +202,30 @@
     background: var(--accent, var(--violet));
     border-radius: 4px 0 0 4px;
   }
+  .copy-card:hover {
+    box-shadow: var(--shadow-hover);
+    border-color: var(--border-hover);
+    background: var(--surface-hover);
+    transform: translateY(-1px);
+  }
   .copy-card-inner { display: flex; align-items: flex-start; gap: 0.85rem; }
   .copy-card .card-title { font-size: 0.91rem; font-weight: 600; color: var(--text-primary); margin-bottom: 0.18rem; }
   .copy-card .card-desc  { font-size: 0.79rem; color: var(--text-secondary); line-height: 1.45; }
 
-  .copy-actions {
-    display: flex; gap: 0.45rem; flex-wrap: wrap; margin-top: 0.6rem;
+  /* URL + copy button row */
+  .url-row {
+    display: flex; align-items: center; gap: 0.5rem;
+    margin-top: 0.45rem; flex-wrap: wrap;
   }
-
-  .btn-open {
-    display: inline-flex; align-items: center; gap: 0.3rem;
-    font-size: 0.75rem; font-weight: 600;
-    color: #fff;
-    background: var(--accent, var(--violet));
-    border: none; border-radius: 0.5rem;
-    padding: 0.32rem 0.7rem;
-    cursor: pointer; text-decoration: none;
-    transition: opacity 0.15s, transform 0.12s;
-  }
-  .btn-open:hover { opacity: 0.88; transform: translateY(-1px); }
 
   .btn-copy {
-    display: inline-flex; align-items: center; gap: 0.3rem;
-    font-size: 0.75rem; font-weight: 600;
+    display: inline-flex; align-items: center; gap: 0.25rem;
+    font-size: 0.71rem; font-weight: 600;
     color: var(--text-secondary);
     background: rgba(0,0,0,0.05);
     border: 1px solid var(--border);
-    border-radius: 0.5rem; padding: 0.32rem 0.7rem;
-    cursor: pointer;
+    border-radius: 0.45rem; padding: 0.22rem 0.55rem;
+    cursor: pointer; flex-shrink: 0;
     transition: background 0.15s, color 0.15s;
   }
   .btn-copy:hover { background: rgba(0,0,0,0.09); color: var(--text-primary); }
@@ -236,7 +235,19 @@
     border-color: rgba(22,163,74,0.2);
   }
 
-  /* Visible URL display */
+  /* Fast Start format buttons (keep as styled buttons, not Open buttons) */
+  .format-btns { display: flex; gap: 0.45rem; flex-wrap: wrap; margin-top: 0.55rem; }
+  .btn-format {
+    display: inline-flex; align-items: center; gap: 0.3rem;
+    font-size: 0.75rem; font-weight: 600; color: #fff;
+    background: var(--amber); border: none; border-radius: 0.5rem;
+    padding: 0.32rem 0.75rem; cursor: pointer; text-decoration: none;
+    transition: opacity 0.15s;
+  }
+  .btn-format:hover { opacity: 0.88; }
+  .btn-format.teal { background: var(--teal); }
+
+  /* Visible URL */
   .card-url {
     display: inline-block;
     font-size: 0.72rem;
@@ -246,21 +257,12 @@
     border: 1px solid rgba(0,0,0,0.06);
     border-radius: 0.35rem;
     padding: 0.15rem 0.45rem;
-    margin-top: 0.4rem;
     text-decoration: none;
     letter-spacing: 0.01em;
-    transition: color 0.15s, background 0.15s;
     word-break: break-all;
+    transition: color 0.15s, background 0.15s;
   }
-  .card-url:hover {
-    color: var(--text-secondary);
-    background: rgba(0,0,0,0.07);
-  }
-
-  /* Placeholder state */
-  .copy-card.placeholder { opacity: 0.55; }
-  .copy-card.placeholder .card-title { color: var(--text-muted); }
-  .copy-card.placeholder::before { background: var(--locked); }
+  .card-url:hover { color: var(--text-secondary); background: rgba(0,0,0,0.07); }
 
   /* ── INFO CARD ── */
   .info-card {
@@ -492,9 +494,9 @@
         <div class="card-body">
           <div class="card-title">Fast Start Plan</div>
           <div class="card-desc">A clear action plan for new partners to work through with their mentor. Choose your format.</div>
-          <div class="copy-actions">
-            <a class="btn-open" href="fast-start-plan.html" target="_blank" rel="noopener">💻 Interactive version</a>
-            <a class="btn-open" href="fast-start-plan.pdf" target="_blank" rel="noopener" style="background: var(--teal);">📄 PDF version</a>
+          <div class="format-btns">
+            <a class="btn-format" href="fast-start-plan.html" target="_blank" rel="noopener">💻 Interactive version</a>
+            <a class="btn-format teal" href="fast-start-plan.pdf" target="_blank" rel="noopener">📄 PDF version</a>
           </div>
         </div>
       </div>
@@ -540,11 +542,49 @@
           <div class="meal-card-label">Post-event dinner · Book separately</div>
           <div class="meal-card-title">Power Up Meal — Bella Italia</div>
           <div class="meal-card-meta">📅 Friday 18th April · 18:00</div>
-          <div class="copy-actions">
-            <a class="btn-open" href="https://buytickets.at/utilitywarehouse/2062797" target="_blank" rel="noopener" onclick="event.stopPropagation();" style="--accent: var(--orange); background: var(--orange);">↗ Book tickets</a>
-            <button class="btn-copy" onclick="event.stopPropagation(); copyLink(this, 'https://buytickets.at/utilitywarehouse/2062797')">⧉ Copy link</button>
+          <div class="copy-actions" style="margin-top:0.5rem;">
+            <button class="btn-copy" onclick="event.preventDefault(); event.stopPropagation(); copyLink(this, 'https://buytickets.at/utilitywarehouse/2062797')">⧉ Copy booking link</button>
           </div>
         </div>
+      </div>
+    </a>
+  </section>
+
+  <!-- TEAM RISE — YOUR COMMUNITY -->
+  <section class="section sec-rise">
+    <div class="section-label">🌟 Team RISE — Your Community</div>
+
+    <a class="card" href="https://us02web.zoom.us/meeting/register/r_z1CYT6QA2Ayms-x2eBQw" target="_blank" rel="noopener">
+      <div class="card-inner">
+        <div class="card-icon">👥</div>
+        <div class="card-body">
+          <div class="card-title">Team RISE Weekly Call — Mondays 8:30pm</div>
+          <div class="card-desc">Live training, Q&amp;A, accountability and team connection. One of the best hours of your week.</div>
+          <div class="tip">📅 Weekly via Zoom — don't miss it</div>
+        </div>
+        <div class="card-arrow">→</div>
+      </div>
+    </a>
+
+    <a class="card" href="https://chat.whatsapp.com/DFEoY8BrztsGkpQdR28pJn" target="_blank" rel="noopener">
+      <div class="card-inner">
+        <div class="card-icon">💬</div>
+        <div class="card-body">
+          <div class="card-title">Team RISE WhatsApp Group</div>
+          <div class="card-desc">Stay connected with the wider RISE community between calls — news, wins and encouragement.</div>
+        </div>
+        <div class="card-arrow">→</div>
+      </div>
+    </a>
+
+    <a class="card" href="https://www.facebook.com/groups/429878163322370" target="_blank" rel="noopener">
+      <div class="card-inner">
+        <div class="card-icon">📘</div>
+        <div class="card-body">
+          <div class="card-title">Team RISE Facebook Group</div>
+          <div class="card-desc">The broader RISE community — stories, training clips, motivation and team updates.</div>
+        </div>
+        <div class="card-arrow">→</div>
       </div>
     </a>
   </section>
@@ -553,127 +593,115 @@
   <section class="section sec-show">
     <div class="section-label">👀 Showing the presentation</div>
 
-    <!-- Original system -->
     <div class="sub-label">Original system</div>
 
-    <div class="copy-card">
+    <a class="copy-card" href="https://uw.co.uk/join" target="_blank" rel="noopener">
       <div class="copy-card-inner">
         <div class="card-icon">🔐</div>
         <div class="card-body">
           <div class="card-title">Partner Sign-In (you)</div>
           <div class="card-desc">Sign in here to generate your unique sharing code before showing the presentation.</div>
-          <a class="card-url" href="https://uw.co.uk/join" target="_blank" rel="noopener">uw.co.uk/join</a>
-          <div class="copy-actions">
-            <a class="btn-open" href="https://uw.co.uk/join" target="_blank" rel="noopener">↗ Open</a>
-            <button class="btn-copy" onclick="copyLink(this, 'https://uw.co.uk/join')">⧉ Copy link</button>
+          <div class="url-row">
+            <span class="card-url">uw.co.uk/join</span>
+            <button class="btn-copy" onclick="event.preventDefault(); event.stopPropagation(); copyLink(this, 'https://uw.co.uk/join')">⧉ Copy</button>
           </div>
         </div>
       </div>
-    </div>
+    </a>
 
-    <div class="copy-card">
+    <a class="copy-card" href="https://uw.co.uk/share" target="_blank" rel="noopener">
       <div class="copy-card-inner">
         <div class="card-icon">👤</div>
         <div class="card-body">
           <div class="card-title">Customer / Partner View (them)</div>
           <div class="card-desc">After generating your code, send your prospect here to view the presentation remotely.</div>
-          <a class="card-url" href="https://uw.co.uk/share" target="_blank" rel="noopener">uw.co.uk/share</a>
-          <div class="copy-actions">
-            <a class="btn-open" href="https://uw.co.uk/share" target="_blank" rel="noopener">↗ Open</a>
-            <button class="btn-copy" onclick="copyLink(this, 'https://www.uw.co.uk/share')">⧉ Copy link</button>
+          <div class="url-row">
+            <span class="card-url">uw.co.uk/share</span>
+            <button class="btn-copy" onclick="event.preventDefault(); event.stopPropagation(); copyLink(this, 'https://uw.co.uk/share')">⧉ Copy</button>
           </div>
-          <div class="tip">💡 Works on any device</div>
         </div>
       </div>
-    </div>
+    </a>
 
-    <!-- New quote system -->
-    <div class="sub-label">UW Quote System <span class="badge-new">New</span></div>
+    <div class="sub-label">New system</div>
 
-    <div class="copy-card">
+    <a class="copy-card" href="https://uw.co.uk/quote" target="_blank" rel="noopener">
       <div class="copy-card-inner">
         <div class="card-icon">🔐</div>
         <div class="card-body">
-          <div class="card-title">Partner Quote Sign-In (you)</div>
+          <div class="card-title">Partner Quote Sign-In (you) <span class="badge-new">New</span></div>
           <div class="card-desc">The new way to show UW — sign in here to start a live quote. You can also mix and match SIMs on the same order.</div>
-          <a class="card-url" href="https://uw.co.uk/quote" target="_blank" rel="noopener">uw.co.uk/quote</a>
-          <div class="copy-actions">
-            <a class="btn-open" href="https://uw.co.uk/quote" target="_blank" rel="noopener">↗ Open</a>
-            <button class="btn-copy" onclick="copyLink(this, 'https://uw.co.uk/quote')">⧉ Copy link</button>
+          <div class="url-row">
+            <span class="card-url">uw.co.uk/quote</span>
+            <button class="btn-copy" onclick="event.preventDefault(); event.stopPropagation(); copyLink(this, 'https://uw.co.uk/quote')">⧉ Copy</button>
           </div>
         </div>
       </div>
-    </div>
+    </a>
 
-    <div class="copy-card">
+    <a class="copy-card" href="https://uw.link/meet" target="_blank" rel="noopener">
       <div class="copy-card-inner">
         <div class="card-icon">👤</div>
         <div class="card-body">
-          <div class="card-title">Customer Meeting Link (them)</div>
+          <div class="card-title">Customer Meeting Link (them) <span class="badge-new">New</span></div>
           <div class="card-desc">Send this to your prospect for a remote session — they join here while you drive the quote from your end.</div>
-          <a class="card-url" href="https://uw.link/meet" target="_blank" rel="noopener">uw.link/meet</a>
-          <div class="copy-actions">
-            <a class="btn-open" href="https://uw.link/meet" target="_blank" rel="noopener">↗ Open</a>
-            <button class="btn-copy" onclick="copyLink(this, 'https://uw.link/meet')">⧉ Copy link</button>
+          <div class="url-row">
+            <span class="card-url">uw.link/meet</span>
+            <button class="btn-copy" onclick="event.preventDefault(); event.stopPropagation(); copyLink(this, 'https://uw.link/meet')">⧉ Copy</button>
           </div>
-          <div class="tip">💡 Works on any device</div>
         </div>
       </div>
-    </div>
+    </a>
 
-    <!-- Stories & opportunity -->
     <div class="sub-label">Share the opportunity</div>
 
-    <div class="copy-card">
+    <a class="copy-card" href="https://earnuw.co.uk/" target="_blank" rel="noopener">
       <div class="copy-card-inner">
         <div class="card-icon">▶️</div>
         <div class="card-body">
           <div class="card-title">The Opportunity Video</div>
           <div class="card-desc">Share this to explain how ordinary people can build an extraordinary income.</div>
-          <a class="card-url" href="https://earnuw.co.uk/" target="_blank" rel="noopener">earnuw.co.uk</a>
-          <div class="copy-actions">
-            <a class="btn-open" href="https://earnuw.co.uk/" target="_blank" rel="noopener">↗ Open</a>
-            <button class="btn-copy" onclick="copyLink(this, 'https://earnuw.co.uk/')">⧉ Copy link</button>
+          <div class="url-row">
+            <span class="card-url">earnuw.co.uk</span>
+            <button class="btn-copy" onclick="event.preventDefault(); event.stopPropagation(); copyLink(this, 'https://earnuw.co.uk/')">⧉ Copy</button>
           </div>
         </div>
       </div>
-    </div>
+    </a>
 
-    <div class="copy-card">
+    <a class="copy-card" href="https://uwstories.co.uk" target="_blank" rel="noopener">
       <div class="copy-card-inner">
         <div class="card-icon">📖</div>
         <div class="card-body">
           <div class="card-title">UW Stories</div>
           <div class="card-desc">Short videos from real partners — great to send to prospects, even better to watch yourself.</div>
-          <a class="card-url" href="https://uwstories.co.uk" target="_blank" rel="noopener">uwstories.co.uk</a>
-          <div class="copy-actions">
-            <a class="btn-open" href="https://uwstories.co.uk" target="_blank" rel="noopener">↗ Open</a>
-            <button class="btn-copy" onclick="copyLink(this, 'https://uwstories.co.uk')">⧉ Copy link</button>
+          <div class="url-row">
+            <span class="card-url">uwstories.co.uk</span>
+            <button class="btn-copy" onclick="event.preventDefault(); event.stopPropagation(); copyLink(this, 'https://uwstories.co.uk')">⧉ Copy</button>
           </div>
           <div class="tip">👀 Watch them all — they'll build your belief</div>
         </div>
       </div>
-    </div>
+    </a>
   </section>
 
   <!-- SUPPORT -->
   <section class="section sec-support">
     <div class="section-label">🤝 Support</div>
 
-    <div class="copy-card">
+    <a class="copy-card" href="https://askmii.co.uk" target="_blank" rel="noopener">
       <div class="copy-card-inner">
         <div class="card-icon">🧠</div>
         <div class="card-body">
           <div class="card-title">AskMii — UW's AI Assistant</div>
           <div class="card-desc">Got a question any time of day? UW's own AI assistant is available 24/7.</div>
-          <a class="card-url" href="https://askmii.co.uk" target="_blank" rel="noopener">askmii.co.uk</a>
-          <div class="copy-actions">
-            <a class="btn-open" href="https://askmii.co.uk" target="_blank" rel="noopener">↗ Open</a>
-            <button class="btn-copy" onclick="copyLink(this, 'https://askmii.co.uk')">⧉ Copy link</button>
+          <div class="url-row">
+            <span class="card-url">askmii.co.uk</span>
+            <button class="btn-copy" onclick="event.preventDefault(); event.stopPropagation(); copyLink(this, 'https://askmii.co.uk')">⧉ Copy</button>
           </div>
         </div>
       </div>
-    </div>
+    </a>
 
     <div class="info-card">
       <div class="card-inner">
@@ -704,45 +732,6 @@
         <div class="card-arrow">→</div>
       </div>
     </div>
-  </section>
-
-  <!-- TEAM RISE — YOUR COMMUNITY -->
-  <section class="section sec-rise">
-    <div class="section-label">🌟 Team RISE — Your Community</div>
-
-    <a class="card" href="https://us02web.zoom.us/meeting/register/r_z1CYT6QA2Ayms-x2eBQw" target="_blank" rel="noopener">
-      <div class="card-inner">
-        <div class="card-icon">👥</div>
-        <div class="card-body">
-          <div class="card-title">Team RISE Weekly Call — Mondays 8:30pm</div>
-          <div class="card-desc">Live training, Q&amp;A, accountability and team connection. One of the best hours of your week.</div>
-          <div class="tip">📅 Weekly via Zoom — don't miss it</div>
-        </div>
-        <div class="card-arrow">→</div>
-      </div>
-    </a>
-
-    <a class="card" href="TEAM_RISE_WHATSAPP_URL" target="_blank" rel="noopener">
-      <div class="card-inner">
-        <div class="card-icon">💬</div>
-        <div class="card-body">
-          <div class="card-title">Team RISE WhatsApp Group</div>
-          <div class="card-desc">Stay connected with the wider RISE community between calls — news, wins and encouragement.</div>
-        </div>
-        <div class="card-arrow">→</div>
-      </div>
-    </a>
-
-    <a class="card" href="TEAM_RISE_FACEBOOK_URL" target="_blank" rel="noopener">
-      <div class="card-inner">
-        <div class="card-icon">📘</div>
-        <div class="card-body">
-          <div class="card-title">Team RISE Facebook Group</div>
-          <div class="card-desc">The broader RISE community — stories, training clips, motivation and team updates.</div>
-        </div>
-        <div class="card-arrow">→</div>
-      </div>
-    </a>
   </section>
 
   <!-- PORTAL & TRAINING -->
@@ -795,12 +784,8 @@
     navigator.clipboard.writeText(url).then(() => {
       btn.textContent = '✓ Copied!';
       btn.classList.add('copied');
-      setTimeout(() => {
-        btn.innerHTML = '⧉ Copy link';
-        btn.classList.remove('copied');
-      }, 2000);
+      setTimeout(() => { btn.innerHTML = '⧉ Copy'; btn.classList.remove('copied'); }, 2000);
     }).catch(() => {
-      // Fallback for older browsers
       const ta = document.createElement('textarea');
       ta.value = url; ta.style.position = 'fixed'; ta.style.opacity = '0';
       document.body.appendChild(ta); ta.select();
@@ -808,7 +793,7 @@
       document.body.removeChild(ta);
       btn.textContent = '✓ Copied!';
       btn.classList.add('copied');
-      setTimeout(() => { btn.innerHTML = '⧉ Copy link'; btn.classList.remove('copied'); }, 2000);
+      setTimeout(() => { btn.innerHTML = '⧉ Copy'; btn.classList.remove('copied'); }, 2000);
     });
   }
 
