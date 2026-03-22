@@ -1,0 +1,813 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Team RISE · New Partner Fast Start</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #fdf8f2;
+    --surface: #ffffff;
+    --border: rgba(0,0,0,0.08);
+    --border-focus: #f59e0b;
+    --text-primary: #1c1612;
+    --text-secondary: #5a4e42;
+    --text-muted: #9e8e80;
+    --amber: #f59e0b;
+    --orange: #ea6c2e;
+    --teal: #0e9484;
+    --green: #16a34a;
+    --rose: #db2777;
+    --shadow-sm: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+    --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text-primary);
+    min-height: 100vh;
+  }
+
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background:
+      radial-gradient(ellipse 70% 40% at 90% 0%, rgba(245,158,11,0.1) 0%, transparent 60%),
+      radial-gradient(ellipse 50% 35% at 5% 100%, rgba(14,148,132,0.07) 0%, transparent 55%);
+    pointer-events: none; z-index: 0;
+  }
+
+  .wrapper {
+    position: relative; z-index: 1;
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 0 1.25rem 4rem;
+  }
+
+  /* ── PAGE TABS ── */
+  .tab-nav {
+    display: flex;
+    gap: 0.4rem;
+    padding: 1.2rem 0 0;
+    border-bottom: 2px solid var(--border);
+    margin-bottom: 2rem;
+  }
+
+  .tab-btn {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    color: var(--text-muted);
+    background: none;
+    border: 1px solid transparent;
+    border-bottom: none;
+    border-radius: 0.5rem 0.5rem 0 0;
+    padding: 0.5rem 0.9rem;
+    cursor: pointer;
+    transition: color 0.15s, background 0.15s;
+    position: relative;
+    bottom: -2px;
+  }
+
+  .tab-btn:hover { color: var(--text-secondary); background: rgba(0,0,0,0.03); }
+
+  .tab-btn.active {
+    color: var(--text-primary);
+    background: var(--bg);
+    border-color: var(--border);
+    border-bottom-color: var(--bg);
+  }
+
+  .tab-btn.active::after {
+    content: '';
+    position: absolute;
+    bottom: -2px; left: 0; right: 0;
+    height: 2px;
+    background: var(--amber);
+  }
+
+  .page { display: none; animation: fadeUp 0.3s ease both; }
+  .page.active { display: block; }
+
+  /* ── HERO ── */
+  .hero {
+    padding: 2.2rem 0 1.8rem;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 2rem;
+  }
+
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 0.4rem;
+    font-size: 0.67rem; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase;
+    color: var(--orange);
+    background: rgba(234,108,46,0.1);
+    border: 1px solid rgba(234,108,46,0.2);
+    border-radius: 2rem; padding: 0.28rem 0.8rem; margin-bottom: 0.9rem;
+  }
+
+  .hero h1 {
+    font-family: 'Fraunces', Georgia, serif;
+    font-size: clamp(1.7rem, 5vw, 2.4rem);
+    font-weight: 900; line-height: 1.1; letter-spacing: -0.02em;
+    margin-bottom: 0.5rem;
+  }
+
+  .hero h1 em { font-style: italic; color: var(--amber); }
+
+  .hero-meta {
+    display: flex; gap: 1.5rem; flex-wrap: wrap;
+    margin-top: 1rem;
+  }
+
+  .hero-field {
+    display: flex; flex-direction: column; gap: 0.2rem; flex: 1; min-width: 140px;
+  }
+
+  .hero-field label {
+    font-size: 0.67rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--text-muted);
+  }
+
+  .hero-field input {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.88rem; font-weight: 500;
+    color: var(--text-primary);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 0.5rem;
+    padding: 0.45rem 0.65rem;
+    transition: border-color 0.15s, box-shadow 0.15s;
+  }
+
+  .hero-field input:focus {
+    outline: none;
+    border-color: var(--border-focus);
+    box-shadow: 0 0 0 3px rgba(245,158,11,0.12);
+  }
+
+  /* ── NON-NEGOTIABLE BANNER ── */
+  .nng-banner {
+    background: linear-gradient(135deg, #1c1612 0%, #2d1f0e 100%);
+    border-radius: 0.85rem;
+    padding: 0.9rem 1.1rem;
+    margin-bottom: 1.8rem;
+    display: flex; align-items: center; gap: 0.8rem;
+  }
+
+  .nng-icon { font-size: 1.4rem; flex-shrink: 0; }
+
+  .nng-text {
+    font-size: 0.82rem; font-weight: 600;
+    color: var(--amber);
+    line-height: 1.4;
+  }
+
+  .nng-text span { color: rgba(245,158,11,0.6); font-weight: 400; }
+
+  /* ── STEP CARDS ── */
+  .step {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 1rem;
+    padding: 1.2rem 1.2rem 1.2rem 1rem;
+    margin-bottom: 1rem;
+    box-shadow: var(--shadow-sm);
+    position: relative; overflow: hidden;
+  }
+
+  .step::before {
+    content: '';
+    position: absolute; left: 0; top: 0; bottom: 0; width: 4px;
+    background: var(--step-color, var(--amber));
+    border-radius: 4px 0 0 4px;
+  }
+
+  .step-header {
+    display: flex; align-items: flex-start; gap: 0.85rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .step-number {
+    width: 2rem; height: 2rem; flex-shrink: 0;
+    background: var(--step-color, var(--amber));
+    color: #fff;
+    font-size: 0.8rem; font-weight: 700;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    margin-top: 0.05rem;
+  }
+
+  .step-title-wrap { flex: 1; }
+
+  .step-title {
+    font-family: 'Fraunces', Georgia, serif;
+    font-size: 1rem; font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 0.15rem;
+  }
+
+  .step-prompt {
+    font-size: 0.76rem; color: var(--text-muted);
+    font-style: italic; line-height: 1.4;
+  }
+
+  /* ── INPUTS ── */
+  .field-group { display: flex; flex-direction: column; gap: 0.35rem; margin-bottom: 0.6rem; }
+  .field-group:last-child { margin-bottom: 0; }
+
+  .field-label {
+    font-size: 0.72rem; font-weight: 600;
+    letter-spacing: 0.06em; text-transform: uppercase;
+    color: var(--text-muted);
+  }
+
+  input[type="text"], input[type="number"], textarea {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.88rem;
+    color: var(--text-primary);
+    background: #fafaf8;
+    border: 1px solid var(--border);
+    border-radius: 0.5rem;
+    padding: 0.5rem 0.7rem;
+    width: 100%;
+    transition: border-color 0.15s, box-shadow 0.15s;
+    resize: vertical;
+  }
+
+  input[type="text"]:focus, input[type="number"]:focus, textarea:focus {
+    outline: none;
+    border-color: var(--border-focus);
+    box-shadow: 0 0 0 3px rgba(245,158,11,0.12);
+    background: #fff;
+  }
+
+  textarea { min-height: 80px; }
+
+  .input-row {
+    display: flex; gap: 0.5rem; align-items: flex-start;
+  }
+
+  .input-row .field-group { flex: 1; }
+
+  /* ── MONEY GOAL ── */
+  .money-row {
+    display: flex; gap: 0.5rem; align-items: center;
+  }
+
+  .money-prefix {
+    font-size: 1.1rem; font-weight: 700; color: var(--green);
+    flex-shrink: 0; margin-top: 0.05rem;
+  }
+
+  .money-row input {
+    font-size: 1.1rem; font-weight: 700; color: var(--green);
+    max-width: 140px;
+  }
+
+  /* ── NAMES TABLE ── */
+  .names-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.82rem;
+    margin-top: 0.5rem;
+  }
+
+  .names-table th {
+    text-align: left;
+    font-size: 0.67rem; font-weight: 600;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--text-muted);
+    padding: 0.4rem 0.5rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .names-table td {
+    padding: 0.35rem 0.35rem;
+    border-bottom: 1px solid rgba(0,0,0,0.04);
+    vertical-align: middle;
+  }
+
+  .names-table tr:last-child td { border-bottom: none; }
+
+  .names-table .row-num {
+    font-size: 0.75rem; font-weight: 600; color: var(--text-muted);
+    width: 1.5rem; text-align: center; padding-right: 0.25rem;
+  }
+
+  .names-table input {
+    font-size: 0.82rem; padding: 0.35rem 0.5rem;
+    background: transparent; border: 1px solid transparent;
+    border-radius: 0.4rem;
+  }
+
+  .names-table input:focus {
+    background: #fff;
+    border-color: var(--border-focus);
+    box-shadow: 0 0 0 2px rgba(245,158,11,0.1);
+  }
+
+  .names-table .col-name { width: 35%; }
+  .names-table .col-home { width: 15%; text-align: center; }
+  .names-table .col-contact { width: 50%; }
+
+  .checkbox-wrap {
+    display: flex; justify-content: center; align-items: center;
+  }
+
+  input[type="checkbox"] {
+    width: 1rem; height: 1rem;
+    accent-color: var(--amber);
+    cursor: pointer;
+  }
+
+  /* ── TODAY'S ACTION ── */
+  .action-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem;
+  }
+
+  .done-check {
+    display: flex; align-items: center; gap: 0.6rem;
+    margin-top: 0.75rem;
+    padding: 0.6rem 0.8rem;
+    background: rgba(22,163,74,0.07);
+    border: 1px solid rgba(22,163,74,0.15);
+    border-radius: 0.6rem;
+    cursor: pointer;
+  }
+
+  .done-check input { width: 1.1rem; height: 1.1rem; accent-color: var(--green); }
+  .done-check label { font-size: 0.82rem; font-weight: 600; color: var(--green); cursor: pointer; }
+
+  /* ── SCRIPT BLOCK ── */
+  .script-block {
+    background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+    border: 1px solid rgba(22,163,74,0.2);
+    border-radius: 0.85rem;
+    padding: 1.1rem 1.2rem;
+    margin-bottom: 1rem;
+  }
+
+  .script-label {
+    font-size: 0.67rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--green); margin-bottom: 0.6rem;
+  }
+
+  .script-text {
+    font-size: 0.86rem; line-height: 1.65; color: var(--text-secondary);
+  }
+
+  .script-text strong { color: var(--text-primary); font-weight: 600; }
+
+  .script-branch {
+    margin-top: 0.9rem;
+    padding-top: 0.9rem;
+    border-top: 1px solid rgba(22,163,74,0.15);
+  }
+
+  .script-branch-label {
+    font-size: 0.72rem; font-weight: 700;
+    color: var(--teal);
+    margin-bottom: 0.35rem;
+  }
+
+  /* ── SPONSOR GUIDE ── */
+  .guide-table {
+    width: 100%; border-collapse: collapse;
+    font-size: 0.83rem; margin-top: 0.5rem;
+  }
+
+  .guide-table th {
+    text-align: left;
+    font-size: 0.67rem; font-weight: 600;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--text-muted);
+    padding: 0.5rem 0.75rem;
+    background: rgba(0,0,0,0.02);
+    border-bottom: 2px solid var(--border);
+  }
+
+  .guide-table td {
+    padding: 0.65rem 0.75rem;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+    line-height: 1.5;
+    color: var(--text-secondary);
+  }
+
+  .guide-table tr:last-child td { border-bottom: none; }
+
+  .guide-table .col-step {
+    width: 2.5rem; text-align: center;
+    font-weight: 700; color: var(--amber);
+    font-size: 0.9rem;
+  }
+
+  .guide-table .col-focus {
+    width: 28%; font-weight: 600; color: var(--text-primary);
+  }
+
+  .guide-table tbody tr:hover td { background: rgba(245,158,11,0.03); }
+
+  /* ── TIP PILL ── */
+  .tip {
+    display: inline-flex; align-items: center; gap: 0.25rem;
+    font-size: 0.71rem; font-weight: 500;
+    color: var(--orange);
+    background: rgba(234,108,46,0.09);
+    border: 1px solid rgba(234,108,46,0.18);
+    border-radius: 0.45rem; padding: 0.18rem 0.5rem;
+    margin-top: 0.5rem;
+  }
+
+  /* ── SECTION HEADING ── */
+  .section-heading {
+    font-family: 'Fraunces', Georgia, serif;
+    font-size: 1.1rem; font-weight: 700;
+    color: var(--text-primary);
+    margin: 2rem 0 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--border);
+    display: flex; align-items: center; gap: 0.5rem;
+  }
+
+  /* ── PRINT BUTTON ── */
+  .print-btn {
+    display: inline-flex; align-items: center; gap: 0.4rem;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.78rem; font-weight: 600;
+    color: var(--text-muted);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 0.5rem;
+    padding: 0.4rem 0.8rem;
+    cursor: pointer;
+    transition: color 0.15s, border-color 0.15s;
+    float: right; margin-top: -0.25rem;
+  }
+
+  .print-btn:hover { color: var(--text-primary); border-color: var(--border-hover, #ccc); }
+
+  .page-footer {
+    margin-top: 2rem;
+    padding-top: 1.2rem;
+    border-top: 1px solid var(--border);
+    display: flex; justify-content: space-between; align-items: center;
+    flex-wrap: wrap; gap: 0.6rem;
+  }
+  .page-footer a {
+    font-size: 0.78rem; font-weight: 600;
+    color: var(--text-muted);
+    text-decoration: none;
+    display: inline-flex; align-items: center; gap: 0.3rem;
+    padding: 0.38rem 0.7rem;
+    border: 1px solid var(--border);
+    border-radius: 0.5rem;
+    background: var(--surface);
+    transition: color 0.15s, border-color 0.15s;
+  }
+  .page-footer a:hover { color: var(--text-primary); border-color: #ccc; }
+
+  @keyframes fadeUp {
+
+  @media (max-width: 480px) {
+    .action-grid { grid-template-columns: 1fr; }
+    .hero-meta { flex-direction: column; }
+    .names-table .col-home { display: none; }
+  }
+
+  /* ── PRINT STYLES ── */
+  @media print {
+    body { background: #fff; font-size: 11pt; }
+    body::before { display: none; }
+    .tab-nav, .print-btn { display: none !important; }
+    .page { display: block !important; page-break-after: always; }
+    .page:last-child { page-break-after: avoid; }
+    .wrapper { max-width: 100%; padding: 0; }
+    .hero { padding: 1rem 0; }
+    .step { box-shadow: none; border: 1px solid #ccc; break-inside: avoid; }
+    .nng-banner { background: #f5f5f5; border: 1px solid #ccc; }
+    .nng-text { color: #333; }
+    input[type="text"], input[type="number"], textarea {
+      background: transparent;
+      border: none;
+      border-bottom: 1px solid #999;
+      border-radius: 0;
+      padding: 0.2rem 0;
+    }
+    textarea { min-height: 50pt; }
+    .names-table input { border-bottom: 1px solid #ccc; }
+    .script-block { background: #f9f9f9; border: 1px solid #ccc; }
+    .guide-table th { background: #f0f0f0; }
+    .done-check { background: #f9f9f9; }
+    h1, .hero h1 { font-size: 18pt; }
+    .money-row input { font-size: 14pt; }
+  }
+</style>
+</head>
+<body>
+<div class="wrapper">
+
+  <!-- HERO -->
+  <header class="hero">
+    <div class="hero-badge">✦ Team RISE</div>
+    <h1>New Partner<br><em>Fast Start.</em></h1>
+    <div class="hero-meta">
+      <div class="hero-field">
+        <label>Partner name</label>
+        <input type="text" placeholder="Full name">
+      </div>
+      <div class="hero-field">
+        <label>Sponsor</label>
+        <input type="text" placeholder="Your name">
+      </div>
+      <div class="hero-field">
+        <label>Date</label>
+        <input type="text" id="date-field" placeholder="Today's date">
+      </div>
+    </div>
+  </header>
+
+  <!-- TAB NAV -->
+  <nav class="tab-nav">
+    <button class="tab-btn active" onclick="showPage(0)">📋 Page 1 — Fast Start</button>
+    <button class="tab-btn" onclick="showPage(1)">💬 Page 2 — Script & Names</button>
+    <button class="tab-btn" onclick="showPage(2)">🎓 Page 3 — Sponsor Guide</button>
+    <button class="print-btn" onclick="window.print()">🖨 Print</button>
+  </nav>
+
+  <!-- PAGE 1 -->
+  <div class="page active" id="page-0">
+
+    <div class="nng-banner">
+      <div class="nng-icon">🎯</div>
+      <div class="nng-text">
+        Non-negotiable goal
+        <span> — help the new partner earn money within the next 48 hours.</span>
+      </div>
+    </div>
+
+    <!-- STEP 1 -->
+    <div class="step" style="--step-color: var(--rose);">
+      <div class="step-header">
+        <div class="step-number">1</div>
+        <div class="step-title-wrap">
+          <div class="step-title">Why did you join?</div>
+          <div class="step-prompt">Sponsor: what would the extra income do for them — and why does that matter emotionally?</div>
+        </div>
+      </div>
+      <textarea placeholder="Write their answer here — the emotional reason, not just the logic…"></textarea>
+    </div>
+
+    <!-- STEP 2 -->
+    <div class="step" style="--step-color: var(--green);">
+      <div class="step-header">
+        <div class="step-number">2</div>
+        <div class="step-title-wrap">
+          <div class="step-title">Money goal &amp; bigger goal</div>
+          <div class="step-prompt">Sponsor: agree the first 30-day target. £1,500–£3,000 is possible in month one when the Fast Start is followed. Team Leader is the bigger goal beyond that.</div>
+        </div>
+      </div>
+      <div class="field-group">
+        <div class="field-label">My 30-day target</div>
+        <div class="money-row">
+          <div class="money-prefix">£</div>
+          <input type="number" placeholder="0" style="max-width:140px;">
+        </div>
+      </div>
+      <div class="field-group" style="margin-top:0.6rem;">
+        <div class="field-label">What that money would do for me</div>
+        <textarea placeholder="In their own words…"></textarea>
+      </div>
+    </div>
+
+    <!-- STEP 3 -->
+    <div class="step" style="--step-color: var(--violet, #7c3aed);">
+      <div class="step-header">
+        <div class="step-number">3</div>
+        <div class="step-title-wrap">
+          <div class="step-title">First people to speak to</div>
+          <div class="step-prompt">Sponsor: help them identify 3–5 easy warm contacts. Include homeowners where possible for quick money and early belief.</div>
+        </div>
+      </div>
+      <table class="names-table">
+        <thead>
+          <tr>
+            <th></th>
+            <th class="col-name">Name</th>
+            <th class="col-home">Homeowner?</th>
+            <th class="col-contact">Best way to contact</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td class="row-num">1</td><td><input type="text" placeholder="Name"></td><td class="col-home"><div class="checkbox-wrap"><input type="checkbox"></div></td><td><input type="text" placeholder="Call / WhatsApp / text"></td></tr>
+          <tr><td class="row-num">2</td><td><input type="text" placeholder="Name"></td><td class="col-home"><div class="checkbox-wrap"><input type="checkbox"></div></td><td><input type="text" placeholder="Call / WhatsApp / text"></td></tr>
+          <tr><td class="row-num">3</td><td><input type="text" placeholder="Name"></td><td class="col-home"><div class="checkbox-wrap"><input type="checkbox"></div></td><td><input type="text" placeholder="Call / WhatsApp / text"></td></tr>
+          <tr><td class="row-num">4</td><td><input type="text" placeholder="Name"></td><td class="col-home"><div class="checkbox-wrap"><input type="checkbox"></div></td><td><input type="text" placeholder="Call / WhatsApp / text"></td></tr>
+          <tr><td class="row-num">5</td><td><input type="text" placeholder="Name"></td><td class="col-home"><div class="checkbox-wrap"><input type="checkbox"></div></td><td><input type="text" placeholder="Call / WhatsApp / text"></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- STEP 4 -->
+    <div class="step" style="--step-color: var(--amber);">
+      <div class="step-header">
+        <div class="step-number">4</div>
+        <div class="step-title-wrap">
+          <div class="step-title">Today's action</div>
+          <div class="step-prompt">Sponsor: use the simple invitation on page 2. The goal is to book conversations, not to sound perfect.</div>
+        </div>
+      </div>
+      <div class="action-grid">
+        <div class="field-group">
+          <div class="field-label">I will contact these people today by</div>
+          <input type="text" placeholder="Phone / WhatsApp / text">
+        </div>
+        <div class="field-group">
+          <div class="field-label">My time to do it is</div>
+          <input type="text" placeholder="e.g. 7pm tonight">
+        </div>
+      </div>
+      <div class="done-check">
+        <input type="checkbox" id="done-today">
+        <label for="done-today">Done today ✓</label>
+      </div>
+    </div>
+
+    <!-- STEP 5 -->
+    <div class="step" style="--step-color: var(--teal);">
+      <div class="step-header">
+        <div class="step-number">5</div>
+        <div class="step-title-wrap">
+          <div class="step-title">Supported appointments &amp; admin</div>
+          <div class="step-prompt">Sponsor: book the first supported appointments inside 48 hours. Explain "watch, present, lead". Agree contact frequency. Getting Started training within 24 hours. Set up the PowerPod.</div>
+        </div>
+      </div>
+      <div class="action-grid">
+        <div class="field-group">
+          <div class="field-label">Best availability in next 48 hours</div>
+          <input type="text" placeholder="e.g. tomorrow 6pm">
+        </div>
+        <div class="field-group">
+          <div class="field-label">Best time for daily contact</div>
+          <input type="text" placeholder="e.g. 8am every morning">
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- PAGE 2 -->
+  <div class="page" id="page-1">
+
+    <!-- SCRIPT -->
+    <div class="script-block">
+      <div class="script-label">📞 Simple invitation — personalise it, keep it human</div>
+      <div class="script-text">
+        Hi [Name], hope you're well. Quick favour if that's okay. I've started something new and I need a bit of help with my training. I just need 20 minutes or so to show a few people what I'm doing. <strong>Would you be up for helping me out?</strong>
+      </div>
+
+      <div class="script-branch">
+        <div class="script-branch-label">✅ If they say yes</div>
+        <div class="script-text">Brilliant, thank you. <strong>How soon could we jump on a quick call?</strong></div>
+      </div>
+
+      <div class="script-branch">
+        <div class="script-branch-label">🤔 If they ask what it is — or say "send me the info"</div>
+        <div class="script-text">I don't want to mess it up trying to explain over the phone — that's why I need to practise showing people properly. <strong>How soon could you give me 20 minutes?</strong></div>
+      </div>
+
+      <div class="tip">💡 Use by phone or text — both work. The goal is to book the conversation, not to explain UW.</div>
+    </div>
+
+    <!-- EXTRA NAMES -->
+    <div class="section-heading">
+      📝 Extra names &amp; activity
+      <span style="font-family:'DM Sans',sans-serif; font-size:0.78rem; font-weight:400; color:var(--text-muted); margin-left:auto;">Keep going until you have 15–20 warm contacts</span>
+    </div>
+
+    <div class="step" style="--step-color: var(--violet, #7c3aed);">
+      <table class="names-table">
+        <thead>
+          <tr>
+            <th></th>
+            <th class="col-name">Name</th>
+            <th class="col-home">Homeowner?</th>
+            <th style="width:25%">Contacted when</th>
+            <th>Outcome / appointment</th>
+          </tr>
+        </thead>
+        <tbody id="extra-names">
+          <!-- rows 6-20 -->
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+
+  <!-- PAGE 3 -->
+  <div class="page" id="page-2">
+
+    <div class="nng-banner">
+      <div class="nng-icon">🎓</div>
+      <div class="nng-text">
+        Sponsor guide only
+        <span> — do not try to cover this whole page in the first meeting.</span>
+      </div>
+    </div>
+
+    <!-- FIRST MEETING FLOW -->
+    <div class="section-heading">First meeting flow <span style="font-family:'DM Sans',sans-serif;font-size:0.78rem;font-weight:400;color:var(--text-muted);margin-left:0.5rem;">15–20 minutes</span></div>
+
+    <div class="step" style="--step-color: var(--amber); padding:0.75rem 1rem 0.75rem;">
+      <table class="guide-table">
+        <thead>
+          <tr>
+            <th class="col-step">#</th>
+            <th class="col-focus">Main focus</th>
+            <th>What to do</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td class="col-step">1</td><td class="col-focus">Set the tone</td><td>Open with the non-negotiable goal — help them earn money within 48 hours.</td></tr>
+          <tr><td class="col-step">2</td><td class="col-focus">Why they joined</td><td>Get the emotional reason, not just the logic. Keep asking what the money changes for them.</td></tr>
+          <tr><td class="col-step">3</td><td class="col-focus">Money goal</td><td>Agree the first 30-day target. Explain that £1,500–£3,000 is possible in month one when the Fast Start is followed.</td></tr>
+          <tr><td class="col-step">4</td><td class="col-focus">Bigger goal</td><td>Position Team Leader simply. Mention the first 6 customers as the early priority milestone on the way.</td></tr>
+          <tr><td class="col-step">5</td><td class="col-focus">First names</td><td>Help them choose 3–5 easy warm contacts. Include homeowners where possible for quick money and early belief.</td></tr>
+          <tr><td class="col-step">6</td><td class="col-focus">Invitation &amp; action</td><td>Use the script on page 2, personalise it and agree when they will do the calls or messages that day.</td></tr>
+          <tr><td class="col-step">7</td><td class="col-focus">Supported appointments</td><td>Book the first supported appointments inside 48 hours and explain watch, present, lead briefly.</td></tr>
+          <tr><td class="col-step">8</td><td class="col-focus">Finish admin</td><td>Agree daily contact where appropriate, set up the PowerPod and make sure Getting Started training is done within 24 hours.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- WEEK ONE FOLLOW-UP -->
+    <div class="section-heading">Week one follow-up plan</div>
+
+    <div class="step" style="--step-color: var(--teal); padding:0.75rem 1rem 0.75rem;">
+      <table class="guide-table">
+        <thead>
+          <tr>
+            <th style="width:18%">Timing</th>
+            <th class="col-focus">Main focus</th>
+            <th>What to do</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td style="font-weight:600;color:var(--text-primary);">Day 1</td><td class="col-focus">Fast Start &amp; immediate action</td><td>Get page 1 done, add more names, send invitations, book and ideally do the first supported appointments. Mention Getting Started training.</td></tr>
+          <tr><td style="font-weight:600;color:var(--text-primary);">Day 2</td><td class="col-focus">Check movement</td><td>Call them. Coach on replies, keep the money link central and make sure appointments are still moving forward.</td></tr>
+          <tr><td style="font-weight:600;color:var(--text-primary);">Days 3–4</td><td class="col-focus">More activity</td><td>Build the list, keep conversations going and continue to support the first appointments. Keep the focus on quick wins, not perfect wording.</td></tr>
+          <tr><td style="font-weight:600;color:var(--text-primary);">Days 5–7</td><td class="col-focus">Belief &amp; rhythm</td><td>Keep contact going. Once activity is underway, plug them into the next Team RISE Zoom and live events.</td></tr>
+          <tr><td style="font-weight:600;color:var(--text-primary);">Day 7 review</td><td class="col-focus">Reset the next target</td><td>Review appointments, customers, confidence and momentum. Map the next simple plan and reinforce the path to first 6 customers and then Team Leader.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+
+</div>
+
+<script>
+  // Auto-fill today's date
+  const d = new Date();
+  document.getElementById('date-field').value =
+    d.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+
+  // Tab switching
+  const pages = document.querySelectorAll('.page');
+  const tabs  = document.querySelectorAll('.tab-btn:not(.print-btn)');
+
+  function showPage(n) {
+    pages.forEach((p, i) => p.classList.toggle('active', i === n));
+    tabs.forEach((t, i)  => t.classList.toggle('active', i === n));
+  }
+
+  // Build extra names rows 6–20
+  const tbody = document.getElementById('extra-names');
+  for (let i = 6; i <= 20; i++) {
+    tbody.innerHTML += `
+      <tr>
+        <td class="row-num">${i}</td>
+        <td><input type="text" placeholder="Name"></td>
+        <td class="col-home"><div class="checkbox-wrap"><input type="checkbox"></div></td>
+        <td><input type="text" placeholder="Date / time"></td>
+        <td><input type="text" placeholder="Outcome or appointment booked"></td>
+      </tr>`;
+  }
+</script>
+
+<div class="wrapper" style="padding-top:0;">
+  <div class="page-footer">
+    <a href="index.html">← Back to Resource Hub</a>
+    <a href="files/fast-start-plan.pdf" target="_blank" rel="noopener">📄 Download PDF version</a>
+  </div>
+</div>
+
+</body>
+</html>
