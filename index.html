@@ -1,0 +1,827 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Team Triumph · Partner Resource Hub</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #fdf8f2;
+    --surface: #ffffff;
+    --surface-hover: #fff9f0;
+    --border: rgba(0,0,0,0.07);
+    --border-hover: rgba(0,0,0,0.13);
+
+    --text-primary: #1c1612;
+    --text-secondary: #5a4e42;
+    --text-muted: #9e8e80;
+
+    --amber:  #f59e0b;
+    --orange: #ea6c2e;
+    --teal:   #0e9484;
+    --violet: #7c3aed;
+    --blue:   #2563eb;
+    --green:  #16a34a;
+    --rose:   #db2777;
+    --locked: #c0b8b0;
+
+    --shadow-sm:   0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+    --shadow-hover: 0 6px 18px rgba(0,0,0,0.1), 0 2px 6px rgba(0,0,0,0.05);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text-primary);
+    min-height: 100vh;
+  }
+
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background:
+      radial-gradient(ellipse 70% 40% at 90% 5%,  rgba(245,158,11,0.12) 0%, transparent 60%),
+      radial-gradient(ellipse 50% 35% at 5%  90%, rgba(14,148,132,0.08) 0%, transparent 55%);
+    pointer-events: none; z-index: 0;
+  }
+
+  .wrapper {
+    position: relative; z-index: 1;
+    max-width: 660px;
+    margin: 0 auto;
+    padding: 0 1.1rem 4rem;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    text-align: center;
+    padding: 2.8rem 0 2.2rem;
+    animation: fadeUp 0.55s ease both;
+  }
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 0.4rem;
+    font-size: 0.68rem; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase;
+    color: var(--orange);
+    background: rgba(234,108,46,0.1);
+    border: 1px solid rgba(234,108,46,0.2);
+    border-radius: 2rem; padding: 0.3rem 0.85rem; margin-bottom: 1.1rem;
+  }
+  .hero h1 {
+    font-family: 'Fraunces', Georgia, serif;
+    font-size: clamp(2rem, 7vw, 2.8rem); font-weight: 900;
+    line-height: 1.1; letter-spacing: -0.02em;
+    color: var(--text-primary); margin-bottom: 0.75rem;
+  }
+  .hero h1 em { font-style: italic; color: var(--amber); }
+  .hero p {
+    color: var(--text-secondary); font-size: 0.93rem; line-height: 1.65;
+    max-width: 400px; margin: 0 auto;
+  }
+
+  /* ── SECTION ── */
+  .section { margin-bottom: 2.2rem; animation: fadeUp 0.5s ease both; }
+  .section:nth-child(2) { animation-delay: 0.06s; }
+  .section:nth-child(3) { animation-delay: 0.12s; }
+  .section:nth-child(4) { animation-delay: 0.18s; }
+  .section:nth-child(5) { animation-delay: 0.22s; }
+  .section:nth-child(6) { animation-delay: 0.26s; }
+  .section:nth-child(7) { animation-delay: 0.30s; }
+
+  .section-label {
+    font-size: 0.67rem; font-weight: 600;
+    letter-spacing: 0.15em; text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 0.75rem; padding-left: 0.15rem;
+    display: flex; align-items: center; gap: 0.55rem;
+  }
+  .section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+  /* Sub-label for grouped subsections */
+  .sub-label {
+    font-size: 0.63rem; font-weight: 600;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--text-muted);
+    margin: 1rem 0 0.5rem 0.15rem;
+    display: flex; align-items: center; gap: 0.5rem;
+  }
+  .sub-label::after { content: ''; flex: 1; height: 1px; background: rgba(0,0,0,0.05); }
+
+  /* NEW badge */
+  .badge-new {
+    display: inline-block;
+    font-size: 0.6rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+    color: #fff;
+    background: var(--green);
+    border-radius: 0.35rem; padding: 0.1rem 0.45rem;
+    vertical-align: middle; margin-left: 0.35rem;
+  }
+
+  /* ── CARD ── */
+  .card {
+    display: block;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 1rem;
+    padding: 1rem 1.05rem;
+    margin-bottom: 0.55rem;
+    text-decoration: none; color: var(--text-primary);
+    box-shadow: var(--shadow-sm);
+    transition: box-shadow 0.2s, border-color 0.2s, transform 0.15s, background 0.2s;
+    position: relative; overflow: hidden;
+  }
+  .card::before {
+    content: '';
+    position: absolute; left: 0; top: 0; bottom: 0; width: 4px;
+    background: var(--accent, var(--amber));
+    border-radius: 4px 0 0 4px;
+  }
+  .card:hover {
+    box-shadow: var(--shadow-hover);
+    border-color: var(--border-hover);
+    background: var(--surface-hover);
+    transform: translateY(-1px);
+  }
+
+  .card-inner { display: flex; align-items: flex-start; gap: 0.85rem; }
+
+  .card-icon {
+    font-size: 1.3rem; flex-shrink: 0;
+    width: 1.9rem; text-align: center; margin-top: 0.05rem;
+  }
+  .card-body { flex: 1; min-width: 0; }
+  .card-title { font-size: 0.91rem; font-weight: 600; color: var(--text-primary); margin-bottom: 0.18rem; }
+  .card-desc  { font-size: 0.79rem; color: var(--text-secondary); line-height: 1.45; }
+  .card-arrow {
+    color: var(--text-muted); font-size: 0.85rem;
+    flex-shrink: 0; align-self: center;
+    transition: color 0.2s, transform 0.18s;
+  }
+  .card:hover .card-arrow { color: var(--amber); transform: translateX(3px); }
+
+  /* Featured */
+  .card-featured {
+    background: linear-gradient(135deg, #fff8ed 0%, #ffffff 100%);
+    border-color: rgba(245,158,11,0.25);
+  }
+  .card-featured .card-title {
+    font-family: 'Fraunces', Georgia, serif;
+    font-size: 0.97rem; font-weight: 700;
+  }
+
+  /* ── TIP PILL ── */
+  .tip {
+    display: inline-flex; align-items: center; gap: 0.25rem;
+    font-size: 0.71rem; font-weight: 500;
+    color: var(--orange);
+    background: rgba(234,108,46,0.09);
+    border: 1px solid rgba(234,108,46,0.18);
+    border-radius: 0.45rem; padding: 0.18rem 0.5rem; margin-top: 0.38rem;
+  }
+
+  /* ── COPY CARD ── (card with copy button, no <a> wrapper) */
+  .copy-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 1rem;
+    padding: 1rem 1.05rem;
+    margin-bottom: 0.55rem;
+    box-shadow: var(--shadow-sm);
+    position: relative; overflow: hidden;
+  }
+  .copy-card::before {
+    content: '';
+    position: absolute; left: 0; top: 0; bottom: 0; width: 4px;
+    background: var(--accent, var(--violet));
+    border-radius: 4px 0 0 4px;
+  }
+  .copy-card-inner { display: flex; align-items: flex-start; gap: 0.85rem; }
+  .copy-card .card-title { font-size: 0.91rem; font-weight: 600; color: var(--text-primary); margin-bottom: 0.18rem; }
+  .copy-card .card-desc  { font-size: 0.79rem; color: var(--text-secondary); line-height: 1.45; }
+
+  .copy-actions {
+    display: flex; gap: 0.45rem; flex-wrap: wrap; margin-top: 0.6rem;
+  }
+
+  .btn-open {
+    display: inline-flex; align-items: center; gap: 0.3rem;
+    font-size: 0.75rem; font-weight: 600;
+    color: #fff;
+    background: var(--accent, var(--violet));
+    border: none; border-radius: 0.5rem;
+    padding: 0.32rem 0.7rem;
+    cursor: pointer; text-decoration: none;
+    transition: opacity 0.15s, transform 0.12s;
+  }
+  .btn-open:hover { opacity: 0.88; transform: translateY(-1px); }
+
+  .btn-copy {
+    display: inline-flex; align-items: center; gap: 0.3rem;
+    font-size: 0.75rem; font-weight: 600;
+    color: var(--text-secondary);
+    background: rgba(0,0,0,0.05);
+    border: 1px solid var(--border);
+    border-radius: 0.5rem; padding: 0.32rem 0.7rem;
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s;
+  }
+  .btn-copy:hover { background: rgba(0,0,0,0.09); color: var(--text-primary); }
+  .btn-copy.copied {
+    color: var(--green);
+    background: rgba(22,163,74,0.08);
+    border-color: rgba(22,163,74,0.2);
+  }
+
+  /* Visible URL display */
+  .card-url {
+    display: inline-block;
+    font-size: 0.72rem;
+    font-family: 'DM Mono', 'Courier New', monospace;
+    color: var(--text-muted);
+    background: rgba(0,0,0,0.04);
+    border: 1px solid rgba(0,0,0,0.06);
+    border-radius: 0.35rem;
+    padding: 0.15rem 0.45rem;
+    margin-top: 0.4rem;
+    text-decoration: none;
+    letter-spacing: 0.01em;
+    transition: color 0.15s, background 0.15s;
+    word-break: break-all;
+  }
+  .card-url:hover {
+    color: var(--text-secondary);
+    background: rgba(0,0,0,0.07);
+  }
+
+  /* Placeholder state */
+  .copy-card.placeholder { opacity: 0.55; }
+  .copy-card.placeholder .card-title { color: var(--text-muted); }
+  .copy-card.placeholder::before { background: var(--locked); }
+
+  /* ── INFO CARD ── */
+  .info-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 1rem;
+    padding: 1rem 1.05rem;
+    margin-bottom: 0.55rem;
+    box-shadow: var(--shadow-sm);
+    position: relative; overflow: hidden;
+  }
+  .info-card::before {
+    content: '';
+    position: absolute; left: 0; top: 0; bottom: 0; width: 4px;
+    background: var(--accent, var(--teal));
+    border-radius: 4px 0 0 4px;
+  }
+  .contact-row { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.5rem; }
+  .contact-chip {
+    display: inline-flex; align-items: center; gap: 0.3rem;
+    font-size: 0.77rem; font-weight: 500;
+    background: rgba(0,0,0,0.04); border: 1px solid var(--border);
+    border-radius: 0.5rem; padding: 0.28rem 0.6rem;
+    color: var(--text-secondary); text-decoration: none;
+    transition: background 0.15s, color 0.15s;
+  }
+  .contact-chip:hover { background: rgba(0,0,0,0.08); color: var(--text-primary); }
+
+  /* ── LOCKED CARD ── */
+  .card-locked {
+    cursor: pointer; user-select: none;
+    background: #fafaf9; border-color: rgba(0,0,0,0.06);
+  }
+  .card-locked::before { background: var(--locked); }
+  .card-locked .card-title { color: var(--locked); }
+  .card-locked .card-desc  { color: #c8c0b8; }
+  .card-locked .card-arrow { color: #d8d0c8; }
+  .card-locked:hover { transform: none; box-shadow: var(--shadow-sm); border-color: rgba(0,0,0,0.06); background: #fafaf9; }
+  .card-locked:hover .card-arrow { transform: none; color: #d8d0c8; }
+
+  .locked-reveal {
+    display: none;
+    margin-top: 0.75rem; padding: 0.85rem 1rem;
+    background: linear-gradient(135deg, #fff8ed, #fef3c7);
+    border: 1px solid rgba(245,158,11,0.25);
+    border-radius: 0.75rem;
+    font-size: 0.8rem; color: var(--text-secondary); line-height: 1.55;
+  }
+  .locked-reveal.open { display: block; }
+  .locked-reveal strong { color: var(--orange); }
+
+  /* ── SECTION ACCENT OVERRIDES ── */
+  .sec-start   .card,
+  .sec-start   .copy-card          { --accent: var(--amber); }
+
+  .sec-show    .card,
+  .sec-show    .copy-card          { --accent: var(--violet); }
+
+  .sec-support .card,
+  .sec-support .info-card,
+  .sec-support .copy-card          { --accent: var(--teal); }
+  .sec-support .card-locked        { --accent: var(--locked); }
+
+  .sec-rise    .card               { --accent: var(--rose); }
+
+  .sec-portal  .card               { --accent: var(--orange); }
+
+  /* ── FOOTER ── */
+  .footer {
+    text-align: center; padding-top: 0.5rem;
+    font-size: 0.73rem; color: var(--text-muted); line-height: 1.65;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── IMAGE CARD (landscape thumbnail left, text right) ── */
+  .image-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 1rem;
+    margin-bottom: 0.55rem;
+    box-shadow: var(--shadow-sm);
+    position: relative; overflow: hidden;
+    text-decoration: none; color: var(--text-primary);
+    display: block;
+    transition: box-shadow 0.2s, border-color 0.2s, transform 0.15s;
+  }
+  .image-card::before {
+    content: '';
+    position: absolute; left: 0; top: 0; bottom: 0; width: 4px;
+    background: var(--accent, var(--amber));
+    border-radius: 4px 0 0 4px;
+  }
+  .image-card:hover {
+    box-shadow: var(--shadow-hover);
+    border-color: var(--border-hover);
+    transform: translateY(-1px);
+  }
+  .image-card-inner {
+    display: flex; align-items: stretch; gap: 0;
+  }
+  .image-card-thumb {
+    width: 110px; flex-shrink: 0;
+    background: linear-gradient(135deg, #f59e0b 0%, #ea6c2e 100%);
+    border-radius: 0 0 0 0; /* corners handled by parent */
+    overflow: hidden;
+    display: flex; align-items: center; justify-content: center;
+    min-height: 100px;
+  }
+  .image-card-thumb img {
+    width: 100%; height: 100%; object-fit: cover; display: block;
+  }
+  .image-card-thumb .thumb-fallback {
+    font-size: 2.5rem; opacity: 0.6;
+  }
+  .image-card-content {
+    flex: 1; padding: 1rem 1rem 1rem 0.95rem; min-width: 0;
+  }
+  .image-card .card-title { font-size: 0.91rem; font-weight: 600; margin-bottom: 0.18rem; }
+  .image-card .card-desc  { font-size: 0.79rem; color: var(--text-secondary); line-height: 1.45; }
+
+  /* ── VIMEO EMBED ── */
+  .video-nudge {
+    margin: 0.55rem 0 0;
+    background: linear-gradient(135deg, #1c1612 0%, #2d1f0e 100%);
+    border: 1px solid rgba(245,158,11,0.2);
+    border-radius: 1rem;
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+  }
+  .video-nudge-hook {
+    display: flex; align-items: center; gap: 0.6rem;
+    padding: 0.75rem 1rem 0.6rem;
+  }
+  .video-nudge-hook .hook-icon {
+    font-size: 1.1rem; flex-shrink: 0;
+  }
+  .video-nudge-hook .hook-text {
+    font-size: 0.8rem; font-weight: 600;
+    color: var(--amber);
+    line-height: 1.35;
+  }
+  .video-nudge-hook .hook-sub {
+    font-size: 0.72rem; font-weight: 400;
+    color: rgba(245,158,11,0.6);
+    margin-top: 0.1rem;
+  }
+  .video-wrapper {
+    position: relative;
+    padding-bottom: 56.25%; /* 16:9 */
+    height: 0; overflow: hidden;
+  }
+  .video-wrapper iframe {
+    position: absolute; top: 0; left: 0;
+    width: 100%; height: 100%;
+    border: none;
+  }
+  .meal-card {
+    margin-top: 0.55rem;
+    background: linear-gradient(135deg, #fff8ed 0%, #fef3c7 100%);
+    border: 1px solid rgba(245,158,11,0.25);
+    border-radius: 0.85rem;
+    overflow: hidden;
+    text-decoration: none; color: var(--text-primary);
+    display: block;
+    box-shadow: var(--shadow-sm);
+    transition: box-shadow 0.2s, transform 0.15s;
+  }
+  .meal-card:hover { box-shadow: var(--shadow-hover); transform: translateY(-1px); }
+  .meal-card-inner { display: flex; align-items: stretch; }
+  .meal-card-thumb {
+    width: 90px; flex-shrink: 0;
+    background: linear-gradient(135deg, #ea6c2e, #c2410c);
+    overflow: hidden;
+    display: flex; align-items: center; justify-content: center;
+    min-height: 85px;
+  }
+  .meal-card-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .meal-card-thumb .thumb-fallback { font-size: 2rem; opacity: 0.75; }
+  .meal-card-content { flex: 1; padding: 0.75rem 0.85rem; }
+  .meal-card-label {
+    font-size: 0.62rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--orange); margin-bottom: 0.2rem;
+  }
+  .meal-card-title { font-size: 0.85rem; font-weight: 600; color: var(--text-primary); margin-bottom: 0.15rem; }
+  .meal-card-meta  { font-size: 0.75rem; color: var(--text-secondary); }
+  .meal-card .copy-actions { margin-top: 0.5rem; }
+
+  @media (max-width: 480px) {
+    .hero { padding: 2rem 0 1.8rem; }
+    .card, .copy-card { padding: 0.85rem 0.95rem; }
+    .image-card-thumb { width: 85px; }
+    .meal-card-thumb { width: 75px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrapper">
+
+  <!-- HERO -->
+  <header class="hero">
+    <div class="hero-badge">✦ Partner Resource Hub</div>
+    <h1>Team <em>Triumph.</em><br>Your shortcut to everything.</h1>
+    <p>The tools, training and support you and your team need — without hunting through the Partner Portal.</p>
+  </header>
+
+  <!-- GET STARTED -->
+  <section class="section sec-start">
+    <div class="section-label">🚀 Get started</div>
+
+    <a class="card card-featured" href="https://aqcroft.github.io/UW_PET_GH_v1/" target="_blank" rel="noopener">
+      <div class="card-inner">
+        <div class="card-icon">💷</div>
+        <div class="card-body">
+          <div class="card-title">UW Earnings Potential Tool</div>
+          <div class="card-desc">See what five customers could earn you in your first 30 days — interactive and visual.</div>
+          <div class="tip">✨ Great to explore with a prospect</div>
+        </div>
+        <div class="card-arrow">→</div>
+      </div>
+    </a>
+
+    <a class="card" href="https://bit.ly/UWFastStartPlan" target="_blank" rel="noopener">
+      <div class="card-inner">
+        <div class="card-icon">⚡</div>
+        <div class="card-body">
+          <div class="card-title">Fast Start Plan</div>
+          <div class="card-desc">A clear action plan for new partners to work through with their mentor. Start here.</div>
+        </div>
+        <div class="card-arrow">→</div>
+      </div>
+    </a>
+
+    <!-- POWER UP EVENT -->
+    <a class="image-card" href="https://uw.co.uk/partner/portal/booking/event-type/197/eventbrite-widget/8558" target="_blank" rel="noopener" style="--accent: var(--orange);">
+      <div class="image-card-inner">
+        <div class="image-card-thumb">
+          <img src="images/powerup.jpg" alt="UW Power Up national event" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+          <div class="thumb-fallback" style="display:none;">⚡</div>
+        </div>
+        <div class="image-card-content">
+          <div class="card-title">⚡ Power Up 2025 — The Big One</div>
+          <div class="card-desc">UW's biggest national event of the year. Inspirational speakers, team energy and momentum you won't find anywhere else.</div>
+          <div class="tip">🎟️ Book your place now</div>
+        </div>
+      </div>
+    </a>
+
+    <!-- POWER UP VIDEO NUDGE -->
+    <div class="video-nudge">
+      <div class="video-nudge-hook">
+        <div class="hook-icon">▶️</div>
+        <div>
+          <div class="hook-text">Watch this — then tell me you don't want to be there.</div>
+          <div class="hook-sub">This is Power Up 2025. 🚀</div>
+        </div>
+      </div>
+      <div class="video-wrapper">
+        <iframe src="https://www.youtube.com/embed/mk0QgQTfwBE?rel=0&modestbranding=1" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      </div>
+    </div>
+
+    <!-- BELLA ITALIA MEAL -->
+    <a class="meal-card" href="https://buytickets.at/utilitywarehouse/2062797" target="_blank" rel="noopener">
+      <div class="meal-card-inner">
+        <div class="meal-card-thumb">
+          <img src="images/powerup-meal.jpg" alt="Power Up meal at Bella Italia" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+          <div class="thumb-fallback" style="display:none;">🍝</div>
+        </div>
+        <div class="meal-card-content">
+          <div class="meal-card-label">Pre-event dinner · Book separately</div>
+          <div class="meal-card-title">Power Up Meal — Bella Italia</div>
+          <div class="meal-card-meta">📅 Friday 18th April · 18:00</div>
+          <div class="copy-actions">
+            <a class="btn-open" href="https://buytickets.at/utilitywarehouse/2062797" target="_blank" rel="noopener" onclick="event.stopPropagation();" style="--accent: var(--orange); background: var(--orange);">↗ Book tickets</a>
+            <button class="btn-copy" onclick="event.stopPropagation(); copyLink(this, 'https://buytickets.at/utilitywarehouse/2062797')">⧉ Copy link</button>
+          </div>
+        </div>
+      </div>
+    </a>
+  </section>
+
+  <!-- SHOWING THE PRESENTATION -->
+  <section class="section sec-show">
+    <div class="section-label">👀 Showing the presentation</div>
+
+    <!-- Original system -->
+    <div class="sub-label">Original system</div>
+
+    <div class="copy-card">
+      <div class="copy-card-inner">
+        <div class="card-icon">🔐</div>
+        <div class="card-body">
+          <div class="card-title">Partner Sign-In (you)</div>
+          <div class="card-desc">Sign in here to generate your unique sharing code before showing the presentation.</div>
+          <a class="card-url" href="https://uw.co.uk/join" target="_blank" rel="noopener">uw.co.uk/join</a>
+          <div class="copy-actions">
+            <a class="btn-open" href="https://uw.co.uk/join" target="_blank" rel="noopener">↗ Open</a>
+            <button class="btn-copy" onclick="copyLink(this, 'https://uw.co.uk/join')">⧉ Copy link</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="copy-card">
+      <div class="copy-card-inner">
+        <div class="card-icon">👤</div>
+        <div class="card-body">
+          <div class="card-title">Customer / Partner View (them)</div>
+          <div class="card-desc">After generating your code, send your prospect here to view the presentation remotely.</div>
+          <a class="card-url" href="https://uw.co.uk/share" target="_blank" rel="noopener">uw.co.uk/share</a>
+          <div class="copy-actions">
+            <a class="btn-open" href="https://uw.co.uk/share" target="_blank" rel="noopener">↗ Open</a>
+            <button class="btn-copy" onclick="copyLink(this, 'https://www.uw.co.uk/share')">⧉ Copy link</button>
+          </div>
+          <div class="tip">💡 Works on any device</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- New quote system -->
+    <div class="sub-label">UW Quote System <span class="badge-new">New</span></div>
+
+    <div class="copy-card">
+      <div class="copy-card-inner">
+        <div class="card-icon">🔐</div>
+        <div class="card-body">
+          <div class="card-title">Partner Quote Sign-In (you)</div>
+          <div class="card-desc">The new way to show UW — sign in here to start a live quote. You can also mix and match SIMs on the same order.</div>
+          <a class="card-url" href="https://uw.co.uk/quote" target="_blank" rel="noopener">uw.co.uk/quote</a>
+          <div class="copy-actions">
+            <a class="btn-open" href="https://uw.co.uk/quote" target="_blank" rel="noopener">↗ Open</a>
+            <button class="btn-copy" onclick="copyLink(this, 'https://uw.co.uk/quote')">⧉ Copy link</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="copy-card">
+      <div class="copy-card-inner">
+        <div class="card-icon">👤</div>
+        <div class="card-body">
+          <div class="card-title">Customer Meeting Link (them)</div>
+          <div class="card-desc">Send this to your prospect for a remote session — they join here while you drive the quote from your end.</div>
+          <a class="card-url" href="https://uw.link/meet" target="_blank" rel="noopener">uw.link/meet</a>
+          <div class="copy-actions">
+            <a class="btn-open" href="https://uw.link/meet" target="_blank" rel="noopener">↗ Open</a>
+            <button class="btn-copy" onclick="copyLink(this, 'https://uw.link/meet')">⧉ Copy link</button>
+          </div>
+          <div class="tip">💡 Works on any device</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Stories & opportunity -->
+    <div class="sub-label">Share the opportunity</div>
+
+    <div class="copy-card">
+      <div class="copy-card-inner">
+        <div class="card-icon">▶️</div>
+        <div class="card-body">
+          <div class="card-title">The Opportunity Video</div>
+          <div class="card-desc">Share this to explain how ordinary people can build an extraordinary income.</div>
+          <a class="card-url" href="https://earnuw.co.uk/" target="_blank" rel="noopener">earnuw.co.uk</a>
+          <div class="copy-actions">
+            <a class="btn-open" href="https://earnuw.co.uk/" target="_blank" rel="noopener">↗ Open</a>
+            <button class="btn-copy" onclick="copyLink(this, 'https://earnuw.co.uk/')">⧉ Copy link</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="copy-card">
+      <div class="copy-card-inner">
+        <div class="card-icon">📖</div>
+        <div class="card-body">
+          <div class="card-title">UW Stories</div>
+          <div class="card-desc">Short videos from real partners — great to send to prospects, even better to watch yourself.</div>
+          <a class="card-url" href="https://uwstories.co.uk" target="_blank" rel="noopener">uwstories.co.uk</a>
+          <div class="copy-actions">
+            <a class="btn-open" href="https://uwstories.co.uk" target="_blank" rel="noopener">↗ Open</a>
+            <button class="btn-copy" onclick="copyLink(this, 'https://uwstories.co.uk')">⧉ Copy link</button>
+          </div>
+          <div class="tip">👀 Watch them all — they'll build your belief</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SUPPORT -->
+  <section class="section sec-support">
+    <div class="section-label">🤝 Support</div>
+
+    <div class="copy-card">
+      <div class="copy-card-inner">
+        <div class="card-icon">🧠</div>
+        <div class="card-body">
+          <div class="card-title">AskMii — UW's AI Assistant</div>
+          <div class="card-desc">Got a question any time of day? UW's own AI assistant is available 24/7.</div>
+          <a class="card-url" href="https://askmii.co.uk" target="_blank" rel="noopener">askmii.co.uk</a>
+          <div class="copy-actions">
+            <a class="btn-open" href="https://askmii.co.uk" target="_blank" rel="noopener">↗ Open</a>
+            <button class="btn-copy" onclick="copyLink(this, 'https://askmii.co.uk')">⧉ Copy link</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="info-card">
+      <div class="card-inner">
+        <div class="card-icon">📲</div>
+        <div class="card-body">
+          <div class="card-title">Partner Support — Phone a Friend</div>
+          <div class="card-desc">Sometimes you just need a human. Here's how to reach one.</div>
+          <div class="contact-row">
+            <a class="contact-chip" href="https://wa.me/442039014722" target="_blank" rel="noopener">💬 WhatsApp</a>
+            <a class="contact-chip" href="tel:03337778777">📞 0333 777 8777</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- LOCKED WHATSAPP GROUP -->
+    <div class="card card-locked" onclick="toggleLock(this)" role="button" tabindex="0" aria-expanded="false">
+      <div class="card-inner">
+        <div class="card-icon">💬</div>
+        <div class="card-body">
+          <div class="card-title">Team Triumph WhatsApp Group 🔒</div>
+          <div class="card-desc">Peer support, wins, tips and team energy — in your pocket.</div>
+          <div class="locked-reveal">
+            <strong>This group unlocks at 6 customers.</strong><br><br>
+            It's our busiest, most energising space — and it's worth earning your way in. You're building toward something real. Keep going, speak to your mentor, and when you hit 6 customers they'll send you the link. 🏆
+          </div>
+        </div>
+        <div class="card-arrow">→</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TEAM RISE — YOUR COMMUNITY -->
+  <section class="section sec-rise">
+    <div class="section-label">🌟 Team RISE — Your Community</div>
+
+    <a class="card" href="https://us02web.zoom.us/meeting/register/r_z1CYT6QA2Ayms-x2eBQw" target="_blank" rel="noopener">
+      <div class="card-inner">
+        <div class="card-icon">👥</div>
+        <div class="card-body">
+          <div class="card-title">Team RISE Weekly Call — Mondays 8:30pm</div>
+          <div class="card-desc">Live training, Q&amp;A, accountability and team connection. One of the best hours of your week.</div>
+          <div class="tip">📅 Weekly via Zoom — don't miss it</div>
+        </div>
+        <div class="card-arrow">→</div>
+      </div>
+    </a>
+
+    <a class="card" href="TEAM_RISE_WHATSAPP_URL" target="_blank" rel="noopener">
+      <div class="card-inner">
+        <div class="card-icon">💬</div>
+        <div class="card-body">
+          <div class="card-title">Team RISE WhatsApp Group</div>
+          <div class="card-desc">Stay connected with the wider RISE community between calls — news, wins and encouragement.</div>
+        </div>
+        <div class="card-arrow">→</div>
+      </div>
+    </a>
+
+    <a class="card" href="TEAM_RISE_FACEBOOK_URL" target="_blank" rel="noopener">
+      <div class="card-inner">
+        <div class="card-icon">📘</div>
+        <div class="card-body">
+          <div class="card-title">Team RISE Facebook Group</div>
+          <div class="card-desc">The broader RISE community — stories, training clips, motivation and team updates.</div>
+        </div>
+        <div class="card-arrow">→</div>
+      </div>
+    </a>
+  </section>
+
+  <!-- PORTAL & TRAINING -->
+  <section class="section sec-portal">
+    <div class="section-label">🎓 Portal &amp; training</div>
+
+    <a class="card" href="https://uw.co.uk/partner/portal/" target="_blank" rel="noopener">
+      <div class="card-inner">
+        <div class="card-icon">📰</div>
+        <div class="card-body">
+          <div class="card-title">Partner Portal &amp; Back Office</div>
+          <div class="card-desc">News, announcements and your back office tools — all in one place.</div>
+        </div>
+        <div class="card-arrow">→</div>
+      </div>
+    </a>
+
+    <a class="card" href="https://uw.co.uk/partner/portal/training-centre" target="_blank" rel="noopener">
+      <div class="card-inner">
+        <div class="card-icon">🎓</div>
+        <div class="card-body">
+          <div class="card-title">Training Centre</div>
+          <div class="card-desc">Skill development and official UW training — your foundation for growing with confidence.</div>
+        </div>
+        <div class="card-arrow">→</div>
+      </div>
+    </a>
+
+    <a class="card" href="https://opguide.uw.co.uk/" target="_blank" rel="noopener">
+      <div class="card-inner">
+        <div class="card-icon">📘</div>
+        <div class="card-body">
+          <div class="card-title">Opportunity Booklet</div>
+          <div class="card-desc">Understand the compensation plan, pay structure and earnings rules in full.</div>
+        </div>
+        <div class="card-arrow">→</div>
+      </div>
+    </a>
+  </section>
+
+  <footer class="footer">
+    <p>Built with care for Team Triumph · Updated regularly</p>
+    <p style="margin-top:0.35rem; opacity:0.6;">Curated by Adrian Croft · UW Partner · East Midlands</p>
+  </footer>
+
+</div>
+
+<script>
+  function copyLink(btn, url) {
+    navigator.clipboard.writeText(url).then(() => {
+      btn.textContent = '✓ Copied!';
+      btn.classList.add('copied');
+      setTimeout(() => {
+        btn.innerHTML = '⧉ Copy link';
+        btn.classList.remove('copied');
+      }, 2000);
+    }).catch(() => {
+      // Fallback for older browsers
+      const ta = document.createElement('textarea');
+      ta.value = url; ta.style.position = 'fixed'; ta.style.opacity = '0';
+      document.body.appendChild(ta); ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+      btn.textContent = '✓ Copied!';
+      btn.classList.add('copied');
+      setTimeout(() => { btn.innerHTML = '⧉ Copy link'; btn.classList.remove('copied'); }, 2000);
+    });
+  }
+
+  function toggleLock(el) {
+    const reveal = el.querySelector('.locked-reveal');
+    const isOpen = reveal.classList.contains('open');
+    reveal.classList.toggle('open', !isOpen);
+    el.setAttribute('aria-expanded', String(!isOpen));
+  }
+
+  document.querySelectorAll('.card-locked').forEach(card => {
+    card.addEventListener('keydown', e => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggleLock(card); }
+    });
+  });
+</script>
+</body>
+</html>
