@@ -163,7 +163,6 @@
   }
   .card:hover .card-arrow { color: var(--amber); transform: translateX(3px); }
 
-  /* Featured */
   .card-featured {
     background: linear-gradient(135deg, #fff8ed 0%, #ffffff 100%);
     border-color: rgba(245,158,11,0.25);
@@ -329,6 +328,7 @@
   .sec-rise    .card               { --accent: var(--rose); }
 
   .sec-portal  .card               { --accent: var(--orange); }
+  .sec-tools   .card               { --accent: var(--teal); }
 
   /* ── FOOTER ── */
   .footer {
@@ -437,7 +437,7 @@
   .meal-card:hover { box-shadow: var(--shadow-hover); transform: translateY(-1px); }
   .meal-card-inner { display: flex; align-items: stretch; }
   .meal-card-thumb {
-    width: 90px; flex-shrink: 0;
+    width: 110px; flex-shrink: 0;
     background: linear-gradient(135deg, #ea6c2e, #c2410c);
     overflow: hidden;
     display: flex; align-items: center; justify-content: center;
@@ -458,7 +458,7 @@
     .hero { padding: 2rem 0 1.8rem; }
     .card, .copy-card { padding: 0.85rem 0.95rem; }
     .image-card-thumb { width: 85px; }
-    .meal-card-thumb { width: 75px; }
+    .meal-card-thumb  { width: 85px; }
   }
 </style>
 </head>
@@ -474,19 +474,54 @@
 
   <!-- GET STARTED -->
   <section class="section sec-start">
-    <div class="section-label">🚀 Get started</div>
+    <div class="section-label">🚀 Events</div>
 
-    <a class="card card-featured" href="https://aqcroft.github.io/UW_PET_GH_v1/" target="_blank" rel="noopener">
-      <div class="card-inner">
-        <div class="card-icon">💷</div>
-        <div class="card-body">
-          <div class="card-title">UW Earnings Potential Tool</div>
-          <div class="card-desc">See what five customers could earn you in your first 30 days — interactive and visual.</div>
-          <div class="tip">✨ Great to explore with a prospect</div>
+    <!-- POWER UP VIDEO NUDGE — top -->
+    <div class="video-nudge">
+      <div class="video-nudge-hook">
+        <div class="hook-icon">▶️</div>
+        <div>
+          <div class="hook-text">Watch this — then tell me you don't want to be there.</div>
+          <div class="hook-sub">This is Power Up 2025. 🚀</div>
         </div>
-        <div class="card-arrow">→</div>
+      </div>
+      <div class="video-wrapper" style="padding-bottom: 37.5%;">
+        <iframe src="https://www.youtube.com/embed/mk0QgQTfwBE?rel=0&modestbranding=1" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      </div>
+    </div>
+
+    <!-- POWER UP BOOKING -->
+    <a class="image-card" href="https://uw.co.uk/partner/portal/booking/event-type/197/eventbrite-widget/8558" target="_blank" rel="noopener" style="--accent: var(--orange);">
+      <div class="image-card-inner">
+        <div class="image-card-thumb">
+          <img src="powerup.png" alt="UW Power Up national event">
+        </div>
+        <div class="image-card-content">
+          <div class="card-title">⚡ Power Up 2025 — The Big One</div>
+          <div class="card-desc">UW's biggest national event of the year — Telford. Inspirational speakers, team energy and momentum you won't find anywhere else.</div>
+          <div class="tip">🎟️ Book your place now</div>
+        </div>
       </div>
     </a>
+
+    <!-- BELLA ITALIA MEAL -->
+    <a class="meal-card" href="https://buytickets.at/utilitywarehouse/2062797" target="_blank" rel="noopener">
+      <div class="meal-card-inner">
+        <div class="meal-card-thumb">
+          <img src="BellaItalia.jpeg" alt="Power Up meal at Bella Italia Telford">
+        </div>
+        <div class="meal-card-content">
+          <div class="meal-card-label">Post-event dinner · Book separately</div>
+          <div class="meal-card-title">Power Up Meal — Bella Italia, Telford</div>
+          <div class="meal-card-meta">📅 Friday 18th April · 18:00</div>
+          <div class="copy-actions" style="margin-top:0.5rem;">
+            <button class="btn-copy" onclick="event.preventDefault(); event.stopPropagation(); copyLink(this, 'https://buytickets.at/utilitywarehouse/2062797')">⧉ Copy booking link</button>
+          </div>
+        </div>
+      </div>
+    </a>
+
+    <div class="sub-label" style="margin-top:1.2rem;">Get started</div>
 
     <div class="copy-card">
       <div class="copy-card-inner">
@@ -502,48 +537,15 @@
       </div>
     </div>
 
-    <!-- POWER UP EVENT -->
-    <a class="image-card" href="https://uw.co.uk/partner/portal/booking/event-type/197/eventbrite-widget/8558" target="_blank" rel="noopener" style="--accent: var(--orange);">
-      <div class="image-card-inner">
-        <div class="image-card-thumb">
-          <img src="powerup.webp" alt="UW Power Up national event">
+    <a class="card" href="https://aqcroft.github.io/UW_PET_GH_v5/" target="_blank" rel="noopener">
+      <div class="card-inner">
+        <div class="card-icon">💷</div>
+        <div class="card-body">
+          <div class="card-title">UW Partner Earnings Tool</div>
+          <div class="card-desc">A self-serve version of the partner earnings explorer. Drop me a DM if you'd like your own version.</div>
+          <div class="tip">✨ Great to explore with a prospect</div>
         </div>
-        <div class="image-card-content">
-          <div class="card-title">⚡ Power Up 2025 — The Big One</div>
-          <div class="card-desc">UW's biggest national event of the year. Inspirational speakers, team energy and momentum you won't find anywhere else.</div>
-          <div class="tip">🎟️ Book your place now</div>
-        </div>
-      </div>
-    </a>
-
-    <!-- POWER UP VIDEO NUDGE -->
-    <div class="video-nudge">
-      <div class="video-nudge-hook">
-        <div class="hook-icon">▶️</div>
-        <div>
-          <div class="hook-text">Watch this — then tell me you don't want to be there.</div>
-          <div class="hook-sub">This is Power Up 2025. 🚀</div>
-        </div>
-      </div>
-      <div class="video-wrapper">
-        <iframe src="https://www.youtube.com/embed/mk0QgQTfwBE?rel=0&modestbranding=1" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-      </div>
-    </div>
-
-    <!-- BELLA ITALIA MEAL -->
-    <a class="meal-card" href="https://buytickets.at/utilitywarehouse/2062797" target="_blank" rel="noopener">
-      <div class="meal-card-inner">
-        <div class="meal-card-thumb">
-          <img src="BellaItalia.jpeg" alt="Power Up meal at Bella Italia">
-        </div>
-        <div class="meal-card-content">
-          <div class="meal-card-label">Post-event dinner · Book separately</div>
-          <div class="meal-card-title">Power Up Meal — Bella Italia</div>
-          <div class="meal-card-meta">📅 Friday 18th April · 18:00</div>
-          <div class="copy-actions" style="margin-top:0.5rem;">
-            <button class="btn-copy" onclick="event.preventDefault(); event.stopPropagation(); copyLink(this, 'https://buytickets.at/utilitywarehouse/2062797')">⧉ Copy booking link</button>
-          </div>
-        </div>
+        <div class="card-arrow">→</div>
       </div>
     </a>
   </section>
@@ -564,17 +566,6 @@
       </div>
     </a>
 
-    <a class="card" href="https://chat.whatsapp.com/DFEoY8BrztsGkpQdR28pJn" target="_blank" rel="noopener">
-      <div class="card-inner">
-        <div class="card-icon">💬</div>
-        <div class="card-body">
-          <div class="card-title">Team RISE WhatsApp Group</div>
-          <div class="card-desc">Stay connected with the wider RISE community between calls — news, wins and encouragement.</div>
-        </div>
-        <div class="card-arrow">→</div>
-      </div>
-    </a>
-
     <a class="card" href="https://www.facebook.com/groups/429878163322370" target="_blank" rel="noopener">
       <div class="card-inner">
         <div class="card-icon">📘</div>
@@ -585,13 +576,26 @@
         <div class="card-arrow">→</div>
       </div>
     </a>
+
+    <div class="card card-locked" onclick="toggleLock(this)" role="button" tabindex="0" aria-expanded="false">
+      <div class="card-inner">
+        <div class="card-icon">💬</div>
+        <div class="card-body">
+          <div class="card-title">Team RISE WhatsApp Group 🔒</div>
+          <div class="card-desc">Stay connected with the wider RISE community between calls — news, wins and encouragement.</div>
+          <div class="locked-reveal">
+            <strong>This group unlocks at 6 customers.</strong><br><br>
+            It's our busiest, most energising space — and it's worth earning your way in. You're building toward something real. Keep going, speak to your mentor, and when you hit 6 customers they'll send you the link. 🏆
+          </div>
+        </div>
+        <div class="card-arrow">→</div>
+      </div>
+    </div>
   </section>
 
   <!-- SHOWING THE PRESENTATION -->
   <section class="section sec-show">
     <div class="section-label">👀 Showing the presentation</div>
-
-    <div class="sub-label">Original system</div>
 
     <a class="copy-card" href="https://uw.co.uk/join" target="_blank" rel="noopener">
       <div class="copy-card-inner">
@@ -620,8 +624,6 @@
         </div>
       </div>
     </a>
-
-    <div class="sub-label">New system</div>
 
     <a class="copy-card" href="https://uw.co.uk/quote" target="_blank" rel="noopener">
       <div class="copy-card-inner">
@@ -715,21 +717,6 @@
       </div>
     </div>
 
-    <!-- LOCKED WHATSAPP GROUP -->
-    <div class="card card-locked" onclick="toggleLock(this)" role="button" tabindex="0" aria-expanded="false">
-      <div class="card-inner">
-        <div class="card-icon">💬</div>
-        <div class="card-body">
-          <div class="card-title">Team Triumph WhatsApp Group 🔒</div>
-          <div class="card-desc">Peer support, wins, tips and team energy — in your pocket.</div>
-          <div class="locked-reveal">
-            <strong>This group unlocks at 6 customers.</strong><br><br>
-            It's our busiest, most energising space — and it's worth earning your way in. You're building toward something real. Keep going, speak to your mentor, and when you hit 6 customers they'll send you the link. 🏆
-          </div>
-        </div>
-        <div class="card-arrow">→</div>
-      </div>
-    </div>
   </section>
 
   <!-- PORTAL & TRAINING -->
@@ -770,9 +757,48 @@
     </a>
   </section>
 
+  <!-- USEFUL TOOLS -->
+  <section class="section sec-tools">
+    <div class="section-label">🛠️ Useful tools</div>
+
+    <a class="card" href="https://aqcroft.github.io/UW_PET_GH_v5/" target="_blank" rel="noopener">
+      <div class="card-inner">
+        <div class="card-icon">💷</div>
+        <div class="card-body">
+          <div class="card-title">UW Partner Earnings Tool</div>
+          <div class="card-desc">A self-serve version of the partner earnings explorer. Drop me a DM if you'd like your own version.</div>
+        </div>
+        <div class="card-arrow">→</div>
+      </div>
+    </a>
+
+    <a class="card" href="https://aqcroft.github.io/ShouldIFix/" target="_blank" rel="noopener">
+      <div class="card-inner">
+        <div class="card-icon">🔒</div>
+        <div class="card-body">
+          <div class="card-title">Should I Fix? <span class="badge-new" style="background:var(--teal);">Beta</span></div>
+          <div class="card-desc">Energy prices are a mess. Should I Fix helps customers estimate what they might save by locking in now — before rates move again.</div>
+        </div>
+        <div class="card-arrow">→</div>
+      </div>
+    </a>
+
+    <a class="card" href="https://aqcroft.github.io/uw_E7_or_EV/" target="_blank" rel="noopener">
+      <div class="card-inner">
+        <div class="card-icon">⚡</div>
+        <div class="card-body">
+          <div class="card-title">Economy 7, EV or Standard? <span class="badge-new" style="background:var(--teal);">Beta</span></div>
+          <div class="card-desc">Compares UW's Economy 7, EV and standard tariffs side by side — so you and your customer can quickly see which one fits their usage.</div>
+        </div>
+        <div class="card-arrow">→</div>
+      </div>
+    </a>
+  </section>
+
   <footer class="footer">
     <p>Built with care for Team Triumph · Updated regularly</p>
     <p style="margin-top:0.35rem; opacity:0.6;">Curated by Adrian Croft · UW Partner · East Midlands</p>
+    <a href="https://wa.me/447787400800?text=Team%20Triumph%20Hub%20feedback%3A%20" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:0.4rem;margin-top:1rem;font-size:0.78rem;font-weight:600;color:#fff;background:#25d366;border-radius:2rem;padding:0.45rem 1rem;text-decoration:none;">💬 Feedback or questions? Message Adrian on WhatsApp</a>
   </footer>
 
 </div>
