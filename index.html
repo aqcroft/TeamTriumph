@@ -22,11 +22,13 @@
     --amber:  #f59e0b;
     --orange: #ea6c2e;
     --teal:   #0e9484;
+    --teal-strong: #0a7a6e;
     --violet: #7c3aed;
     --blue:   #2563eb;
     --green:  #16a34a;
     --rose:   #db2777;
     --locked: #c0b8b0;
+    --portal-blue: #1d4ed8;
 
     --shadow-sm:   0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
     --shadow-hover: 0 6px 18px rgba(0,0,0,0.1), 0 2px 6px rgba(0,0,0,0.05);
@@ -93,12 +95,13 @@
   .section:nth-child(7) { animation-delay: 0.30s; }
 
   .section-label {
-    font-size: 0.67rem; font-weight: 600;
-    letter-spacing: 0.15em; text-transform: uppercase;
-    color: var(--text-muted);
+    font-size: 0.82rem; font-weight: 700;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--text-secondary);
     margin-bottom: 0.75rem; padding-left: 0.15rem;
-    display: flex; align-items: center; gap: 0.55rem;
+    display: flex; align-items: center; gap: 0.6rem;
   }
+  .section-label .sec-icon { font-size: 1.2rem; }
   .section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
 
   /* Sub-label for grouped subsections */
@@ -124,8 +127,8 @@
   /* ── CARD ── */
   .card {
     display: block;
-    background: var(--surface);
-    border: 1px solid var(--border);
+    background: color-mix(in srgb, var(--accent, var(--amber)) 7%, var(--surface));
+    border: 1px solid color-mix(in srgb, var(--accent, var(--amber)) 18%, transparent);
     border-radius: 1rem;
     padding: 1rem 1.05rem;
     margin-bottom: 0.55rem;
@@ -142,8 +145,8 @@
   }
   .card:hover {
     box-shadow: var(--shadow-hover);
-    border-color: var(--border-hover);
-    background: var(--surface-hover);
+    border-color: color-mix(in srgb, var(--accent, var(--amber)) 35%, transparent);
+    background: color-mix(in srgb, var(--accent, var(--amber)) 12%, var(--surface));
     transform: translateY(-1px);
   }
 
@@ -185,8 +188,8 @@
   /* ── COPY CARD (whole card tappable) ── */
   .copy-card {
     display: block;
-    background: var(--surface);
-    border: 1px solid var(--border);
+    background: color-mix(in srgb, var(--accent, var(--violet)) 7%, var(--surface));
+    border: 1px solid color-mix(in srgb, var(--accent, var(--violet)) 18%, transparent);
     border-radius: 1rem;
     padding: 1rem 1.05rem;
     margin-bottom: 0.55rem;
@@ -203,8 +206,8 @@
   }
   .copy-card:hover {
     box-shadow: var(--shadow-hover);
-    border-color: var(--border-hover);
-    background: var(--surface-hover);
+    border-color: color-mix(in srgb, var(--accent, var(--violet)) 35%, transparent);
+    background: color-mix(in srgb, var(--accent, var(--violet)) 12%, var(--surface));
     transform: translateY(-1px);
   }
   .copy-card-inner { display: flex; align-items: flex-start; gap: 0.85rem; }
@@ -265,8 +268,8 @@
 
   /* ── INFO CARD ── */
   .info-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
+    background: color-mix(in srgb, var(--teal) 7%, var(--surface));
+    border: 1px solid color-mix(in srgb, var(--teal) 18%, transparent);
     border-radius: 1rem;
     padding: 1rem 1.05rem;
     margin-bottom: 0.55rem;
@@ -276,7 +279,7 @@
   .info-card::before {
     content: '';
     position: absolute; left: 0; top: 0; bottom: 0; width: 4px;
-    background: var(--accent, var(--teal));
+    background: var(--teal);
     border-radius: 4px 0 0 4px;
   }
   .contact-row { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.5rem; }
@@ -289,6 +292,53 @@
     transition: background 0.15s, color 0.15s;
   }
   .contact-chip:hover { background: rgba(0,0,0,0.08); color: var(--text-primary); }
+
+  /* Copy chip under contact chips */
+  .contact-copy {
+    display: inline-flex; align-items: center; gap: 0.25rem;
+    font-size: 0.68rem; font-weight: 500;
+    color: var(--text-muted);
+    background: transparent; border: none;
+    padding: 0; cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    transition: color 0.15s;
+  }
+  .contact-copy:hover { color: var(--teal); }
+  .contact-copy.copied { color: var(--green); }
+
+  .contact-group {
+    display: flex; flex-direction: column; gap: 0.2rem;
+  }
+
+  /* Tooltip */
+  .has-tooltip { position: relative; }
+  .has-tooltip .tooltip {
+    display: none;
+    position: absolute;
+    bottom: calc(100% + 6px);
+    left: 50%; transform: translateX(-50%);
+    background: #1c1612;
+    color: #fff;
+    font-size: 0.7rem; line-height: 1.4;
+    padding: 0.4rem 0.6rem;
+    border-radius: 0.45rem;
+    white-space: nowrap;
+    max-width: 220px;
+    white-space: normal;
+    width: max-content;
+    max-width: 200px;
+    text-align: center;
+    z-index: 10;
+    pointer-events: none;
+  }
+  .has-tooltip .tooltip::after {
+    content: '';
+    position: absolute;
+    top: 100%; left: 50%; transform: translateX(-50%);
+    border: 5px solid transparent;
+    border-top-color: #1c1612;
+  }
+  .has-tooltip:hover .tooltip { display: block; }
 
   /* ── LOCKED CARD ── */
   .card-locked {
@@ -313,22 +363,53 @@
   .locked-reveal.open { display: block; }
   .locked-reveal strong { color: var(--orange); }
 
-  /* ── SECTION ACCENT OVERRIDES ── */
-  .sec-start   .card,
-  .sec-start   .copy-card          { --accent: var(--amber); }
+  /* Planner PDF pills */
+  .planner-pill {
+    display: inline-flex; align-items: center;
+    text-decoration: none;
+    color: var(--portal-blue);
+    font-size: 0.71rem; font-weight: 600;
+    background: color-mix(in srgb, var(--portal-blue) 10%, white);
+    border: 1px solid color-mix(in srgb, var(--portal-blue) 25%, transparent);
+    border-radius: 0.45rem;
+    padding: 0.22rem 0.55rem;
+    transition: background 0.15s;
+  }
+  .planner-pill:hover {
+    background: color-mix(in srgb, var(--portal-blue) 18%, white);
+  }
 
-  .sec-show    .card,
+  /* ── SECTION ACCENT OVERRIDES ── */
+  .sec-started .card,
+  .sec-started .copy-card          { --accent: var(--amber); }
+
   .sec-show    .copy-card          { --accent: var(--violet); }
 
-  .sec-support .card,
-  .sec-support .info-card,
-  .sec-support .copy-card          { --accent: var(--teal); }
-  .sec-support .card-locked        { --accent: var(--locked); }
+  /* New system cards — significantly darker/bolder */
+  .copy-card-new {
+    --accent: var(--violet);
+    background: color-mix(in srgb, var(--violet) 18%, var(--surface)) !important;
+    border-color: color-mix(in srgb, var(--violet) 35%, transparent) !important;
+  }
+  .copy-card-new:hover {
+    background: color-mix(in srgb, var(--violet) 25%, var(--surface)) !important;
+  }
+  .copy-card-new .card-title { color: #3b1d8a; }
+
+  .sec-support .copy-card,
+  .sec-support .info-card          { --accent: var(--teal); }
+  .sec-support .info-card {
+    background: color-mix(in srgb, var(--teal) 7%, var(--surface));
+    border-color: color-mix(in srgb, var(--teal) 18%, transparent);
+  }
 
   .sec-rise    .card               { --accent: var(--rose); }
 
-  .sec-portal  .card               { --accent: var(--orange); }
-  .sec-tools   .card               { --accent: var(--teal); }
+  .sec-share   .card,
+  .sec-share   .copy-card          { --accent: var(--orange); background: color-mix(in srgb, var(--orange) 14%, var(--surface)); border-color: color-mix(in srgb, var(--orange) 30%, transparent); }
+
+  .sec-portal  .card               { --accent: var(--portal-blue); }
+  .sec-tools   .card               { --accent: var(--teal-strong); }
 
   /* ── FOOTER ── */
   .footer {
@@ -467,21 +548,58 @@
 
   <!-- HERO -->
   <header class="hero">
-    <div class="hero-badge">✦ Partner Resource Hub</div>
-    <h1>Team <em>Triumph.</em><br>Your shortcut to everything.</h1>
+    <div class="hero-badge">✦ Team Triumph Resource Library</div>
+    <h1><em>Your shortcut</em><br>to everything.</h1>
     <p>The tools, training and support you and your team need — without hunting through the Partner Portal.</p>
   </header>
 
-  <!-- GET STARTED -->
-  <section class="section sec-start">
-    <div class="section-label">🚀 Events</div>
+  <!-- WELCOME MESSAGE — accordion, collapses after first visit -->
+  <div id="welcome-card" style="
+    background: linear-gradient(135deg, #fff8ed 0%, #fef3c7 100%);
+    border: 1px solid rgba(245,158,11,0.25);
+    border-radius: 1rem;
+    margin-bottom: 1.8rem;
+    position: relative;
+    overflow: hidden;
+    animation: fadeUp 0.4s ease both;
+    cursor: pointer;
+  " onclick="toggleWelcome()">
+    <div style="position:absolute; left:0; top:0; bottom:0; width:4px; background:var(--amber); border-radius:4px 0 0 4px;"></div>
 
-    <!-- POWER UP VIDEO NUDGE — top -->
+    <!-- Always visible header row -->
+    <div style="display:flex; align-items:center; justify-content:space-between; padding:0.85rem 1.2rem 0.85rem 1.2rem;">
+      <p style="font-size:0.88rem; font-weight:600; color:var(--text-primary); margin:0;">
+        ❤️‍🔥 A really warm welcome to you!
+      </p>
+      <span id="welcome-chevron" style="font-size:0.75rem; color:var(--text-muted); flex-shrink:0; margin-left:0.75rem; transition: transform 0.25s ease;">▼</span>
+    </div>
+
+    <!-- Collapsible body -->
+    <div id="welcome-body" style="overflow:hidden; transition: max-height 0.35s ease, opacity 0.3s ease; max-height: 200px; opacity: 1;">
+      <div style="padding: 0 1.2rem 1rem 1.2rem; border-top: 1px solid rgba(245,158,11,0.15);">
+        <p style="font-size:0.85rem; line-height:1.7; color:var(--text-secondary); margin-top:0.65rem;">
+          And a warm welcome to Team Triumph — and this great opportunity.
+        </p>
+        <p style="font-size:0.83rem; line-height:1.65; color:var(--text-secondary); margin-top:0.55rem;">
+          🗣️ One saying sums up the UW philosophy better than anything else — <em style="color:var(--text-primary);">"We're in business <strong>for</strong> ourselves, but not <strong>by</strong> ourselves."</em>
+        </p>
+        <p style="font-size:0.83rem; line-height:1.65; color:var(--text-secondary); margin-top:0.55rem;">
+          👣 You're not taking your first steps alone. We've all been where you are — and we're here to support you every step of the way.
+        </p>
+        <p style="font-size:0.72rem; color:var(--text-muted); margin-top:0.75rem;">Tap to collapse ↑</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- EVENTS -->
+  <section class="section sec-start">
+    <div class="section-label"><span class="sec-icon">🎟️</span> Events</div>
+
     <div class="video-nudge">
       <div class="video-nudge-hook">
         <div class="hook-icon">▶️</div>
         <div>
-          <div class="hook-text">Watch this — then tell me you don't want to be there.</div>
+          <div class="hook-text">Events are where belief gets built. Watch this — then tell me you don't want to join us in that room.</div>
           <div class="hook-sub">This is Power Up 2025. 🚀</div>
         </div>
       </div>
@@ -490,7 +608,6 @@
       </div>
     </div>
 
-    <!-- POWER UP BOOKING -->
     <a class="image-card" href="https://uw.co.uk/partner/portal/booking/event-type/197/eventbrite-widget/8558" target="_blank" rel="noopener" style="--accent: var(--orange);">
       <div class="image-card-inner">
         <div class="image-card-thumb">
@@ -504,7 +621,6 @@
       </div>
     </a>
 
-    <!-- BELLA ITALIA MEAL -->
     <a class="meal-card" href="https://buytickets.at/utilitywarehouse/2062797" target="_blank" rel="noopener">
       <div class="meal-card-inner">
         <div class="meal-card-thumb">
@@ -520,39 +636,146 @@
         </div>
       </div>
     </a>
+  </section>
 
-    <div class="sub-label" style="margin-top:1.2rem;">Get started</div>
+  <!-- GETTING STARTED -->
+  <section class="section sec-started">
+    <div class="section-label"><span class="sec-icon">🏃</span> Getting Started</div>
 
-    <div class="copy-card">
-      <div class="copy-card-inner">
+    <a class="card" href="fast-start-plan.pdf" target="_blank" rel="noopener">
+      <div class="card-inner">
         <div class="card-icon">⚡</div>
         <div class="card-body">
           <div class="card-title">Fast Start Plan</div>
-          <div class="card-desc">A clear action plan for new partners to work through with their mentor. Choose your format.</div>
-          <div class="format-btns">
-            <a class="btn-format" href="fast-start-plan.html" target="_blank" rel="noopener">💻 Interactive version</a>
-            <a class="btn-format teal" href="fast-start-plan.pdf" target="_blank" rel="noopener">📄 PDF version</a>
-          </div>
+          <div class="card-desc">A clear action plan for new partners to work through with their mentor.</div>
+          <div class="tip">📄 PDF — print or save to your phone</div>
         </div>
+        <div class="card-arrow">→</div>
       </div>
-    </div>
+    </a>
+
+    <a class="card" href="HowTo-QDStar.pdf" target="_blank" rel="noopener">
+      <div class="card-inner">
+        <div class="card-icon">⭐</div>
+        <div class="card-body">
+          <div class="card-title">How to QD*</div>
+          <div class="card-desc">Step-by-step guide to qualifying for QD* — one of your first important milestones.</div>
+          <div class="tip">📄 PDF guide</div>
+        </div>
+        <div class="card-arrow">→</div>
+      </div>
+    </a>
 
     <a class="card" href="https://aqcroft.github.io/UW_PET_GH_v1/" target="_blank" rel="noopener">
       <div class="card-inner">
         <div class="card-icon">💷</div>
         <div class="card-body">
           <div class="card-title">UW Partner Earnings Tool</div>
-          <div class="card-desc">A self-serve version of the partner earnings explorer. Drop me a DM if you'd like your own version.</div>
-          <div class="tip">✨ Great to explore with a prospect</div>
+          <div class="card-desc">See how much you can earn in your first 30 days — including Fast Start bonuses.</div>
         </div>
         <div class="card-arrow">→</div>
       </div>
     </a>
   </section>
 
+  <!-- SHOWING THE PRESENTATION -->
+  <section class="section sec-show">
+    <div class="section-label"><span class="sec-icon">👀</span> Showing the Presentation</div>
+
+    <a class="copy-card" href="https://uw.co.uk/join" target="_blank" rel="noopener">
+      <div class="copy-card-inner">
+        <div class="card-icon">🔐</div>
+        <div class="card-body">
+          <div class="card-title">Partner Sign-In (you)</div>
+          <div class="card-desc">Sign in here to generate your unique sharing code before showing the presentation.</div>
+          <div class="url-row">
+            <span class="card-url">uw.co.uk/join</span>
+            <button class="btn-copy" onclick="event.preventDefault(); event.stopPropagation(); copyLink(this, 'https://uw.co.uk/join')">⧉ Copy</button>
+          </div>
+        </div>
+      </div>
+    </a>
+
+    <a class="copy-card" href="https://uw.co.uk/share" target="_blank" rel="noopener">
+      <div class="copy-card-inner">
+        <div class="card-icon">👤</div>
+        <div class="card-body">
+          <div class="card-title">Customer / Partner View (them)</div>
+          <div class="card-desc">After generating your code, send your prospect here to view the presentation remotely.</div>
+          <div class="url-row">
+            <span class="card-url">uw.co.uk/share</span>
+            <button class="btn-copy" onclick="event.preventDefault(); event.stopPropagation(); copyLink(this, 'https://uw.co.uk/share')">⧉ Copy</button>
+          </div>
+        </div>
+      </div>
+    </a>
+
+    <a class="copy-card copy-card-new" href="https://uw.co.uk/quote" target="_blank" rel="noopener">
+      <div class="copy-card-inner">
+        <div class="card-icon">🔐</div>
+        <div class="card-body">
+          <div class="card-title">Partner Quote Sign-In (you) <span class="badge-new">New</span></div>
+          <div class="card-desc">The new way to show UW — sign in here to start a live quote. You can also mix and match SIMs on the same order.</div>
+          <div class="url-row">
+            <span class="card-url">uw.co.uk/quote</span>
+            <button class="btn-copy" onclick="event.preventDefault(); event.stopPropagation(); copyLink(this, 'https://uw.co.uk/quote')">⧉ Copy</button>
+          </div>
+        </div>
+      </div>
+    </a>
+
+    <a class="copy-card copy-card-new" href="https://uw.link/meet" target="_blank" rel="noopener">
+      <div class="copy-card-inner">
+        <div class="card-icon">👤</div>
+        <div class="card-body">
+          <div class="card-title">Customer Meeting Link (them) <span class="badge-new">New</span></div>
+          <div class="card-desc">Send this to your prospect for a remote session — they join here while you drive the quote from your end.</div>
+          <div class="url-row">
+            <span class="card-url">uw.link/meet</span>
+            <button class="btn-copy" onclick="event.preventDefault(); event.stopPropagation(); copyLink(this, 'https://uw.link/meet')">⧉ Copy</button>
+          </div>
+        </div>
+      </div>
+    </a>
+  </section>
+
+  <!-- SHARE THE OPPORTUNITY -->
+  <section class="section sec-share">
+    <div class="section-label"><span class="sec-icon">📣</span> Share the Opportunity</div>
+
+    <a class="copy-card" href="https://earnuw.co.uk/" target="_blank" rel="noopener">
+      <div class="copy-card-inner">
+        <div class="card-icon">▶️</div>
+        <div class="card-body">
+          <div class="card-title">The Opportunity Video</div>
+          <div class="card-desc">Share this to explain how ordinary people can build an extraordinary income.</div>
+          <div class="url-row">
+            <span class="card-url">earnuw.co.uk</span>
+            <button class="btn-copy" onclick="event.preventDefault(); event.stopPropagation(); copyLink(this, 'https://earnuw.co.uk/')">⧉ Copy</button>
+          </div>
+        </div>
+      </div>
+    </a>
+
+    <a class="copy-card" href="https://uwstories.co.uk" target="_blank" rel="noopener">
+      <div class="copy-card-inner">
+        <div class="card-icon">📖</div>
+        <div class="card-body">
+          <div class="card-title">UW Stories</div>
+          <div class="card-desc">Short videos from real partners — great to send to prospects, even better to watch yourself.</div>
+          <div class="url-row">
+            <span class="card-url">uwstories.co.uk</span>
+            <button class="btn-copy" onclick="event.preventDefault(); event.stopPropagation(); copyLink(this, 'https://uwstories.co.uk')">⧉ Copy</button>
+          </div>
+          <div class="tip">👀 Watch them all — they'll build your belief</div>
+        </div>
+      </div>
+    </a>
+  </section>
+
   <!-- TEAM RISE — YOUR COMMUNITY -->
   <section class="section sec-rise">
-    <div class="section-label">🌟 Team RISE — Your Community</div>
+    <div class="section-label"><span class="sec-icon">🌟</span> Team RISE — Your Community</div>
 
     <a class="card" href="https://us02web.zoom.us/meeting/register/r_z1CYT6QA2Ayms-x2eBQw" target="_blank" rel="noopener">
       <div class="card-inner">
@@ -593,101 +816,9 @@
     </div>
   </section>
 
-  <!-- SHOWING THE PRESENTATION -->
-  <section class="section sec-show">
-    <div class="section-label">👀 Showing the presentation</div>
-
-    <a class="copy-card" href="https://uw.co.uk/join" target="_blank" rel="noopener">
-      <div class="copy-card-inner">
-        <div class="card-icon">🔐</div>
-        <div class="card-body">
-          <div class="card-title">Partner Sign-In (you)</div>
-          <div class="card-desc">Sign in here to generate your unique sharing code before showing the presentation.</div>
-          <div class="url-row">
-            <span class="card-url">uw.co.uk/join</span>
-            <button class="btn-copy" onclick="event.preventDefault(); event.stopPropagation(); copyLink(this, 'https://uw.co.uk/join')">⧉ Copy</button>
-          </div>
-        </div>
-      </div>
-    </a>
-
-    <a class="copy-card" href="https://uw.co.uk/share" target="_blank" rel="noopener">
-      <div class="copy-card-inner">
-        <div class="card-icon">👤</div>
-        <div class="card-body">
-          <div class="card-title">Customer / Partner View (them)</div>
-          <div class="card-desc">After generating your code, send your prospect here to view the presentation remotely.</div>
-          <div class="url-row">
-            <span class="card-url">uw.co.uk/share</span>
-            <button class="btn-copy" onclick="event.preventDefault(); event.stopPropagation(); copyLink(this, 'https://uw.co.uk/share')">⧉ Copy</button>
-          </div>
-        </div>
-      </div>
-    </a>
-
-    <a class="copy-card" href="https://uw.co.uk/quote" target="_blank" rel="noopener">
-      <div class="copy-card-inner">
-        <div class="card-icon">🔐</div>
-        <div class="card-body">
-          <div class="card-title">Partner Quote Sign-In (you) <span class="badge-new">New</span></div>
-          <div class="card-desc">The new way to show UW — sign in here to start a live quote. You can also mix and match SIMs on the same order.</div>
-          <div class="url-row">
-            <span class="card-url">uw.co.uk/quote</span>
-            <button class="btn-copy" onclick="event.preventDefault(); event.stopPropagation(); copyLink(this, 'https://uw.co.uk/quote')">⧉ Copy</button>
-          </div>
-        </div>
-      </div>
-    </a>
-
-    <a class="copy-card" href="https://uw.link/meet" target="_blank" rel="noopener">
-      <div class="copy-card-inner">
-        <div class="card-icon">👤</div>
-        <div class="card-body">
-          <div class="card-title">Customer Meeting Link (them) <span class="badge-new">New</span></div>
-          <div class="card-desc">Send this to your prospect for a remote session — they join here while you drive the quote from your end.</div>
-          <div class="url-row">
-            <span class="card-url">uw.link/meet</span>
-            <button class="btn-copy" onclick="event.preventDefault(); event.stopPropagation(); copyLink(this, 'https://uw.link/meet')">⧉ Copy</button>
-          </div>
-        </div>
-      </div>
-    </a>
-
-    <div class="sub-label">Share the opportunity</div>
-
-    <a class="copy-card" href="https://earnuw.co.uk/" target="_blank" rel="noopener">
-      <div class="copy-card-inner">
-        <div class="card-icon">▶️</div>
-        <div class="card-body">
-          <div class="card-title">The Opportunity Video</div>
-          <div class="card-desc">Share this to explain how ordinary people can build an extraordinary income.</div>
-          <div class="url-row">
-            <span class="card-url">earnuw.co.uk</span>
-            <button class="btn-copy" onclick="event.preventDefault(); event.stopPropagation(); copyLink(this, 'https://earnuw.co.uk/')">⧉ Copy</button>
-          </div>
-        </div>
-      </div>
-    </a>
-
-    <a class="copy-card" href="https://uwstories.co.uk" target="_blank" rel="noopener">
-      <div class="copy-card-inner">
-        <div class="card-icon">📖</div>
-        <div class="card-body">
-          <div class="card-title">UW Stories</div>
-          <div class="card-desc">Short videos from real partners — great to send to prospects, even better to watch yourself.</div>
-          <div class="url-row">
-            <span class="card-url">uwstories.co.uk</span>
-            <button class="btn-copy" onclick="event.preventDefault(); event.stopPropagation(); copyLink(this, 'https://uwstories.co.uk')">⧉ Copy</button>
-          </div>
-          <div class="tip">👀 Watch them all — they'll build your belief</div>
-        </div>
-      </div>
-    </a>
-  </section>
-
   <!-- SUPPORT -->
   <section class="section sec-support">
-    <div class="section-label">🤝 Support</div>
+    <div class="section-label"><span class="sec-icon">🤝</span> Support</div>
 
     <a class="copy-card" href="https://askmii.co.uk" target="_blank" rel="noopener">
       <div class="copy-card-inner">
@@ -709,19 +840,51 @@
         <div class="card-body">
           <div class="card-title">Partner Support — Phone a Friend</div>
           <div class="card-desc">Sometimes you just need a human. Here's how to reach one.</div>
-          <div class="contact-row">
-            <a class="contact-chip" href="https://wa.me/442039014722" target="_blank" rel="noopener">💬 WhatsApp</a>
-            <a class="contact-chip" href="tel:03337778777">📞 0333 777 8777</a>
+          <div class="contact-row" style="margin-top:0.5rem;">
+            <div class="contact-group">
+              <a class="contact-chip" href="https://wa.me/442039014722" target="_blank" rel="noopener">💬 WhatsApp</a>
+              <button class="contact-copy" onclick="copyLink(this,'https://wa.me/442039014722')">⧉ copy link</button>
+            </div>
+            <div class="contact-group">
+              <a class="contact-chip" href="tel:03337778777">📞 0333 777 8777</a>
+              <button class="contact-copy" onclick="copyLink(this,'0333 777 8777')">⧉ copy number</button>
+            </div>
+            <div class="contact-group has-tooltip">
+              <a class="contact-chip" href="/cdn-cgi/l/email-protection#6c1c0d1e1802091e1f091e1a050f091f2c191b420f03421907">✉️ Email</a>
+              <button class="contact-copy" onclick="copyLink(this,'partnerservices@uw.co.uk')">⧉ copy email</button>
+              <div class="tooltip">For queries about your partner position only — not on behalf of customers</div>
+            </div>
           </div>
         </div>
       </div>
     </div>
 
+    <div class="info-card">
+      <div class="card-inner">
+        <div class="card-icon">💡</div>
+        <div class="card-body">
+          <div class="card-title">Customer Support</div>
+          <div class="card-desc">UW are great at what they offer — but sometimes your customers need help. Here's how to get it.</div>
+          <div class="contact-row" style="margin-top:0.5rem;">
+            <div class="contact-group">
+              <a class="contact-chip" href="https://wa.me/442045927565" target="_blank" rel="noopener">💬 WhatsApp</a>
+              <button class="contact-copy" onclick="copyLink(this,'https://wa.me/442045927565')">⧉ copy link</button>
+            </div>
+            <div class="contact-group">
+              <a class="contact-chip" href="tel:03337770777">📞 0333 777 0 777</a>
+              <button class="contact-copy" onclick="copyLink(this,'0333 777 0 777')">⧉ copy number</button>
+            </div>
+            <div class="contact-group">
+              <a class="contact-chip" href="https://help.uw.co.uk/contact-us" target="_blank" rel="noopener">✉️ Contact form</a>
+              <button class="contact-copy" onclick="copyLink(this,'https://help.uw.co.uk/contact-us')">⧉ copy link</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </section>
-
-  <!-- PORTAL & TRAINING -->
   <section class="section sec-portal">
-    <div class="section-label">🎓 Portal &amp; training</div>
+    <div class="section-label"><span class="sec-icon">🎓</span> Portal &amp; Training</div>
 
     <a class="card" href="https://uw.co.uk/partner/portal/" target="_blank" rel="noopener">
       <div class="card-inner">
@@ -755,17 +918,32 @@
         <div class="card-arrow">→</div>
       </div>
     </a>
+
+    <div class="card" onclick="window.open('https://uw.co.uk/partner/portal/training-centre/page/help/downloads/promotion-planners','_blank')" style="cursor:pointer;">
+      <div class="card-inner">
+        <div class="card-icon">📐</div>
+        <div class="card-body">
+          <div class="card-title">Promotion Planners</div>
+          <div class="card-desc">Structure charts and planning tools for your next promotion milestone. Or download directly:</div>
+          <div style="display:flex; gap:0.5rem; flex-wrap:wrap; margin-top:0.55rem;">
+            <a href="https://aqcroft.github.io/TeamTriumph/FTL-Planner.pdf" target="_blank" rel="noopener" onclick="event.stopPropagation();" class="planner-pill">📄 FTL Planner</a>
+            <a href="https://aqcroft.github.io/TeamTriumph/TL-Planner.pdf" target="_blank" rel="noopener" onclick="event.stopPropagation();" class="planner-pill">📄 TL Planner</a>
+          </div>
+        </div>
+        <div class="card-arrow">→</div>
+      </div>
+    </div>
   </section>
 
   <!-- USEFUL TOOLS -->
   <section class="section sec-tools">
-    <div class="section-label">🛠️ Useful tools</div>
+    <div class="section-label"><span class="sec-icon">🛠️</span> Useful Tools</div>
 
     <a class="card" href="https://aqcroft.github.io/UW_PET_GH_v5/" target="_blank" rel="noopener">
       <div class="card-inner">
         <div class="card-icon">💷</div>
         <div class="card-body">
-          <div class="card-title">UW Partner Earnings Tool</div>
+          <div class="card-title">UW Partner Earnings Tool v5 <span class="badge-new" style="background:var(--teal);">Beta</span></div>
           <div class="card-desc">A self-serve version of the partner earnings explorer. Drop me a DM if you'd like your own version.</div>
         </div>
         <div class="card-arrow">→</div>
@@ -797,13 +975,46 @@
 
   <footer class="footer">
     <p>Built with care for Team Triumph · Updated regularly</p>
-    <p style="margin-top:0.35rem; opacity:0.6;">Curated by Adrian Croft · UW Partner · East Midlands</p>
-    <a href="https://wa.me/447787400800?text=Team%20Triumph%20Hub%20feedback%3A%20" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:0.4rem;margin-top:1rem;font-size:0.78rem;font-weight:600;color:#fff;background:#25d366;border-radius:2rem;padding:0.45rem 1rem;text-decoration:none;">💬 Feedback or questions? Message Adrian on WhatsApp</a>
+    <p style="margin-top:0.35rem; opacity:0.6;">Curated by Adrian Croft · UW Partner · Market Harborough</p>
+    <a href="https://wa.me/447787400800?text=Team%20Triumph%20Hub%20feedback%3A%20" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:0.4rem;margin-top:1rem;font-size:0.78rem;font-weight:600;color:#fff;background:#25d366;border-radius:2rem;padding:0.45rem 1rem;text-decoration:none;">💬 Feedback or questions?</a>
   </footer>
 
 </div>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+  function toggleWelcome() {
+    const body     = document.getElementById('welcome-body');
+    const chevron  = document.getElementById('welcome-chevron');
+    const isOpen   = body.style.maxHeight !== '0px' && body.style.maxHeight !== '';
+
+    if (isOpen) {
+      body.style.maxHeight = '0px';
+      body.style.opacity   = '0';
+      chevron.style.transform = 'rotate(-90deg)';
+      localStorage.setItem('welcomeSeen', 'collapsed');
+    } else {
+      body.style.maxHeight = '200px';
+      body.style.opacity   = '1';
+      chevron.style.transform = 'rotate(0deg)';
+      localStorage.setItem('welcomeSeen', 'open');
+    }
+  }
+
+  // On load — collapse if returning visitor
+  (function() {
+    const seen = localStorage.getItem('welcomeSeen');
+    if (seen === 'collapsed') {
+      const body    = document.getElementById('welcome-body');
+      const chevron = document.getElementById('welcome-chevron');
+      body.style.maxHeight = '0px';
+      body.style.opacity   = '0';
+      chevron.style.transform = 'rotate(-90deg)';
+    } else {
+      // First visit — mark as seen so next time it's collapsed
+      localStorage.setItem('welcomeSeen', 'collapsed');
+    }
+  })();
+
   function copyLink(btn, url) {
     navigator.clipboard.writeText(url).then(() => {
       btn.textContent = '✓ Copied!';
@@ -829,10 +1040,4 @@
   }
 
   document.querySelectorAll('.card-locked').forEach(card => {
-    card.addEventListener('keydown', e => {
-      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggleLock(card); }
-    });
-  });
-</script>
-</body>
-</html>
+    card.addEvent
