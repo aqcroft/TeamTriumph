@@ -575,7 +575,7 @@
     </div>
 
     <!-- Collapsible body -->
-    <div id="welcome-body" style="overflow:hidden; transition: max-height 0.35s ease, opacity 0.3s ease; max-height: 200px; opacity: 1;">
+    <div id="welcome-body" style="overflow:hidden; transition: max-height 0.35s ease, opacity 0.3s ease;">
       <div style="padding: 0 1.2rem 1rem 1.2rem; border-top: 1px solid rgba(245,158,11,0.15);">
         <p style="font-size:0.85rem; line-height:1.7; color:var(--text-secondary); margin-top:0.65rem;">
           And a warm welcome to Team Triumph — and this great opportunity.
@@ -981,39 +981,26 @@
 
 </div>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script>
+  // Defined early so onclick works even if later scripts fail
   function toggleWelcome() {
-    const body     = document.getElementById('welcome-body');
-    const chevron  = document.getElementById('welcome-chevron');
-    const isOpen   = body.style.maxHeight !== '0px' && body.style.maxHeight !== '';
-
+    const body    = document.getElementById('welcome-body');
+    const chevron = document.getElementById('welcome-chevron');
+    const isOpen  = body.dataset.open === 'true';
     if (isOpen) {
       body.style.maxHeight = '0px';
       body.style.opacity   = '0';
       chevron.style.transform = 'rotate(-90deg)';
-      localStorage.setItem('welcomeSeen', 'collapsed');
+      body.dataset.open = 'false';
+      try { localStorage.setItem('welcomeSeen', 'collapsed'); } catch(e) {}
     } else {
-      body.style.maxHeight = '200px';
+      body.style.maxHeight = body.scrollHeight + 'px';
       body.style.opacity   = '1';
       chevron.style.transform = 'rotate(0deg)';
-      localStorage.setItem('welcomeSeen', 'open');
+      body.dataset.open = 'true';
+      try { localStorage.setItem('welcomeSeen', 'open'); } catch(e) {}
     }
   }
-
-  // On load — collapse if returning visitor
-  (function() {
-    const seen = localStorage.getItem('welcomeSeen');
-    if (seen === 'collapsed') {
-      const body    = document.getElementById('welcome-body');
-      const chevron = document.getElementById('welcome-chevron');
-      body.style.maxHeight = '0px';
-      body.style.opacity   = '0';
-      chevron.style.transform = 'rotate(-90deg)';
-    } else {
-      // First visit — mark as seen so next time it's collapsed
-      localStorage.setItem('welcomeSeen', 'collapsed');
-    }
-  })();
 
   function copyLink(btn, url) {
     navigator.clipboard.writeText(url).then(() => {
@@ -1040,4 +1027,45 @@
   }
 
   document.querySelectorAll('.card-locked').forEach(card => {
-    card.addEvent
+    card.addEventListener('keydown', e => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggleLock(card); }
+    });
+  });
+
+  // Welcome accordion initial state
+  (function() {
+    const body    = document.getElementById('welcome-body');
+    const chevron = document.getElementById('welcome-chevron');
+    let seen = null;
+    try { seen = localStorage.getItem('welcomeSeen'); } catch(e) {}
+
+    body.style.transition = 'none';
+
+    if (seen === 'open') {
+      body.style.maxHeight = body.scrollHeight + 'px';
+      body.style.opacity   = '1';
+      chevron.style.transform = 'rotate(0deg)';
+      body.dataset.open = 'true';
+    } else if (seen === 'collapsed') {
+      body.style.maxHeight = '0px';
+      body.style.opacity   = '0';
+      chevron.style.transform = 'rotate(-90deg)';
+      body.dataset.open = 'false';
+    } else {
+      // First visit — show open, mark collapsed for next time
+      body.style.maxHeight = body.scrollHeight + 'px';
+      body.style.opacity   = '1';
+      chevron.style.transform = 'rotate(0deg)';
+      body.dataset.open = 'true';
+      try { localStorage.setItem('welcomeSeen', 'collapsed'); } catch(e) {}
+    }
+
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        body.style.transition = 'max-height 0.35s ease, opacity 0.3s ease';
+      });
+    });
+  })();
+</script>
+</body>
+</html>
