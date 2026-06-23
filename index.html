@@ -779,6 +779,20 @@
         </div>
       </a>
 
+      <a class="copy-card" href="https://earnuw.co.uk/?video=how_you_earn" target="_blank" rel="noopener">
+        <div class="copy-card-inner">
+          <div class="card-icon">💰</div>
+          <div class="card-body">
+            <div class="card-title">How We Earn (video)</div>
+            <div class="card-desc">Clearly explains upfront customer bonuses and ongoing residual income — great for sharing with potential partners.</div>
+            <div class="url-row">
+              <span class="card-url">earnuw.co.uk/?video=how_you_earn</span>
+              <button class="btn-copy" onclick="event.preventDefault(); event.stopPropagation(); copyLink(this, 'https://earnuw.co.uk/?video=how_you_earn')">⧉ Copy</button>
+            </div>
+          </div>
+        </div>
+      </a>
+
       <a class="copy-card" href="https://uwstories.co.uk" target="_blank" rel="noopener">
         <div class="copy-card-inner">
           <div class="card-icon">🎞️</div>
@@ -1023,3 +1037,158 @@
   </footer>
 
 </div>
+
+<script>
+  const SECTIONS = ['started','show','share','rise','support','portal','tools'];
+
+  // ── SECTION ACCORDIONS (mutual exclusion, all closed by default) ──
+  function toggleSection(id) {
+    const body  = document.getElementById('body-' + id);
+    const chev  = document.getElementById('chev-' + id);
+    const isOpen = body.dataset.open === 'true';
+
+    // Close all sections
+    SECTIONS.forEach(sid => {
+      const sb = document.getElementById('body-' + sid);
+      const sc = document.getElementById('chev-' + sid);
+      if (!sb || !sc) return;
+      sb.style.maxHeight = '0px';
+      sb.style.opacity   = '0';
+      sc.style.transform = 'rotate(-90deg)';
+      sb.dataset.open    = 'false';
+    });
+
+    // If it wasn't open, open it
+    if (!isOpen) {
+      body.style.maxHeight = body.scrollHeight + 'px';
+      body.style.opacity   = '1';
+      chev.style.transform = 'rotate(0deg)';
+      body.dataset.open    = 'true';
+    }
+
+    // Persist state
+    try {
+      const states = {};
+      SECTIONS.forEach(sid => {
+        const sb = document.getElementById('body-' + sid);
+        if (sb) states[sid] = sb.dataset.open === 'true';
+      });
+      localStorage.setItem('sectionStates', JSON.stringify(states));
+    } catch(e) {}
+  }
+
+  // Initialise sections — all closed by default
+  (function initSections() {
+    let states = {};
+    try { states = JSON.parse(localStorage.getItem('sectionStates') || '{}'); } catch(e) {}
+
+    SECTIONS.forEach(id => {
+      const body = document.getElementById('body-' + id);
+      const chev = document.getElementById('chev-' + id);
+      if (!body || !chev) return;
+
+      body.style.transition = 'none';
+      const isOpen = states[id] === true;
+
+      if (isOpen) {
+        body.style.maxHeight = body.scrollHeight + 'px';
+        body.style.opacity   = '1';
+        chev.style.transform = 'rotate(0deg)';
+        body.dataset.open    = 'true';
+      } else {
+        body.style.maxHeight = '0px';
+        body.style.opacity   = '0';
+        chev.style.transform = 'rotate(-90deg)';
+        body.dataset.open    = 'false';
+      }
+
+      requestAnimationFrame(() => requestAnimationFrame(() => {
+        body.style.transition = 'max-height 0.35s ease, opacity 0.3s ease';
+      }));
+    });
+  })();
+
+  // ── WELCOME ACCORDION (open first visit, collapsed thereafter) ──
+  function toggleWelcome() {
+    const body   = document.getElementById('welcome-body');
+    const chevron = document.getElementById('welcome-chevron');
+    const isOpen  = body.dataset.open === 'true';
+
+    if (isOpen) {
+      body.style.maxHeight = '0px';
+      body.style.opacity   = '0';
+      chevron.style.transform = 'rotate(-90deg)';
+      body.dataset.open = 'false';
+      try { localStorage.setItem('welcomeSeen', 'collapsed'); } catch(e) {}
+    } else {
+      body.style.maxHeight = body.scrollHeight + 'px';
+      body.style.opacity   = '1';
+      chevron.style.transform = 'rotate(0deg)';
+      body.dataset.open = 'true';
+      try { localStorage.setItem('welcomeSeen', 'open'); } catch(e) {}
+    }
+  }
+
+  (function initWelcome() {
+    const body    = document.getElementById('welcome-body');
+    const chevron = document.getElementById('welcome-chevron');
+    let seen = null;
+    try { seen = localStorage.getItem('welcomeSeen'); } catch(e) {}
+
+    body.style.transition = 'none';
+
+    if (seen === 'collapsed') {
+      // Returning visitor — collapsed
+      body.style.maxHeight = '0px';
+      body.style.opacity   = '0';
+      chevron.style.transform = 'rotate(-90deg)';
+      body.dataset.open = 'false';
+    } else {
+      // First visit or previously left open — show open
+      body.style.maxHeight = body.scrollHeight + 'px';
+      body.style.opacity   = '1';
+      chevron.style.transform = 'rotate(0deg)';
+      body.dataset.open = 'true';
+      // Mark as collapsed for next visit
+      try { localStorage.setItem('welcomeSeen', 'collapsed'); } catch(e) {}
+    }
+
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      body.style.transition = 'max-height 0.35s ease, opacity 0.3s ease';
+    }));
+  })();
+
+  // ── COPY LINK ──
+  function copyLink(btn, url) {
+    navigator.clipboard.writeText(url).then(() => {
+      btn.textContent = '✓ Copied!';
+      btn.classList.add('copied');
+      setTimeout(() => { btn.innerHTML = btn.innerHTML.includes('number') ? '⧉ copy number' : btn.innerHTML.includes('email') ? '⧉ copy email' : '⧉ Copy'; btn.classList.remove('copied'); }, 2000);
+    }).catch(() => {
+      const ta = document.createElement('textarea');
+      ta.value = url; ta.style.position = 'fixed'; ta.style.opacity = '0';
+      document.body.appendChild(ta); ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+      btn.textContent = '✓ Copied!';
+      btn.classList.add('copied');
+      setTimeout(() => { btn.classList.remove('copied'); }, 2000);
+    });
+  }
+
+  // ── LOCKED CARDS ──
+  function toggleLock(el) {
+    const reveal = el.querySelector('.locked-reveal');
+    const isOpen = reveal.classList.contains('open');
+    reveal.classList.toggle('open', !isOpen);
+    el.setAttribute('aria-expanded', String(!isOpen));
+  }
+
+  document.querySelectorAll('.card-locked').forEach(card => {
+    card.addEventListener('keydown', e => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggleLock(card); }
+    });
+  });
+</script>
+</body>
+</html>
