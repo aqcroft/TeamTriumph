@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -769,12 +770,13 @@
         <div class="copy-card-inner">
           <div class="card-icon">💷</div>
           <div class="card-body">
-            <div class="card-title">The Opportunity Video</div>
+            <div class="card-title">The Opportunity (video)</div>
             <div class="card-desc">Share this to explain how ordinary people can build an extraordinary income.</div>
             <div class="url-row">
               <span class="card-url">earnuw.co.uk</span>
               <button class="btn-copy" onclick="event.preventDefault(); event.stopPropagation(); copyLink(this, 'https://earnuw.co.uk/')">⧉ Copy</button>
             </div>
+            <div class="tip">💡 Different voices, same story — pick the one that fits.</div>
           </div>
         </div>
       </a>
@@ -793,6 +795,21 @@
         </div>
       </a>
 
+      <a class="copy-card" href="https://infocall.co.uk" target="_blank" rel="noopener">
+        <div class="copy-card-inner">
+          <div class="card-icon">🖥️</div>
+          <div class="card-body">
+            <div class="card-title">UW Live — Drop-in Opportunity Calls</div>
+            <div class="card-desc">Share this with potential partners and let UW Leaders do the explaining. Live Zooms throughout the week — no camera or audio needed.</div>
+            <div class="url-row">
+              <span class="card-url">infocall.co.uk</span>
+              <button class="btn-copy" onclick="event.preventDefault(); event.stopPropagation(); copyLink(this, 'https://infocall.co.uk')">⧉ Copy</button>
+            </div>
+            <div class="tip">💡 Be the messenger, not the message</div>
+          </div>
+        </div>
+      </a>
+
       <a class="copy-card" href="https://uwstories.co.uk" target="_blank" rel="noopener">
         <div class="copy-card-inner">
           <div class="card-icon">🎞️</div>
@@ -803,7 +820,7 @@
               <span class="card-url">uwstories.co.uk</span>
               <button class="btn-copy" onclick="event.preventDefault(); event.stopPropagation(); copyLink(this, 'https://uwstories.co.uk')">⧉ Copy</button>
             </div>
-            <div class="tip">👀 Watch them all — they'll build your belief</div>
+            <div class="tip">💡 Watch them all — pick a favourite to share.</div>
           </div>
         </div>
       </a>
@@ -900,9 +917,9 @@
                 <button class="contact-copy" onclick="copyLink(this,'0333 777 8777')">⧉ copy number</button>
               </div>
               <div class="contact-group has-tooltip">
-                <a class="contact-chip" href="mailto:partnerservices@uw.co.uk">✉️ Email</a>
+                <a class="contact-chip" href="mailto:partnerservices@uw.co.uk">✉️ Email <button onclick="event.preventDefault(); event.stopPropagation(); toggleInfo('partner-email-info')" style="background:none;border:none;cursor:pointer;font-size:0.75rem;color:var(--text-muted);padding:0 0 0 0.2rem;font-family:inherit;">ⓘ</button></a>
                 <button class="contact-copy" onclick="copyLink(this,'partnerservices@uw.co.uk')">⧉ copy email</button>
-                <div class="tooltip">For queries about your partner position only — not on behalf of customers</div>
+                <div id="partner-email-info" style="display:none; font-size:0.72rem; color:var(--text-muted); line-height:1.4; margin-top:0.2rem; padding:0.35rem 0.5rem; background:rgba(0,0,0,0.04); border-radius:0.4rem;">For queries about your partner position only — not on behalf of customers</div>
               </div>
             </div>
           </div>
@@ -1187,12 +1204,30 @@
     });
   }
 
+  // ── INLINE INFO DISCLOSURE ──
+  function toggleInfo(id) {
+    const el = document.getElementById(id);
+    if (!el) return;
+    const isVisible = el.style.display !== 'none';
+    el.style.display = isVisible ? 'none' : 'block';
+    // Recalculate parent section-body height
+    const sectionBody = el.closest('.section-body');
+    if (sectionBody && sectionBody.dataset.open === 'true') {
+      sectionBody.style.maxHeight = sectionBody.scrollHeight + 'px';
+    }
+  }
+
   // ── LOCKED CARDS ──
   function toggleLock(el) {
     const reveal = el.querySelector('.locked-reveal');
     const isOpen = reveal.classList.contains('open');
     reveal.classList.toggle('open', !isOpen);
     el.setAttribute('aria-expanded', String(!isOpen));
+    // Recalculate parent section-body height to accommodate reveal
+    const sectionBody = el.closest('.section-body');
+    if (sectionBody && sectionBody.dataset.open === 'true') {
+      sectionBody.style.maxHeight = sectionBody.scrollHeight + 'px';
+    }
   }
 
   document.querySelectorAll('.card-locked').forEach(card => {
