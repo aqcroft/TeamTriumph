@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -432,7 +433,12 @@
   .sec-portal  .card               { --accent: var(--portal-blue); }
   .sec-tools   .card               { --accent: var(--teal-strong); }
 
-  /* ── MODE TOGGLE ── */
+  body[data-mode="builder"] { background: #f0f9f7; }
+  body[data-mode="builder"]::before {
+    background:
+      radial-gradient(ellipse 70% 40% at 90% 5%, rgba(14,148,132,0.1) 0%, transparent 60%),
+      radial-gradient(ellipse 50% 35% at 5% 90%, rgba(14,148,132,0.12) 0%, transparent 55%);
+  }
   body[data-mode="lite"] .builder-only { display: none !important; }
 
   .mode-toggle {
