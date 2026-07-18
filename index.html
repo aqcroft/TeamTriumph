@@ -432,6 +432,33 @@
   .sec-portal  .card               { --accent: var(--portal-blue); }
   .sec-tools   .card               { --accent: var(--teal-strong); }
 
+  /* ── MODE TOGGLE ── */
+  body[data-mode="lite"] .builder-only { display: none !important; }
+
+  .mode-toggle {
+    display: inline-flex;
+    background: rgba(0,0,0,0.06);
+    border-radius: 2rem;
+    padding: 0.2rem;
+    gap: 0.15rem;
+    margin-bottom: 1.1rem;
+  }
+  .mode-btn {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.72rem; font-weight: 600;
+    border: none; border-radius: 1.5rem;
+    padding: 0.3rem 0.8rem;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+    background: transparent;
+    color: var(--text-muted);
+  }
+  .mode-btn.active {
+    background: #fff;
+    color: var(--text-primary);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  }
+
   /* ── FOOTER ── */
   .footer {
     text-align: center; padding-top: 0.5rem;
@@ -570,6 +597,10 @@
   <!-- HERO -->
   <header class="hero">
     <div class="hero-badge">✦ Team Triumph Resource Library</div>
+    <div class="mode-toggle">
+      <button class="mode-btn" id="btn-lite" onclick="setMode('lite')">🌱 New Partner</button>
+      <button class="mode-btn" id="btn-builder" onclick="setMode('builder')">🏗️ Builder</button>
+    </div>
     <h1><em>Your shortcut</em><br>to everything.</h1>
     <p>The tools, training and support you and your team need — without hunting through the Partner Portal.</p>
   </header>
@@ -616,6 +647,12 @@
   <section class="section sec-start">
     <div class="section-label">
       <span class="sec-icon">🎟️</span> Events
+    </div>
+
+    <div style="padding: 0 0.15rem 0.5rem;">
+      <p style="font-size:0.85rem; font-weight:600; color:var(--text-secondary); line-height:1.5;">
+        Where belief gets built.
+      </p>
     </div>
 
     <div class="video-nudge">
@@ -760,7 +797,7 @@
         </div>
       </a>
 
-      <a class="copy-card" href="https://earnuw.co.uk/?video=how_you_earn" target="_blank" rel="noopener">
+      <a class="copy-card builder-only" href="https://earnuw.co.uk/?video=how_you_earn" target="_blank" rel="noopener">
         <div class="copy-card-inner">
           <div class="card-icon">💰</div>
           <div class="card-body">
@@ -826,7 +863,7 @@
         </div>
       </a>
 
-      <a class="card" href="https://www.facebook.com/groups/429878163322370" target="_blank" rel="noopener">
+      <a class="card builder-only" href="https://www.facebook.com/groups/429878163322370" target="_blank" rel="noopener">
         <div class="card-inner">
           <div class="card-icon">📘</div>
           <div class="card-body">
@@ -837,7 +874,7 @@
         </div>
       </a>
 
-      <div class="card card-locked" onclick="toggleLock(this)" role="button" tabindex="0" aria-expanded="false">
+      <div class="card card-locked builder-only" onclick="toggleLock(this)" role="button" tabindex="0" aria-expanded="false">
         <div class="card-inner">
           <div class="card-icon">💬</div>
           <div class="card-body">
@@ -950,7 +987,7 @@
         </div>
       </a>
 
-      <a class="card" href="https://uw.co.uk/partner/portal/training-centre" target="_blank" rel="noopener">
+      <a class="card builder-only" href="https://uw.co.uk/partner/portal/training-centre" target="_blank" rel="noopener">
         <div class="card-inner">
           <div class="card-icon">🎓</div>
           <div class="card-body">
@@ -961,7 +998,7 @@
         </div>
       </a>
 
-      <a class="card" href="https://opguide.uw.co.uk/" target="_blank" rel="noopener">
+      <a class="card builder-only" href="https://opguide.uw.co.uk/" target="_blank" rel="noopener">
         <div class="card-inner">
           <div class="card-icon">📘</div>
           <div class="card-body">
@@ -972,7 +1009,7 @@
         </div>
       </a>
 
-      <a class="card" href="https://uw.co.uk/legal/terms-conditions/energy-tariff-information" target="_blank" rel="noopener">
+      <a class="card builder-only" href="https://uw.co.uk/legal/terms-conditions/energy-tariff-information" target="_blank" rel="noopener">
         <div class="card-inner">
           <div class="card-icon">⚡</div>
           <div class="card-body">
@@ -983,7 +1020,7 @@
         </div>
       </a>
 
-      <div class="card" onclick="window.open('https://uw.co.uk/partner/portal/training-centre/page/help/downloads/promotion-planners','_blank')" style="cursor:pointer;">
+      <div class="card builder-only" onclick="window.open('https://uw.co.uk/partner/portal/training-centre/page/help/downloads/promotion-planners','_blank')" style="cursor:pointer;">
         <div class="card-inner">
           <div class="card-icon">📐</div>
           <div class="card-body">
@@ -1002,7 +1039,7 @@
   </section>
 
   <!-- USEFUL TOOLS -->
-  <section class="section sec-tools">
+  <section class="section sec-tools builder-only">
     <div class="section-label" onclick="toggleSection('tools')">
       <span class="sec-icon">🛠️</span> Useful Tools
       <span class="sec-chevron" id="chev-tools">▼</span>
@@ -1045,6 +1082,26 @@
 
 <script>
   const SECTIONS = ['started','show','share','rise','support','portal','tools'];
+
+  // ── MODE TOGGLE ──
+  function setMode(mode) {
+    document.body.setAttribute('data-mode', mode);
+    document.getElementById('btn-lite').classList.toggle('active', mode === 'lite');
+    document.getElementById('btn-builder').classList.toggle('active', mode === 'builder');
+    try { localStorage.setItem('partnerMode', mode); } catch(e) {}
+    // Recalculate open section heights after mode change
+    ['started','show','share','rise','support','portal','tools'].forEach(id => {
+      const b = document.getElementById('body-' + id);
+      if (b && b.dataset.open === 'true') b.style.maxHeight = b.scrollHeight + 'px';
+    });
+  }
+
+  // Initialise mode — default Lite
+  (function initMode() {
+    let mode = 'lite';
+    try { mode = localStorage.getItem('partnerMode') || 'lite'; } catch(e) {}
+    setMode(mode);
+  })();
 
   // ── SECTION ACCORDIONS (mutual exclusion, all closed by default) ──
   function toggleSection(id) {
