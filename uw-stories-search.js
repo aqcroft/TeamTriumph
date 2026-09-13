@@ -31,10 +31,68 @@
     return prev[b.length];
   }
 
+  function allowanceFor(token) {
+    return token.length <= 4 ? 1 : token.length <= 8 ? 2 : 3;
+  }
+
   function fuzzyToken(token, words) {
     if (words.some(word => word.includes(token) || token.includes(word))) return true;
-    const allowance = token.length <= 4 ? 1 : token.length <= 8 ? 2 : 3;
+    const allowance = allowanceFor(token);
     return words.some(word => Math.abs(word.length - token.length) <= allowance && editDistance(token, word) <= allowance);
+  }
+
+  function countExact(haystack, needle) {
+    if (!needle) return 0;
+    let count = 0;
+    let from = 0;
+    while (true) {
+      const index = haystack.indexOf(needle, from);
+      if (index < 0) return count;
+      count++;
+      from = index + Math.max(needle.length, 1);
+    }
+  }
+
+  function tokenScore(token, field, weightExact, weightPartial, weightFuzzy, repeatWeight, repeatCap) {
+    if (!token || !field) return 0;
+    const words = field.split(' ').filter(Boolean);
+    const exactCount = words.filter(word => word === token).length;
+    if (exactCount) return weightExact + Math.min(exactCount - 1, repeatCap) * repeatWeight;
+
+    const partial = words.some(word => word.includes(token) || token.includes(word));
+    if (partial) return weightPartial;
+
+    const allowance = allowanceFor(token);
+    const fuzzy = words.some(word => Math.abs(word.length - token.length) <= allowance && editDistance(token, word) <= allowance);
+    return fuzzy ? weightFuzzy : 0;
+  }
+
+  function proximityBonus(text, tokens) {
+    if (tokens.length < 2) return 0;
+    const words = text.split(' ').filter(Boolean);
+    const positions = tokens.map(token => {
+      const hits = [];
+      words.forEach((word, index) => {
+        if (word === token || word.includes(token) || token.includes(word)) hits.push(index);
+      });
+      return hits;
+    });
+    if (positions.some(list => !list.length)) return 0;
+
+    let bestSpan = Infinity;
+    const walk = (depth, chosen) => {
+      if (depth === positions.length) {
+        const span = Math.max(...chosen) - Math.min(...chosen);
+        bestSpan = Math.min(bestSpan, span);
+        return;
+      }
+      positions[depth].slice(0, 8).forEach(pos => walk(depth + 1, [...chosen, pos]));
+    };
+    walk(0, []);
+    if (bestSpan <= 3) return 35;
+    if (bestSpan <= 8) return 18;
+    if (bestSpan <= 16) return 8;
+    return 0;
   }
 
   function scoreStory(story, query) {
@@ -50,23 +108,84 @@
     if (!tokens.every(token => fuzzyToken(token, words))) return -1;
 
     let score = 0;
-    if (title.includes(q)) score += 120;
-    else if (summary.includes(q)) score += 70;
-    else if (text.includes(q)) score += 35;
 
-    const titleWords = title.split(' ');
-    const summaryWords = summary.split(' ');
-    const textWords = text.split(' ');
+    // Phrase matches are strongest, especially in the title.
+    if (title === q) score += 320;
+    else if (title.includes(q)) score += 220;
+    if (summary.includes(q)) score += 105;
+    if (text.includes(q)) score += 55;
+
+    // Individual terms: title > summary > full story text.
     tokens.forEach(token => {
-      if (fuzzyToken(token, titleWords)) score += 30;
-      else if (fuzzyToken(token, summaryWords)) score += 16;
-      else if (fuzzyToken(token, textWords)) score += 6;
+      score += tokenScore(token, title, 72, 46, 22, 14, 3);
+      score += tokenScore(token, summary, 34, 22, 10, 7, 4);
+      score += tokenScore(token, text, 14, 9, 4, 4, 7);
     });
+
+    // Repetition is useful evidence of importance, but capped so long blurbs do not dominate.
+    const phraseRepeats = Math.min(countExact(text, q), 5);
+    if (phraseRepeats > 1) score += (phraseRepeats - 1) * 9;
+
+    // Multi-word concepts mentioned close together are probably genuinely related.
+    score += proximityBonus(`${summary} ${text}`, tokens);
+
     return score;
   }
 
   function escapeHtml(value = '') {
     return value.replace(/[&<>"']/g, ch => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[ch]));
+  }
+
+  function escapeRegex(value = '') {
+    return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  }
+
+  function highlightTerms(source, query) {
+    const raw = (source || '').toString();
+    if (!raw) return '';
+    const queryTokens = normalise(query).split(' ').filter(token => token.length >= 2);
+    if (!queryTokens.length) return escapeHtml(raw);
+
+    const sourceWords = [...new Set((raw.match(/[A-Za-z0-9'’-]+/g) || []))];
+    const terms = new Set();
+
+    queryTokens.forEach(token => {
+      const exactish = sourceWords.filter(word => {
+        const n = normalise(word);
+        return n === token || n.includes(token) || token.includes(n);
+      });
+      if (exactish.length) {
+        exactish.forEach(word => terms.add(word));
+        return;
+      }
+
+      // If the user made a typo, highlight the word that produced the fuzzy match.
+      const allowance = allowanceFor(token);
+      let best = null;
+      let bestDistance = Infinity;
+      sourceWords.forEach(word => {
+        const n = normalise(word);
+        if (Math.abs(n.length - token.length) > allowance) return;
+        const distance = editDistance(token, n);
+        if (distance <= allowance && distance < bestDistance) {
+          best = word;
+          bestDistance = distance;
+        }
+      });
+      if (best) terms.add(best);
+    });
+
+    if (!terms.size) return escapeHtml(raw);
+    const pattern = [...terms]
+      .sort((a, b) => b.length - a.length)
+      .map(escapeRegex)
+      .join('|');
+    const regex = new RegExp(`(${pattern})`, 'gi');
+
+    return raw.split(regex).map((part, index) => {
+      const escaped = escapeHtml(part);
+      return index % 2 ? `<strong class="uw-story-highlight">${escaped}</strong>` : escaped;
+    }).join('');
   }
 
   function excerpt(story, query) {
@@ -125,15 +244,18 @@
         .slice(0, 8);
 
       status.textContent = matches.length
-        ? `${matches.length}${data.stories.length > 8 && matches.length === 8 ? '+' : ''} matching stor${matches.length === 1 ? 'y' : 'ies'}`
+        ? `${matches.length}${matches.length === 8 ? '+' : ''} matching stor${matches.length === 1 ? 'y' : 'ies'} - most relevant first`
         : 'No matching stories - try a shorter or broader phrase';
 
-      results.innerHTML = matches.map(({ story }) => `
+      results.innerHTML = matches.map(({ story }) => {
+        const desc = excerpt(story, q);
+        return `
         <a class="uw-story-result" href="${escapeHtml(story.url)}" target="_blank" rel="noopener">
-          <span class="uw-story-result-title">🎞️ ${escapeHtml(story.title)}</span>
-          <span class="uw-story-result-desc">${escapeHtml(excerpt(story, q))}</span>
+          <span class="uw-story-result-title">🎞️ ${highlightTerms(story.title, q)}</span>
+          <span class="uw-story-result-desc">${highlightTerms(desc, q)}</span>
           <span class="uw-story-result-open">Open story →</span>
-        </a>`).join('');
+        </a>`;
+      }).join('');
     } catch (error) {
       console.error(error);
       status.innerHTML = 'Story library is refreshing or unavailable - <a href="https://www.uwstories.co.uk/" target="_blank" rel="noopener">open UW Stories</a>';
@@ -160,6 +282,7 @@
       .uw-story-result-title { display:block; color:var(--text-primary); font-size:.78rem; font-weight:650; margin-bottom:.16rem; }
       .uw-story-result-desc { display:block; color:var(--text-secondary); font-size:.7rem; line-height:1.4; }
       .uw-story-result-open { display:block; color:var(--violet); font-size:.67rem; font-weight:650; margin-top:.28rem; }
+      .uw-story-highlight { font-weight:800; color:var(--text-primary); }
     `;
     document.head.appendChild(style);
   }
@@ -175,7 +298,7 @@
     wrapper.className = 'uw-stories-finder';
     wrapper.innerHTML = `
       <div class="uw-stories-finder-title">🔎 Find the right UW Story</div>
-      <div class="uw-stories-finder-sub">Search the story title and the description/topics discussed - spelling mistakes are OK.</div>
+      <div class="uw-stories-finder-sub">Search the story title and the description/topics discussed - spelling mistakes are OK. Results are ranked by relevance.</div>
       <div class="uw-stories-search-box">
         <span aria-hidden="true">🔎</span>
         <input type="search" autocomplete="off" spellcheck="false" placeholder="Try: teacher, illness, mortgage, confidence…" aria-label="Search UW Stories by topic">
