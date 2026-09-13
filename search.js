@@ -2,6 +2,7 @@
   'use strict';
 
   const SEARCHABLE_SELECTOR = '.card, .copy-card, .info-card, .image-card, .meal-card';
+  const SECTION_IDS = ['started','show','share','rise','support','portal','tools'];
   let lastQuery = '';
   let preSearchState = null;
 
@@ -49,11 +50,18 @@
     });
   }
 
+  function searchableText(card) {
+    const section = card.closest('.section');
+    const sectionLabel = section?.querySelector('.section-label')?.textContent || '';
+    const sectionSub = section?.querySelector('.section-sub')?.textContent || '';
+    return `${sectionLabel} ${sectionSub} ${card.textContent}`;
+  }
+
   function matches(card, query) {
     const cleanQuery = normalise(query);
     if (!cleanQuery) return true;
 
-    const text = normalise(card.textContent);
+    const text = normalise(searchableText(card));
     if (text.includes(cleanQuery)) return true;
 
     const queryTokens = cleanQuery.split(' ').filter(Boolean);
@@ -62,12 +70,13 @@
   }
 
   function isAvailableInCurrentMode(card) {
-    return !(document.body.dataset.mode === 'lite' && card.classList.contains('builder-only'));
+    if (document.body.dataset.mode !== 'lite') return true;
+    return !card.closest('.builder-only');
   }
 
   function captureAccordionState() {
     const states = {};
-    (window.SECTIONS || ['started','show','share','rise','support','portal','tools']).forEach(id => {
+    SECTION_IDS.forEach(id => {
       const body = document.getElementById('body-' + id);
       if (body) states[id] = body.dataset.open === 'true';
     });
@@ -145,10 +154,9 @@
     if (!searching) {
       cards.forEach(card => {
         delete card.dataset.searchMatch;
-        if (!(document.body.dataset.mode === 'lite' && card.classList.contains('builder-only'))) {
-          card.style.removeProperty('display');
-        }
+        card.style.removeProperty('display');
       });
+      sections.forEach(section => section.style.removeProperty('display'));
       restoreAccordionState();
     }
 
@@ -180,7 +188,9 @@
         <div id="resource-search-status" class="resource-search-status" aria-live="polite"></div>
       </div>`;
 
-    hero.appendChild(wrapper);
+    const headline = hero.querySelector('h1');
+    if (headline) headline.before(wrapper);
+    else hero.appendChild(wrapper);
 
     const toggle = document.getElementById('resource-search-toggle');
     const panel = document.getElementById('resource-search-panel');
@@ -220,7 +230,7 @@
     const style = document.createElement('style');
     style.id = 'resource-search-styles';
     style.textContent = `
-      .resource-search-wrap { margin: 1rem auto 0; max-width: 520px; }
+      .resource-search-wrap { margin: 0 auto 1.05rem; max-width: 520px; }
       .resource-search-toggle {
         display: inline-flex; align-items: center; justify-content: center; gap: .42rem;
         font-family: 'DM Sans', sans-serif; font-size: .78rem; font-weight: 600;
@@ -257,7 +267,7 @@
       }
       .resource-search-status.is-empty { color: var(--orange); }
       @media (max-width: 480px) {
-        .resource-search-wrap { margin-top: .85rem; }
+        .resource-search-wrap { margin-bottom: .9rem; }
         .resource-search-toggle { font-size: .76rem; padding: .46rem .82rem; }
       }`;
     document.head.appendChild(style);
