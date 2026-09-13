@@ -66,7 +66,6 @@ function storyLinksFromHtml(html) {
 async function discoverStories() {
   const links = new Set();
 
-  // Webflow normally exposes a sitemap. Prefer this because it is the least brittle source.
   try {
     const sitemap = await get(`${BASE}/sitemap.xml`);
     for (const match of sitemap.matchAll(/<loc>([\s\S]*?)<\/loc>/gi)) {
@@ -77,7 +76,6 @@ async function discoverStories() {
     console.warn('Sitemap unavailable:', error.message);
   }
 
-  // Fallback/enrichment: inspect the visible library and its Webflow pagination.
   let emptyPages = 0;
   for (let page = 1; page <= 30 && emptyPages < 2; page++) {
     const url = page === 1 ? `${BASE}/` : `${BASE}/?303e2181_page=${page}`;
@@ -92,7 +90,6 @@ async function discoverStories() {
     }
   }
 
-  // The legacy home currently exposes a useful flat collection too.
   try {
     const legacy = await get(`${BASE}/old-home`);
     for (const link of storyLinksFromHtml(legacy)) links.add(link);
@@ -118,21 +115,30 @@ function extractStory(html, url) {
     /<title\b[^>]*>([\s\S]*?)<\/title>/i
   ]).replace(/\s*\|\s*UW Stories\s*$/i, '').trim();
 
-  const summary = firstMatch(html, [
-    /<meta\s+name=["']description["']\s+content=["']([^"']*)["']/i,
-    /<meta\s+property=["']og:description["']\s+content=["']([^"']*)["']/i
+  const metaSummary = firstMatch(html, [
+    /<meta\s+name=["']description["'][^>]*content=["']([^"']*)["']/i,
+    /<meta\s+content=["']([^"']*)["'][^>]*name=["']description["']/i,
+    /<meta\s+property=["']og:description["'][^>]*content=["']([^"']*)["']/i,
+    /<meta\s+content=["']([^"']*)["'][^>]*property=["']og:description["']/i
   ]);
 
   const mainMatch = html.match(/<main\b[^>]*>([\s\S]*?)<\/main>/i);
   const bodyMatch = html.match(/<body\b[^>]*>([\s\S]*?)<\/body>/i);
   let text = cleanText(mainMatch?.[1] || bodyMatch?.[1] || html);
 
-  // Remove common footer/legal boilerplate from the searchable body where possible.
   text = text
     .replace(/©\s*Utility Warehouse Limited[\s\S]*$/i, '')
     .replace(/Utility Warehouse Limited is authorised and regulated by the Financial Conduct Authority[\s\S]*$/i, '')
     .trim();
 
+  // Webflow's cookie/header chrome can precede the actual story. Start the searchable body at the story title.
+  if (title) {
+    const titleIndex = text.toLowerCase().indexOf(title.toLowerCase());
+    if (titleIndex >= 0) text = text.slice(titleIndex + title.length).trim();
+  }
+  text = text.replace(/\s*Share this video\s+Link copied\s*$/i, '').trim();
+
+  const summary = metaSummary || (text.length > 280 ? `${text.slice(0, 277).trim()}...` : text);
   return { title, summary, text, url };
 }
 
