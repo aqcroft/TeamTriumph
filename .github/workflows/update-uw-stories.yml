@@ -30,7 +30,7 @@ jobs:
 
       - name: Commit catalogue if changed
         run: |
-          if git diff --quiet -- data/uw-stories.json; then
+          if [ -z "$(git status --porcelain -- data/uw-stories.json)" ]; then
             echo "UW Stories catalogue is already up to date."
             exit 0
           fi
