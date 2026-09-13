@@ -291,3 +291,11 @@
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
   else init();
 })();
+
+// UW Stories has its own richer topic search backed by a locally cached weekly catalogue.
+(() => {
+  const script = document.createElement('script');
+  script.src = 'uw-stories-search.js';
+  script.defer = true;
+  document.head.appendChild(script);
+})();
