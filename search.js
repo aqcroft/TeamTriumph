@@ -3,6 +3,8 @@
 
   const SEARCHABLE_SELECTOR = '.card, .copy-card, .info-card, .image-card, .meal-card';
   const SECTION_IDS = ['started','show','share','rise','support','portal','tools'];
+  const OLD_FIRST_60_DAYS_URL = 'https://aqcroft.github.io/UW_PET_GH_v2/sep26/earningstool-vfinal.html';
+  const CURRENT_FIRST_60_DAYS_URL = 'https://aqcroft.github.io/UW_PET_GH_v2/sep26/earningstool-vfinal-coaching-preview-v21.html';
   let lastQuery = '';
   let preSearchState = null;
 
@@ -282,7 +284,14 @@
     };
   }
 
+  function updateFirst60DaysLink() {
+    document.querySelectorAll(`a[href="${OLD_FIRST_60_DAYS_URL}"]`).forEach(link => {
+      link.href = CURRENT_FIRST_60_DAYS_URL;
+    });
+  }
+
   function init() {
+    updateFirst60DaysLink();
     addStyles();
     createSearchUI();
     keepSearchInSyncWithMode();
