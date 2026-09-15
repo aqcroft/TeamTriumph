@@ -302,6 +302,27 @@
       iframe.setAttribute('referrerpolicy', 'strict-origin-when-cross-origin');
     }
 
+    const kickoff = events.querySelector('a.image-card');
+    if (kickoff) {
+      kickoff.href = 'https://www.tickettailor.com/events/utilitywarehouse/2399522';
+      kickoff.dataset.event = 'kickoff';
+      kickoff.style.setProperty('--accent', 'var(--orange)');
+
+      const thumb = kickoff.querySelector('.image-card-thumb');
+      if (thumb) {
+        thumb.innerHTML = '<span style="font-size:2.2rem;line-height:1;">🚀</span>';
+      }
+
+      const title = kickoff.querySelector('.card-title');
+      if (title) title.textContent = '🚀 UW Kick Off';
+
+      const desc = kickoff.querySelector('.card-desc');
+      if (desc) desc.textContent = "UW's start-of-year event bringing Partners together for fresh ideas, inspiration and momentum for the year ahead.";
+
+      const tip = kickoff.querySelector('.tip');
+      if (tip) tip.textContent = '🎟️ Book your place';
+    }
+
     if (events.querySelector('[data-event="powerup-2027"]')) return;
 
     const powerup = document.createElement('div');
@@ -320,8 +341,7 @@
         </div>
       </div>`;
 
-    const amplify = events.querySelector('.image-card');
-    if (amplify) amplify.before(powerup);
+    if (kickoff) kickoff.before(powerup);
     else events.appendChild(powerup);
   }
 
