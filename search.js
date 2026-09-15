@@ -5,6 +5,7 @@
   const SECTION_IDS = ['started','show','share','rise','support','portal','tools'];
   const OLD_FIRST_60_DAYS_URL = 'https://aqcroft.github.io/UW_PET_GH_v2/sep26/earningstool-vfinal.html';
   const CURRENT_FIRST_60_DAYS_URL = 'https://aqcroft.github.io/UW_PET_GH_v2/sep26/earningstool-vfinal-coaching-preview-v21.html';
+  const POWERUP_VIMEO_EMBED_URL = 'https://player.vimeo.com/video/1226637777?h=bde909eafe';
   let lastQuery = '';
   let preSearchState = null;
 
@@ -290,8 +291,43 @@
     });
   }
 
+  function updateEventsSection() {
+    const events = document.querySelector('.section.sec-start');
+    if (!events) return;
+
+    const iframe = events.querySelector('.video-nudge iframe');
+    if (iframe) {
+      iframe.src = POWERUP_VIMEO_EMBED_URL;
+      iframe.setAttribute('allow', 'autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share');
+      iframe.setAttribute('referrerpolicy', 'strict-origin-when-cross-origin');
+    }
+
+    if (events.querySelector('[data-event="powerup-2027"]')) return;
+
+    const powerup = document.createElement('div');
+    powerup.className = 'image-card';
+    powerup.dataset.event = 'powerup-2027';
+    powerup.style.setProperty('--accent', 'var(--violet)');
+    powerup.innerHTML = `
+      <div class="image-card-inner">
+        <div class="image-card-thumb">
+          <img src="powerup.webp" alt="UW PowerUp">
+        </div>
+        <div class="image-card-content">
+          <div class="card-title">⚡ PowerUp 2027 — Telford International Centre</div>
+          <div class="card-desc">UW's flagship annual Partner event — back at the same Telford venue.</div>
+          <div class="tip">🎟️ Saturday 17th April 2027</div>
+        </div>
+      </div>`;
+
+    const amplify = events.querySelector('.image-card');
+    if (amplify) amplify.before(powerup);
+    else events.appendChild(powerup);
+  }
+
   function init() {
     updateFirst60DaysLink();
+    updateEventsSection();
     addStyles();
     createSearchUI();
     keepSearchInSyncWithMode();
