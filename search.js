@@ -5,7 +5,7 @@
   const SECTION_IDS = ['started','show','share','rise','support','portal','tools'];
   const OLD_FIRST_60_DAYS_URL = 'https://aqcroft.github.io/UW_PET_GH_v2/sep26/earningstool-vfinal.html';
   const CURRENT_FIRST_60_DAYS_URL = 'https://aqcroft.github.io/UW_PET_GH_v2/sep26/earningstool-vfinal-coaching-preview-v21.html';
-  const POWERUP_VIMEO_EMBED_URL = 'https://player.vimeo.com/video/1226637777?h=bde909eafe';
+  const POWERUP_VIDEO_EMBED_URL = 'https://www.youtube.com/embed/dkNED0cslX0?rel=0&modestbranding=1';
   let lastQuery = '';
   let preSearchState = null;
 
@@ -297,8 +297,8 @@
 
     const iframe = events.querySelector('.video-nudge iframe');
     if (iframe) {
-      iframe.src = POWERUP_VIMEO_EMBED_URL;
-      iframe.setAttribute('allow', 'autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share');
+      iframe.src = POWERUP_VIDEO_EMBED_URL;
+      iframe.setAttribute('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share');
       iframe.setAttribute('referrerpolicy', 'strict-origin-when-cross-origin');
     }
 
