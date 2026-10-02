@@ -7,9 +7,9 @@
   const CURRENT_FIRST_60_DAYS_URL = 'https://aqcroft.github.io/UW_PET_GH_v2/sep26/earningstool-vfinal-coaching-preview-v21.html';
   const POWERUP_VIDEO_EMBED_URL = 'https://www.youtube.com/embed/dkNED0cslX0?rel=0&modestbranding=1';
   const APP_RELEASE = {
-    version: '1.1.0',
+    version: '1.1.1',
     date: '2nd Oct 2026',
-    summary: 'Power Up 2027 now books direct through Eventbrite and shows the Birmingham event details.'
+    summary: 'Power Up 2027 books direct through Eventbrite, with a cache fix so the latest update appears reliably.'
   };
   let lastQuery = '';
   let preSearchState = null;
