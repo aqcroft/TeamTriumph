@@ -6,6 +6,11 @@
   const OLD_FIRST_60_DAYS_URL = 'https://aqcroft.github.io/UW_PET_GH_v2/sep26/earningstool-vfinal.html';
   const CURRENT_FIRST_60_DAYS_URL = 'https://aqcroft.github.io/UW_PET_GH_v2/sep26/earningstool-vfinal-coaching-preview-v21.html';
   const POWERUP_VIDEO_EMBED_URL = 'https://www.youtube.com/embed/dkNED0cslX0?rel=0&modestbranding=1';
+  const APP_RELEASE = {
+    version: '1.1.0',
+    date: '2nd Oct 2026',
+    summary: 'Power Up 2027 now books direct through Eventbrite and shows the Birmingham event details.'
+  };
   let lastQuery = '';
   let preSearchState = null;
 
@@ -325,24 +330,41 @@
 
     if (events.querySelector('[data-event="powerup-2027"]')) return;
 
-    const powerup = document.createElement('div');
+    const powerup = document.createElement('a');
     powerup.className = 'image-card';
     powerup.dataset.event = 'powerup-2027';
+    powerup.href = 'https://www.eventbrite.com/checkout-external?eid=1996103044941';
+    powerup.target = '_blank';
+    powerup.rel = 'noopener';
     powerup.style.setProperty('--accent', 'var(--violet)');
     powerup.innerHTML = `
       <div class="image-card-inner">
         <div class="image-card-thumb">
-          <img src="powerup.webp" alt="UW PowerUp">
+          <img src="powerup.webp" alt="UW Power Up 2027">
         </div>
         <div class="image-card-content">
-          <div class="card-title">⚡ PowerUp 2027 — Telford International Centre</div>
-          <div class="card-desc">UW's flagship annual Partner event — back at the same Telford venue.</div>
-          <div class="tip">🎟️ Saturday 17th April 2027</div>
+          <div class="card-title">⚡ Power Up 2027 - BP Pulse Live, Birmingham</div>
+          <div class="card-desc">A big UW Partner day for business-boosting announcements, inspiration from successful Partners and recognition on the main stage.</div>
+          <div class="tip">🎟️ Saturday 17th April 2027 · £35 · Book direct</div>
         </div>
       </div>`;
 
     if (kickoff) kickoff.before(powerup);
     else events.appendChild(powerup);
+  }
+
+  function renderReleaseInfo() {
+    const footer = document.querySelector('.footer');
+    if (!footer || footer.querySelector('.app-release')) return;
+
+    const release = document.createElement('details');
+    release.className = 'app-release';
+    release.style.cssText = 'margin:0.9rem auto 0;max-width:420px;font-size:0.7rem;opacity:0.78;';
+    release.innerHTML = `
+      <summary style="cursor:pointer;font-weight:600;">Version ${APP_RELEASE.version} · ${APP_RELEASE.date}</summary>
+      <div style="margin-top:0.35rem;line-height:1.5;">${APP_RELEASE.summary}</div>
+    `;
+    footer.appendChild(release);
   }
 
   function init() {
@@ -351,6 +373,7 @@
     addStyles();
     createSearchUI();
     keepSearchInSyncWithMode();
+    renderReleaseInfo();
   }
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
