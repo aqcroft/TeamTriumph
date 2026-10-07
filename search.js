@@ -7,9 +7,9 @@
   const CURRENT_FIRST_60_DAYS_URL = 'https://aqcroft.github.io/UW_PET_GH_v2/sep26/earningstool-vfinal-coaching-preview-v21.html';
   const POWERUP_VIDEO_EMBED_URL = 'https://www.youtube.com/embed/dkNED0cslX0?rel=0&modestbranding=1';
   const APP_RELEASE = {
-    version: '1.3.0',
+    version: '1.3.1',
     date: '7th Oct 2026',
-    summary: 'Customisable My Shortcuts with iPhone-style edit jiggle, smarter default links and a one-time welcome pop-up.'
+    summary: 'Fixes branch-preview caching so custom shortcuts, edit jiggle and the welcome pop-up load reliably.'
   };
   let lastQuery = '';
   let preSearchState = null;
