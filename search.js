@@ -2,14 +2,14 @@
   'use strict';
 
   const SEARCHABLE_SELECTOR = '.card, .copy-card, .info-card, .image-card, .meal-card';
-  const SECTION_IDS = ['started','show','share','rise','support','portal','tools'];
+  const SECTION_IDS = ['events','started','show','share','rise','support','portal','tools'];
   const OLD_FIRST_60_DAYS_URL = 'https://aqcroft.github.io/UW_PET_GH_v2/sep26/earningstool-vfinal.html';
   const CURRENT_FIRST_60_DAYS_URL = 'https://aqcroft.github.io/UW_PET_GH_v2/sep26/earningstool-vfinal-coaching-preview-v21.html';
   const POWERUP_VIDEO_EMBED_URL = 'https://www.youtube.com/embed/dkNED0cslX0?rel=0&modestbranding=1';
   const APP_RELEASE = {
-    version: '1.1.1',
-    date: '2nd Oct 2026',
-    summary: 'Power Up 2027 books direct through Eventbrite, with a cache fix so the latest update appears reliably.'
+    version: '1.2.0',
+    date: '7th Oct 2026',
+    summary: 'New mobile-first tile layout with quick links, always-visible search and separate New Partner and Team Builder views.'
   };
   let lastQuery = '';
   let preSearchState = null;
@@ -181,48 +181,30 @@
 
   function createSearchUI() {
     const hero = document.querySelector('.hero');
-    if (!hero || document.getElementById('resource-search')) return;
+    const host = document.getElementById('resource-search-slot') || hero;
+    if (!host || document.getElementById('resource-search')) return;
 
     const wrapper = document.createElement('div');
     wrapper.className = 'resource-search-wrap';
     wrapper.innerHTML = `
-      <button type="button" class="resource-search-toggle" id="resource-search-toggle" aria-expanded="false" aria-controls="resource-search-panel">🔎 Search resources</button>
-      <div class="resource-search-panel" id="resource-search-panel" hidden>
-        <div class="resource-search-box">
-          <span class="resource-search-icon" aria-hidden="true">🔎</span>
-          <input id="resource-search" type="search" inputmode="search" autocomplete="off" spellcheck="false" placeholder="Search tools, training, links..." aria-label="Search Team Triumph resources">
-          <button type="button" id="resource-search-clear" class="resource-search-clear" aria-label="Clear search" hidden>×</button>
-        </div>
-        <div id="resource-search-status" class="resource-search-status" aria-live="polite"></div>
-      </div>`;
+      <div class="resource-search-box">
+        <span class="resource-search-icon" aria-hidden="true">🔎</span>
+        <input id="resource-search" type="search" inputmode="search" autocomplete="off" spellcheck="false" placeholder="Search resources, tools, training..." aria-label="Search Team Triumph resources">
+        <button type="button" id="resource-search-clear" class="resource-search-clear" aria-label="Clear search" hidden>×</button>
+      </div>
+      <div id="resource-search-status" class="resource-search-status" aria-live="polite"></div>`;
 
-    const headline = hero.querySelector('h1');
-    if (headline) headline.before(wrapper);
-    else hero.appendChild(wrapper);
+    host.appendChild(wrapper);
 
-    const toggle = document.getElementById('resource-search-toggle');
-    const panel = document.getElementById('resource-search-panel');
     const input = document.getElementById('resource-search');
     const clear = document.getElementById('resource-search-clear');
-
-    toggle.addEventListener('click', () => {
-      const opening = panel.hidden;
-      panel.hidden = !opening;
-      toggle.setAttribute('aria-expanded', String(opening));
-      toggle.classList.toggle('active', opening);
-      if (opening) requestAnimationFrame(() => input.focus());
-      else if (!input.value) updateSearch('');
-    });
 
     input.addEventListener('input', () => updateSearch(input.value));
     input.addEventListener('keydown', event => {
       if (event.key === 'Escape') {
         input.value = '';
         updateSearch('');
-        panel.hidden = true;
-        toggle.setAttribute('aria-expanded', 'false');
-        toggle.classList.remove('active');
-        toggle.focus();
+        input.blur();
       }
     });
 
@@ -238,46 +220,68 @@
     const style = document.createElement('style');
     style.id = 'resource-search-styles';
     style.textContent = `
-      .resource-search-wrap { margin: 0 auto 1.05rem; max-width: 520px; }
-      .resource-search-toggle {
-        display: inline-flex; align-items: center; justify-content: center; gap: .42rem;
-        font-family: 'DM Sans', sans-serif; font-size: .78rem; font-weight: 600;
-        color: var(--text-secondary); background: rgba(255,255,255,.78);
-        border: 1px solid var(--border-hover); border-radius: 2rem;
-        padding: .48rem .9rem; cursor: pointer; box-shadow: var(--shadow-sm);
-        transition: background .18s, border-color .18s, transform .15s;
+      .resource-search-wrap {
+        width: 100%;
+        margin: 0 0 .72rem;
       }
-      .resource-search-toggle:hover, .resource-search-toggle.active {
-        background: #fff; border-color: rgba(0,0,0,.18); transform: translateY(-1px);
-      }
-      .resource-search-panel { margin-top: .65rem; }
-      .resource-search-panel[hidden] { display: none; }
       .resource-search-box {
-        display: flex; align-items: center; gap: .45rem; width: 100%;
-        background: #fff; border: 1px solid rgba(0,0,0,.13); border-radius: .9rem;
-        padding: .2rem .45rem .2rem .72rem; box-shadow: var(--shadow-sm);
+        display: flex;
+        align-items: center;
+        gap: .45rem;
+        width: 100%;
+        background: rgba(255,255,255,.92);
+        border: 1px solid rgba(0,0,0,.1);
+        border-radius: .88rem;
+        padding: .16rem .4rem .16rem .72rem;
+        box-shadow: 0 1px 5px rgba(0,0,0,.045);
       }
-      .resource-search-icon { font-size: .9rem; opacity: .7; flex: 0 0 auto; }
+      .resource-search-box:focus-within {
+        border-color: rgba(14,148,132,.42);
+        box-shadow: 0 0 0 3px rgba(14,148,132,.08);
+      }
+      .resource-search-icon {
+        font-size: .9rem;
+        opacity: .65;
+        flex: 0 0 auto;
+      }
       #resource-search {
-        flex: 1; min-width: 0; border: 0; outline: 0; background: transparent;
-        color: var(--text-primary); font-family: 'DM Sans', sans-serif;
-        font-size: .88rem; padding: .62rem .15rem;
+        flex: 1;
+        min-width: 0;
+        border: 0;
+        outline: 0;
+        background: transparent;
+        color: var(--text-primary);
+        font-family: 'DM Sans', sans-serif;
+        font-size: .84rem;
+        padding: .62rem .12rem;
       }
       #resource-search::placeholder { color: var(--text-muted); }
       .resource-search-clear {
-        border: 0; background: rgba(0,0,0,.06); color: var(--text-secondary);
-        width: 1.8rem; height: 1.8rem; border-radius: 50%; cursor: pointer;
-        font-size: 1.15rem; line-height: 1; flex: 0 0 auto;
+        border: 0;
+        background: rgba(0,0,0,.055);
+        color: var(--text-secondary);
+        width: 1.75rem;
+        height: 1.75rem;
+        border-radius: 50%;
+        cursor: pointer;
+        font-size: 1.1rem;
+        line-height: 1;
+        flex: 0 0 auto;
       }
       .resource-search-status {
-        min-height: 1.2rem; margin-top: .35rem; padding: 0 .2rem;
-        font-size: .72rem; color: var(--text-muted); text-align: left;
+        min-height: 1rem;
+        margin-top: .28rem;
+        padding: 0 .18rem;
+        font-size: .68rem;
+        color: var(--text-muted);
+        text-align: left;
+      }
+      .resource-search-status:empty {
+        min-height: 0;
+        margin-top: 0;
       }
       .resource-search-status.is-empty { color: var(--orange); }
-      @media (max-width: 480px) {
-        .resource-search-wrap { margin-bottom: .9rem; }
-        .resource-search-toggle { font-size: .76rem; padding: .46rem .82rem; }
-      }`;
+    `;
     document.head.appendChild(style);
   }
 
@@ -350,7 +354,15 @@
       </div>`;
 
     if (kickoff) kickoff.before(powerup);
-    else events.appendChild(powerup);
+    else {
+      const eventsBody = events.querySelector('.section-body');
+      (eventsBody || events).appendChild(powerup);
+    }
+
+    const openBody = events.querySelector('.section-body[data-open="true"]');
+    if (openBody) requestAnimationFrame(() => {
+      openBody.style.maxHeight = openBody.scrollHeight + 'px';
+    });
   }
 
   function renderReleaseInfo() {
