@@ -919,6 +919,275 @@
     .hero { padding-top: 1.6rem; }
   }
 
+
+  /* ── EDITABLE SHORTCUTS + MODALS · v1.3 ── */
+  .quick-links-head {
+    align-items: center;
+  }
+  .quick-links-head > div {
+    min-width: 0;
+  }
+  .quick-links-head > div > span,
+  .quick-links-head > div > small {
+    display: block;
+    text-align: left;
+  }
+  .quick-links-head > div > small {
+    margin-top: 0.12rem;
+  }
+  .shortcut-edit-btn {
+    flex: 0 0 auto;
+    border: 0;
+    background: transparent;
+    color: var(--teal-strong);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 700;
+    padding: 0.35rem 0.15rem 0.35rem 0.5rem;
+    cursor: pointer;
+  }
+  .shortcut-edit-btn.editing {
+    color: var(--orange);
+  }
+  .quick-link {
+    position: relative;
+    overflow: visible;
+    padding: 0.55rem 0.38rem;
+    min-height: 5rem;
+    border-color: color-mix(in srgb, var(--shortcut-accent, #777) 18%, transparent);
+    background: var(--shortcut-bg, #fff);
+    transition: transform .18s ease, box-shadow .18s ease;
+  }
+  .quick-link .quick-label {
+    display: block;
+    max-width: 100%;
+    font-size: 0.65rem;
+  }
+  .quick-link .edit-badge {
+    display: none;
+    position: absolute;
+    top: -0.35rem;
+    left: -0.28rem;
+    width: 1.35rem;
+    height: 1.35rem;
+    border-radius: 50%;
+    place-items: center;
+    background: #fff;
+    border: 1px solid rgba(0,0,0,.12);
+    box-shadow: 0 2px 6px rgba(0,0,0,.16);
+    color: var(--text-secondary);
+    font-size: .72rem;
+    font-weight: 700;
+    z-index: 2;
+  }
+  .quick-links.is-editing .quick-link {
+    cursor: pointer;
+    animation: shortcutWiggle .18s ease-in-out infinite alternate;
+    box-shadow: 0 3px 9px rgba(0,0,0,.1);
+  }
+  .quick-links.is-editing .quick-link:nth-child(2n) {
+    animation-direction: alternate-reverse;
+    animation-delay: -.08s;
+  }
+  .quick-links.is-editing .quick-link:nth-child(3n) {
+    animation-delay: -.13s;
+  }
+  .quick-links.is-editing .edit-badge {
+    display: grid;
+  }
+  @keyframes shortcutWiggle {
+    from { transform: rotate(-1.35deg) translateY(0); }
+    to { transform: rotate(1.35deg) translateY(-1px); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .quick-links.is-editing .quick-link { animation: none; }
+  }
+
+  .app-modal[hidden] { display: none; }
+  .app-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    display: grid;
+    place-items: center;
+    padding: 1rem;
+  }
+  .app-modal-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(28,22,18,.48);
+    backdrop-filter: blur(4px);
+  }
+  .app-modal-card {
+    position: relative;
+    z-index: 1;
+    width: min(100%, 430px);
+    max-height: min(82vh, 720px);
+    overflow: auto;
+    border-radius: 1.25rem;
+    background: #fffdf9;
+    border: 1px solid rgba(0,0,0,.08);
+    box-shadow: 0 20px 60px rgba(0,0,0,.22);
+    padding: 1.25rem;
+  }
+  .modal-close {
+    position: absolute;
+    top: .7rem;
+    right: .72rem;
+    width: 2rem;
+    height: 2rem;
+    display: grid;
+    place-items: center;
+    border: 0;
+    border-radius: 50%;
+    background: rgba(0,0,0,.055);
+    color: var(--text-secondary);
+    font-size: 1.25rem;
+    line-height: 1;
+    cursor: pointer;
+  }
+  .welcome-modal-card {
+    text-align: center;
+    padding: 1.45rem 1.25rem 1.25rem;
+  }
+  .welcome-modal-card .modal-icon {
+    width: 3.25rem;
+    height: 3.25rem;
+    display: grid;
+    place-items: center;
+    margin: 0 auto .7rem;
+    border-radius: 1rem;
+    background: #fff2de;
+    font-size: 1.65rem;
+  }
+  .welcome-modal-card h2,
+  .picker-card h2 {
+    font-family: 'Fraunces', Georgia, serif;
+    font-size: 1.32rem;
+    line-height: 1.15;
+    color: var(--text-primary);
+  }
+  .welcome-modal-card p {
+    margin-top: .7rem;
+    color: var(--text-secondary);
+    font-size: .84rem;
+    line-height: 1.55;
+  }
+  .welcome-modal-card blockquote {
+    margin: .75rem 0 0;
+    padding: .72rem .8rem;
+    border-radius: .8rem;
+    background: #fff7e8;
+    color: var(--text-primary);
+    font-family: 'Fraunces', Georgia, serif;
+    font-size: .9rem;
+    line-height: 1.45;
+  }
+  .modal-primary {
+    width: 100%;
+    margin-top: 1rem;
+    border: 0;
+    border-radius: .82rem;
+    background: var(--teal-strong);
+    color: #fff;
+    padding: .78rem 1rem;
+    font-family: 'DM Sans', sans-serif;
+    font-size: .84rem;
+    font-weight: 700;
+    cursor: pointer;
+  }
+  .welcome-reopen {
+    border: 0;
+    background: transparent;
+    color: var(--text-muted);
+    font-family: 'DM Sans', sans-serif;
+    font-size: .7rem;
+    font-weight: 600;
+    margin-top: .6rem;
+    cursor: pointer;
+  }
+
+  .shortcut-picker {
+    place-items: end center;
+    padding: .75rem;
+  }
+  .picker-card {
+    width: min(100%, 560px);
+    max-height: 78vh;
+    border-radius: 1.25rem 1.25rem .9rem .9rem;
+    padding: .75rem .85rem 1rem;
+  }
+  .picker-handle {
+    width: 2.6rem;
+    height: .25rem;
+    border-radius: 1rem;
+    background: rgba(0,0,0,.14);
+    margin: 0 auto .7rem;
+  }
+  .picker-head {
+    position: relative;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0 .1rem .75rem;
+  }
+  .picker-head p {
+    margin-top: .22rem;
+    color: var(--text-muted);
+    font-size: .72rem;
+  }
+  .picker-close {
+    position: static;
+    flex: 0 0 auto;
+  }
+  .shortcut-picker-list {
+    display: grid;
+    gap: .45rem;
+  }
+  .picker-option {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 2.45rem minmax(0,1fr) auto;
+    align-items: center;
+    gap: .65rem;
+    border: 1px solid color-mix(in srgb, var(--option-accent, #777) 17%, transparent);
+    border-radius: .9rem;
+    background: var(--option-bg, #fff);
+    padding: .62rem .68rem;
+    text-align: left;
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .picker-option-icon {
+    width: 2.3rem;
+    height: 2.3rem;
+    display: grid;
+    place-items: center;
+    border-radius: .72rem;
+    background: rgba(255,255,255,.74);
+    font-size: 1.08rem;
+  }
+  .picker-option-title {
+    display: block;
+    color: var(--text-primary);
+    font-size: .8rem;
+    font-weight: 700;
+  }
+  .picker-option-section {
+    display: block;
+    margin-top: .08rem;
+    color: var(--text-muted);
+    font-size: .66rem;
+  }
+  .picker-option-arrow {
+    color: var(--text-muted);
+    font-size: .8rem;
+  }
+  body.modal-open {
+    overflow: hidden;
+  }
+
 </style>
 </head>
 <body>
@@ -945,62 +1214,14 @@
     <div id="resource-search-slot"></div>
 
     <div class="quick-links-head">
-      <span>Quick links</span>
-      <small>One tap to the things you use most</small>
-    </div>
-    <div class="quick-links" aria-label="Quick links">
-      <a class="quick-link ql-quote" href="https://uw.co.uk/quote" target="_blank" rel="noopener">
-        <span class="quick-icon">🔐</span><span>Partner<br>Quote</span>
-      </a>
-      <a class="quick-link ql-meet" href="https://uw.link/meet" target="_blank" rel="noopener">
-        <span class="quick-icon">👤</span><span>Customer<br>Meet</span>
-      </a>
-      <a class="quick-link ql-mii" href="https://askmii.co.uk" target="_blank" rel="noopener">
-        <span class="quick-icon">🧠</span><span>AskMii</span>
-      </a>
-      <a class="quick-link ql-call" href="https://infocall.co.uk" target="_blank" rel="noopener">
-        <span class="quick-icon">🖥️</span><span>InfoCall</span>
-      </a>
-    </div>
-  </header>
-
-  <!-- WELCOME MESSAGE — accordion, collapses after first visit -->
-  <div id="welcome-card" style="
-    background: linear-gradient(135deg, #fff8ed 0%, #fef3c7 100%);
-    border: 1px solid rgba(245,158,11,0.25);
-    border-radius: 1rem;
-    margin-bottom: 1.8rem;
-    position: relative;
-    overflow: hidden;
-    animation: fadeUp 0.4s ease both;
-    cursor: pointer;
-  " onclick="toggleWelcome()">
-    <div style="position:absolute; left:0; top:0; bottom:0; width:4px; background:var(--amber); border-radius:4px 0 0 4px;"></div>
-
-    <!-- Always visible header row -->
-    <div style="display:flex; align-items:center; justify-content:space-between; padding:0.85rem 1.2rem 0.85rem 1.2rem;">
-      <p style="font-size:0.88rem; font-weight:600; color:var(--text-primary); margin:0;">
-        👋 New to Team Triumph? Start here
-      </p>
-      <span id="welcome-chevron" style="font-size:0.75rem; color:var(--text-muted); flex-shrink:0; margin-left:0.75rem; transition: transform 0.25s ease;">▼</span>
-    </div>
-
-    <!-- Collapsible body -->
-    <div id="welcome-body" style="overflow:hidden; transition: max-height 0.35s ease, opacity 0.3s ease;">
-      <div style="padding: 0 1.2rem 1rem 1.2rem; border-top: 1px solid rgba(245,158,11,0.15);">
-        <p style="font-size:0.85rem; line-height:1.7; color:var(--text-secondary); margin-top:0.65rem;">
-          And a warm welcome to Team Triumph — and this great opportunity.
-        </p>
-        <p style="font-size:0.83rem; line-height:1.65; color:var(--text-secondary); margin-top:0.55rem;">
-          👣 You're not taking your first steps alone. We've all been where you are — and we're here to support you every step of the way.
-        </p>
-        <p style="font-size:0.83rem; line-height:1.65; color:var(--text-secondary); margin-top:0.55rem;">
-          🗣️ One saying sums up the UW philosophy better than anything else — <em style="color:var(--text-primary);">"We're in business <strong>for</strong> ourselves, but not <strong>by</strong> ourselves."</em>
-        </p>
-        <p style="font-size:0.72rem; color:var(--text-muted); margin-top:0.75rem;">Tap to collapse ↑</p>
+      <div>
+        <span>My shortcuts</span>
+        <small>Four things you want close to hand</small>
       </div>
+      <button type="button" class="shortcut-edit-btn" id="shortcut-edit-btn">Edit</button>
     </div>
-  </div>
+    <div class="quick-links" id="shortcut-grid" aria-label="My shortcuts"></div>
+  </header>
 
   <!-- EVENTS -->
   <section class="section sec-start">
@@ -1468,9 +1689,39 @@
   <footer class="footer">
     <p>Built with care for Team Triumph · Updated regularly</p>
     <p style="margin-top:0.35rem; opacity:0.6;">Curated by Adrian Croft · UW Partner · Market Harborough</p>
+    <button type="button" class="welcome-reopen" id="welcome-reopen">👋 Welcome</button>
     <a href="https://wa.me/447787400800?text=Team%20Triumph%20Hub%20feedback%3A%20" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:0.4rem;margin-top:1rem;font-size:0.78rem;font-weight:600;color:#fff;background:#25d366;border-radius:2rem;padding:0.45rem 1rem;text-decoration:none;">💬 Feedback or questions?</a>
   </footer>
 
+</div>
+
+<div class="app-modal" id="welcome-modal" hidden>
+  <div class="app-modal-backdrop" data-close-modal="welcome"></div>
+  <section class="app-modal-card welcome-modal-card" role="dialog" aria-modal="true" aria-labelledby="welcome-modal-title">
+    <button type="button" class="modal-close" data-close-modal="welcome" aria-label="Close welcome">×</button>
+    <div class="modal-icon">👋</div>
+    <h2 id="welcome-modal-title">Welcome to Team Triumph</h2>
+    <p>And a warm welcome to this great opportunity.</p>
+    <p>👣 You're not taking your first steps alone. We've all been where you are - and we're here to support you every step of the way.</p>
+    <p>🗣️ One saying sums up the UW philosophy better than anything else:</p>
+    <blockquote>"We're in business <strong>for</strong> ourselves, but not <strong>by</strong> ourselves."</blockquote>
+    <button type="button" class="modal-primary" id="welcome-got-it">Got it 👍</button>
+  </section>
+</div>
+
+<div class="app-modal shortcut-picker" id="shortcut-picker" hidden>
+  <div class="app-modal-backdrop" data-close-modal="shortcuts"></div>
+  <section class="app-modal-card picker-card" role="dialog" aria-modal="true" aria-labelledby="shortcut-picker-title">
+    <div class="picker-handle" aria-hidden="true"></div>
+    <div class="picker-head">
+      <div>
+        <h2 id="shortcut-picker-title">Choose a shortcut</h2>
+        <p>Tap a resource to put it in this position.</p>
+      </div>
+      <button type="button" class="modal-close picker-close" data-close-modal="shortcuts" aria-label="Close shortcut picker">×</button>
+    </div>
+    <div class="shortcut-picker-list" id="shortcut-picker-list"></div>
+  </section>
 </div>
 
 <script>
@@ -1482,6 +1733,7 @@
     document.getElementById('btn-lite').classList.toggle('active', mode === 'lite');
     document.getElementById('btn-builder').classList.toggle('active', mode === 'builder');
     try { localStorage.setItem('partnerMode', mode); } catch(e) {}
+    window.dispatchEvent(new CustomEvent('partnerModeChanged', { detail: { mode } }));
     // Recalculate open section heights after mode change
     SECTIONS.forEach(id => {
       const b = document.getElementById('body-' + id);
@@ -1563,56 +1815,6 @@
     });
   })();
 
-  // ── WELCOME ACCORDION (open first visit, collapsed thereafter) ──
-  function toggleWelcome() {
-    const body   = document.getElementById('welcome-body');
-    const chevron = document.getElementById('welcome-chevron');
-    const isOpen  = body.dataset.open === 'true';
-
-    if (isOpen) {
-      body.style.maxHeight = '0px';
-      body.style.opacity   = '0';
-      chevron.style.transform = 'rotate(-90deg)';
-      body.dataset.open = 'false';
-      try { localStorage.setItem('welcomeSeen', 'collapsed'); } catch(e) {}
-    } else {
-      body.style.maxHeight = body.scrollHeight + 'px';
-      body.style.opacity   = '1';
-      chevron.style.transform = 'rotate(0deg)';
-      body.dataset.open = 'true';
-      try { localStorage.setItem('welcomeSeen', 'open'); } catch(e) {}
-    }
-  }
-
-  (function initWelcome() {
-    const body    = document.getElementById('welcome-body');
-    const chevron = document.getElementById('welcome-chevron');
-    let seen = null;
-    try { seen = localStorage.getItem('welcomeSeen'); } catch(e) {}
-
-    body.style.transition = 'none';
-
-    if (seen === 'collapsed') {
-      // Returning visitor — collapsed
-      body.style.maxHeight = '0px';
-      body.style.opacity   = '0';
-      chevron.style.transform = 'rotate(-90deg)';
-      body.dataset.open = 'false';
-    } else {
-      // First visit or previously left open — show open
-      body.style.maxHeight = body.scrollHeight + 'px';
-      body.style.opacity   = '1';
-      chevron.style.transform = 'rotate(0deg)';
-      body.dataset.open = 'true';
-      // Mark as collapsed for next visit
-      try { localStorage.setItem('welcomeSeen', 'collapsed'); } catch(e) {}
-    }
-
-    requestAnimationFrame(() => requestAnimationFrame(() => {
-      body.style.transition = 'max-height 0.35s ease, opacity 0.3s ease';
-    }));
-  })();
-
   // ── COPY LINK ──
   function copyLink(btn, url) {
     navigator.clipboard.writeText(url).then(() => {
@@ -1672,6 +1874,6 @@
     });
   });
 </script>
-<script src="search.js?v=1.2.0"></script>
+<script src="search.js?v=1.3.0"></script>
 </body>
 </html>
