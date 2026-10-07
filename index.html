@@ -1188,6 +1188,102 @@
     overflow: hidden;
   }
 
+
+  /* ── FINAL LAYOUT POLISH · v1.3.2 ── */
+  .hero {
+    padding-top: .72rem;
+  }
+
+  .hero-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: .55rem;
+    margin-bottom: .45rem;
+  }
+
+  .hero-top h1 {
+    flex: 1 1 auto;
+    min-width: 0;
+    margin: 0;
+  }
+
+  .brand-row {
+    flex: 0 0 auto;
+    justify-content: flex-end;
+    margin: .08rem 0 0;
+  }
+
+  .brand-row > div {
+    text-align: right;
+  }
+
+  .brand-name {
+    font-size: .88rem;
+    line-height: 1.02;
+  }
+
+  .hub-kicker {
+    margin-top: .16rem;
+    font-size: .56rem;
+    line-height: 1.1;
+    white-space: nowrap;
+  }
+
+  .brand-mark {
+    display: none !important;
+  }
+
+  .welcome-modal-card {
+    padding: 1.18rem .92rem .95rem;
+  }
+
+  .welcome-modal-card .modal-icon {
+    width: 3rem;
+    height: 3rem;
+    margin-bottom: .52rem;
+    font-size: 1.52rem;
+  }
+
+  .welcome-modal-card h2 {
+    font-size: 1.27rem;
+    line-height: 1.12;
+    text-wrap: balance;
+  }
+
+  .welcome-modal-card p {
+    max-width: 25rem;
+    margin: .54rem auto 0;
+    font-size: .80rem;
+    line-height: 1.46;
+    text-wrap: balance;
+  }
+
+  .welcome-modal-card blockquote {
+    max-width: 25rem;
+    margin: .62rem auto 0;
+    padding: .66rem .72rem;
+    font-size: .87rem;
+    line-height: 1.38;
+    text-wrap: balance;
+  }
+
+  .welcome-modal-card .modal-primary {
+    margin-top: .78rem;
+  }
+
+  @media (max-width: 380px) {
+    .hero-top {
+      gap: .38rem;
+    }
+    .brand-name {
+      font-size: .80rem;
+    }
+    .hub-kicker {
+      font-size: .52rem;
+    }
+  }
+
 </style>
 </head>
 <body>
@@ -1195,15 +1291,15 @@
 
   <!-- HERO -->
   <header class="hero" id="top">
-    <div class="brand-row">
-      <div>
-        <div class="brand-name"><span>Team</span> <strong>Triumph</strong></div>
-        <div class="hub-kicker">Partner Resource Hub</div>
+    <div class="hero-top">
+      <h1><em>Your shortcut</em><br>to everything.</h1>
+      <div class="brand-row">
+        <div>
+          <div class="brand-name"><span>Team</span> <strong>Triumph</strong></div>
+          <div class="hub-kicker">Partner Resource Hub</div>
+        </div>
       </div>
-      <div class="brand-mark" aria-hidden="true">✦</div>
     </div>
-
-    <h1><em>Your shortcut</em><br>to everything.</h1>
     <p>Practical tools, training and support - without hunting through the Partner Portal.</p>
 
     <div class="mode-toggle" aria-label="Choose your resource view">
@@ -1874,6 +1970,6 @@
     });
   });
 </script>
-<script src="search-v1.3.1.js"></script>
+<script src="search-v1.3.2.js"></script>
 </body>
 </html>
