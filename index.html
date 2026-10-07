@@ -595,20 +595,373 @@
     .image-card-thumb { width: 85px; }
     .meal-card-thumb  { width: 85px; }
   }
+
+  /* ── MOBILE-FIRST TILE REDESIGN · v1.2 ── */
+  .wrapper {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 0 0.85rem 4rem;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.72rem;
+  }
+
+  .hero,
+  #welcome-card,
+  .footer {
+    grid-column: 1 / -1;
+  }
+
+  .hero {
+    text-align: left;
+    padding: 1.15rem 0 0.35rem;
+    animation: none;
+  }
+
+  .brand-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1.05rem;
+  }
+
+  .brand-name {
+    font-family: 'Fraunces', Georgia, serif;
+    font-size: 1.18rem;
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    color: var(--teal-strong);
+  }
+
+  .brand-name strong {
+    color: var(--orange);
+    font-style: italic;
+    font-weight: 900;
+  }
+
+  .hub-kicker {
+    margin-top: 0.28rem;
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+  }
+
+  .brand-mark {
+    width: 2.6rem;
+    height: 2.6rem;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    flex: 0 0 auto;
+    font-size: 1.25rem;
+    color: var(--orange);
+    background: linear-gradient(145deg, #fff0dc, #fff8ed);
+    border: 1px solid rgba(234,108,46,0.16);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .hero h1 {
+    font-size: clamp(2rem, 9vw, 2.65rem);
+    line-height: 1.02;
+    margin-bottom: 0.55rem;
+  }
+
+  .hero p {
+    max-width: none;
+    margin: 0 0 1rem;
+    font-size: 0.88rem;
+    line-height: 1.5;
+  }
+
+  .mode-toggle {
+    display: flex;
+    width: 100%;
+    margin: 0 0 0.75rem;
+    padding: 0.22rem;
+    gap: 0.18rem;
+    border-radius: 0.9rem;
+    background: rgba(0,0,0,0.055);
+  }
+
+  .mode-btn {
+    flex: 1;
+    min-width: 0;
+    padding: 0.6rem 0.55rem;
+    border-radius: 0.72rem;
+    font-size: 0.78rem;
+  }
+
+  .mode-btn.active {
+    background: #fff;
+    color: var(--teal-strong);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  }
+
+  .quick-links-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.65rem;
+    margin: 0.05rem 0 0.45rem;
+  }
+
+  .quick-links-head span {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--text-primary);
+  }
+
+  .quick-links-head small {
+    font-size: 0.64rem;
+    color: var(--text-muted);
+    text-align: right;
+  }
+
+  .quick-links {
+    display: flex;
+    gap: 0.5rem;
+    overflow-x: auto;
+    overscroll-behavior-inline: contain;
+    scrollbar-width: none;
+    padding-bottom: 0.15rem;
+  }
+
+  .quick-links::-webkit-scrollbar { display: none; }
+
+  .quick-link {
+    flex: 1 0 78px;
+    min-height: 4.4rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.28rem;
+    border-radius: 0.95rem;
+    text-decoration: none;
+    color: var(--text-primary);
+    border: 1px solid rgba(0,0,0,0.055);
+    box-shadow: var(--shadow-sm);
+    font-size: 0.67rem;
+    font-weight: 600;
+    line-height: 1.15;
+    text-align: center;
+  }
+
+  .quick-icon { font-size: 1.18rem; line-height: 1; }
+  .ql-quote { background: #eaf8f4; }
+  .ql-meet  { background: #eaf2ff; }
+  .ql-mii   { background: #fff0f1; }
+  .ql-call  { background: #f2edff; }
+
+  #welcome-card {
+    margin: 0 0 0.05rem !important;
+    border-radius: 1rem !important;
+    box-shadow: none !important;
+  }
+
+  body[data-mode="builder"] #welcome-card {
+    display: none !important;
+  }
+
+  .section {
+    --tile-accent: var(--amber);
+    --tile-bg: #fffaf0;
+    margin: 0;
+    min-width: 0;
+    align-self: start;
+    border: 1px solid color-mix(in srgb, var(--tile-accent) 17%, transparent);
+    border-radius: 1.05rem;
+    background: var(--tile-bg);
+    box-shadow: var(--shadow-sm);
+    overflow: hidden;
+    animation: none !important;
+    transition: box-shadow 0.2s ease, transform 0.18s ease;
+  }
+
+  .section:hover {
+    box-shadow: 0 4px 14px rgba(0,0,0,0.075);
+  }
+
+  .section:has(.section-body[data-open="true"]) {
+    grid-column: 1 / -1;
+  }
+
+  .section-label {
+    display: grid;
+    grid-template-columns: auto minmax(0,1fr) auto;
+    align-items: center;
+    gap: 0.62rem;
+    min-height: 3.7rem;
+    margin: 0;
+    padding: 0.82rem 0.85rem 0.28rem;
+    font-size: 0.88rem;
+    font-weight: 700;
+    line-height: 1.15;
+    letter-spacing: 0;
+    text-transform: none;
+    color: var(--text-primary);
+  }
+
+  .section-label::after { display: none; }
+
+  .section-label .sec-icon {
+    width: 2.15rem;
+    height: 2.15rem;
+    display: grid;
+    place-items: center;
+    flex: 0 0 auto;
+    font-size: 1.18rem;
+    border-radius: 0.72rem;
+    background: color-mix(in srgb, var(--tile-accent) 14%, white);
+  }
+
+  .section-label .sec-chevron {
+    margin-left: 0;
+    font-size: 0.66rem;
+    color: color-mix(in srgb, var(--tile-accent) 70%, var(--text-muted));
+  }
+
+  .section-sub {
+    margin: 0;
+    padding: 0 0.85rem 0.82rem 3.62rem;
+    min-height: 2.25rem;
+    font-size: 0.68rem;
+    line-height: 1.35;
+    color: var(--text-secondary);
+  }
+
+  .section-body {
+    padding: 0 0.72rem;
+    margin: 0;
+    background: rgba(255,255,255,0.48);
+    border-top: 1px solid color-mix(in srgb, var(--tile-accent) 12%, transparent);
+  }
+
+  .section:has(.section-body[data-open="true"]) .section-body {
+    padding: 0.72rem;
+  }
+
+  .section:has(.section-body[data-open="true"]) .section-label {
+    padding-bottom: 0.35rem;
+  }
+
+  .section:has(.section-body[data-open="true"]) .section-sub {
+    padding-bottom: 0.65rem;
+  }
+
+  .sec-start   { --tile-accent: #d97706; --tile-bg: #fff7e8; }
+  .sec-started { --tile-accent: #ea6c2e; --tile-bg: #fff0e8; }
+  .sec-show    { --tile-accent: #2563eb; --tile-bg: #edf5ff; }
+  .sec-share   { --tile-accent: #0e9484; --tile-bg: #eaf8f4; }
+  .sec-rise    { --tile-accent: #db2777; --tile-bg: #fff0f5; }
+  .sec-support { --tile-accent: #7c3aed; --tile-bg: #f4efff; }
+  .sec-portal  { --tile-accent: #b86a12; --tile-bg: #fff5df; }
+  .sec-tools   { --tile-accent: #0a7a6e; --tile-bg: #e9f7f4; }
+
+  .section-body .card,
+  .section-body .copy-card,
+  .section-body .info-card,
+  .section-body .image-card {
+    border-radius: 0.85rem;
+    margin-bottom: 0.5rem;
+    box-shadow: none;
+  }
+
+  .section-body .card:last-child,
+  .section-body .copy-card:last-child,
+  .section-body .info-card:last-child,
+  .section-body .image-card:last-child {
+    margin-bottom: 0;
+  }
+
+  .section-body .card,
+  .section-body .copy-card,
+  .section-body .info-card {
+    padding: 0.82rem 0.85rem;
+  }
+
+  .section-body .card-title,
+  .section-body .copy-card .card-title {
+    font-size: 0.86rem;
+  }
+
+  .section-body .card-desc,
+  .section-body .copy-card .card-desc {
+    font-size: 0.75rem;
+  }
+
+  .video-nudge { margin-bottom: 0.55rem; }
+  .footer { padding-top: 1.1rem; }
+
+  @media (max-width: 350px) {
+    .wrapper { grid-template-columns: 1fr; }
+    .hero,
+    #welcome-card,
+    .footer,
+    .section:has(.section-body[data-open="true"]) { grid-column: 1; }
+  }
+
+  @media (min-width: 720px) {
+    .wrapper {
+      grid-template-columns: repeat(3, minmax(0,1fr));
+      gap: 0.85rem;
+      padding-left: 1rem;
+      padding-right: 1rem;
+    }
+    .hero,
+    #welcome-card,
+    .footer,
+    .section:has(.section-body[data-open="true"]) {
+      grid-column: 1 / -1;
+    }
+    .hero { padding-top: 1.6rem; }
+  }
+
 </style>
 </head>
 <body>
 <div class="wrapper">
 
   <!-- HERO -->
-  <header class="hero">
-    <div class="hero-badge">✦ Team Triumph Resource Library</div>
-    <div class="mode-toggle">
-      <button class="mode-btn" id="btn-lite" onclick="setMode('lite')">🌱 New Partner</button>
-      <button class="mode-btn" id="btn-builder" onclick="setMode('builder')">🏗️ Builder</button>
+  <header class="hero" id="top">
+    <div class="brand-row">
+      <div>
+        <div class="brand-name"><span>Team</span> <strong>Triumph</strong></div>
+        <div class="hub-kicker">Partner Resource Hub</div>
+      </div>
+      <div class="brand-mark" aria-hidden="true">✦</div>
     </div>
+
     <h1><em>Your shortcut</em><br>to everything.</h1>
-    <p>The tools, training and support you and your team need — without hunting through the Partner Portal.</p>
+    <p>Practical tools, training and support - without hunting through the Partner Portal.</p>
+
+    <div class="mode-toggle" aria-label="Choose your resource view">
+      <button class="mode-btn" id="btn-lite" onclick="setMode('lite')">🌱 New Partner</button>
+      <button class="mode-btn" id="btn-builder" onclick="setMode('builder')">🚀 Team Builder</button>
+    </div>
+
+    <div id="resource-search-slot"></div>
+
+    <div class="quick-links-head">
+      <span>Quick links</span>
+      <small>One tap to the things you use most</small>
+    </div>
+    <div class="quick-links" aria-label="Quick links">
+      <a class="quick-link ql-quote" href="https://uw.co.uk/quote" target="_blank" rel="noopener">
+        <span class="quick-icon">🔐</span><span>Partner<br>Quote</span>
+      </a>
+      <a class="quick-link ql-meet" href="https://uw.link/meet" target="_blank" rel="noopener">
+        <span class="quick-icon">👤</span><span>Customer<br>Meet</span>
+      </a>
+      <a class="quick-link ql-mii" href="https://askmii.co.uk" target="_blank" rel="noopener">
+        <span class="quick-icon">🧠</span><span>AskMii</span>
+      </a>
+      <a class="quick-link ql-call" href="https://infocall.co.uk" target="_blank" rel="noopener">
+        <span class="quick-icon">🖥️</span><span>InfoCall</span>
+      </a>
+    </div>
   </header>
 
   <!-- WELCOME MESSAGE — accordion, collapses after first visit -->
@@ -627,7 +980,7 @@
     <!-- Always visible header row -->
     <div style="display:flex; align-items:center; justify-content:space-between; padding:0.85rem 1.2rem 0.85rem 1.2rem;">
       <p style="font-size:0.88rem; font-weight:600; color:var(--text-primary); margin:0;">
-        ❤️‍🔥 A really warm welcome to you!
+        👋 New to Team Triumph? Start here
       </p>
       <span id="welcome-chevron" style="font-size:0.75rem; color:var(--text-muted); flex-shrink:0; margin-left:0.75rem; transition: transform 0.25s ease;">▼</span>
     </div>
@@ -649,46 +1002,44 @@
     </div>
   </div>
 
-  <!-- EVENTS — always open, no accordion -->
+  <!-- EVENTS -->
   <section class="section sec-start">
-    <div class="section-label">
-      <span class="sec-icon">🎟️</span> Events
+    <div class="section-label" onclick="toggleSection('events')">
+      <span class="sec-icon">📅</span> Events
+      <span class="sec-chevron" id="chev-events">▼</span>
     </div>
+    <p class="section-sub" id="sub-events">Kick Off · Power Up · key dates</p>
+    <div class="section-body" id="body-events">
 
-    <div style="padding: 0 0.15rem 0.5rem;">
-      <p style="font-size:0.85rem; font-weight:600; color:var(--text-secondary); line-height:1.5;">
-        Where belief gets built.
-      </p>
-    </div>
-
-    <div class="video-nudge">
-      <div class="video-wrapper" style="padding-bottom: 37.5%;">
-        <iframe src="https://www.youtube.com/embed/mk0QgQTfwBE?rel=0&modestbranding=1" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-      </div>
-    </div>
-
-    <a class="image-card" href="https://uw.co.uk/partner/portal/v2/events/upcoming/8638" target="_blank" rel="noopener" style="--accent: var(--orange);">
-      <div class="image-card-inner">
-        <div class="image-card-thumb">
-          <img src="Amplify_2025.png" alt="UW Amplify 2026">
-        </div>
-        <div class="image-card-content">
-          <div class="card-title">⚡ Amplify 2026 — Birmingham NEC</div>
-          <div class="card-desc">UW's second biggest national event. Inspirational speakers, team energy and momentum you won't find anywhere else.</div>
-          <div class="tip">🎟️ Saturday 12th September — book now</div>
+      <div class="video-nudge">
+        <div class="video-wrapper" style="padding-bottom: 37.5%;">
+          <iframe src="https://www.youtube.com/embed/mk0QgQTfwBE?rel=0&modestbranding=1" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
         </div>
       </div>
-    </a>
 
+      <a class="image-card" href="https://uw.co.uk/partner/portal/v2/events/upcoming/8638" target="_blank" rel="noopener" style="--accent: var(--orange);">
+        <div class="image-card-inner">
+          <div class="image-card-thumb">
+            <img src="Amplify_2025.png" alt="UW event">
+          </div>
+          <div class="image-card-content">
+            <div class="card-title">⚡ UW event</div>
+            <div class="card-desc">Key national events, inspiration and momentum for your UW business.</div>
+            <div class="tip">🎟️ Tap for the latest event details</div>
+          </div>
+        </div>
+      </a>
+
+    </div>
   </section>
 
   <!-- GETTING STARTED -->
   <section class="section sec-started">
     <div class="section-label" onclick="toggleSection('started')">
-      <span class="sec-icon">🏃</span> Getting Started
+      <span class="sec-icon">🚀</span> Getting Started
       <span class="sec-chevron" id="chev-started">▼</span>
     </div>
-    <p class="section-sub" id="sub-started">Everything you need for your first steps</p>
+    <p class="section-sub" id="sub-started">Fast Start Plan · 30-Day Checklist · training</p>
     <div class="section-body" id="body-started">
 
       <a class="card" href="fast-start-plan.pdf" target="_blank" rel="noopener">
@@ -743,10 +1094,10 @@
   <!-- SHOWING THE PRESENTATION -->
   <section class="section sec-show">
     <div class="section-label" onclick="toggleSection('show')">
-      <span class="sec-icon">👀</span> Showing the Presentation
+      <span class="sec-icon">🖥️</span> Showing the Presentation
       <span class="sec-chevron" id="chev-show">▼</span>
     </div>
-    <p class="section-sub" id="sub-show">Your links for live and remote appointments</p>
+    <p class="section-sub" id="sub-show">Partner Quote · Customer Meeting Link</p>
     <div class="section-body" id="body-show">
 
       <a class="copy-card copy-card-new" href="https://uw.co.uk/quote" target="_blank" rel="noopener">
@@ -786,7 +1137,7 @@
       <span class="sec-icon">📣</span> Share the Partner Opportunity
       <span class="sec-chevron" id="chev-share">▼</span>
     </div>
-    <p class="section-sub" id="sub-share">Send these to people who might want to join</p>
+    <p class="section-sub" id="sub-share">Videos · InfoCall · UW Stories</p>
     <div class="section-body" id="body-share">
 
       <a class="copy-card" href="https://youtu.be/VHkcvvUUH6U?is=GxPhLKYhCNhy4iXl" target="_blank" rel="noopener">
@@ -868,7 +1219,7 @@
       <span class="sec-icon">🌟</span> Team RISE — Your Community
       <span class="sec-chevron" id="chev-rise">▼</span>
     </div>
-    <p class="section-sub" id="sub-rise">Stay connected with the wider team</p>
+    <p class="section-sub" id="sub-rise">Weekly call · Facebook · WhatsApp</p>
     <div class="section-body" id="body-rise">
 
       <a class="card" href="https://us02web.zoom.us/meeting/register/r_z1CYT6QA2Ayms-x2eBQw" target="_blank" rel="noopener">
@@ -918,7 +1269,7 @@
       <span class="sec-icon">🤝</span> Support
       <span class="sec-chevron" id="chev-support">▼</span>
     </div>
-    <p class="section-sub" id="sub-support">From AI help to human help — it's all here. Partner or customer.</p>
+    <p class="section-sub" id="sub-support">AskMii · Partner Support · Customer Support</p>
     <div class="section-body" id="body-support">
 
       <a class="copy-card" href="https://askmii.co.uk" target="_blank" rel="noopener">
@@ -993,7 +1344,7 @@
       <span class="sec-icon">🎓</span> Portal &amp; Training
       <span class="sec-chevron" id="chev-portal">▼</span>
     </div>
-    <p class="section-sub" id="sub-portal">Your UW back office and development resources</p>
+    <p class="section-sub" id="sub-portal">Portal · Training · Opportunity Booklet</p>
     <div class="section-body" id="body-portal">
 
       <a class="card" href="https://uw.co.uk/partner/portal/" target="_blank" rel="noopener">
@@ -1064,7 +1415,7 @@
       <span class="sec-icon">🛠️</span> Useful Tools
       <span class="sec-chevron" id="chev-tools">▼</span>
     </div>
-    <p class="section-sub" id="sub-tools">Built to make your conversations easier</p>
+    <p class="section-sub" id="sub-tools">Bundle guide · appointment tools · earnings</p>
     <div class="section-body" id="body-tools">
 
       <a class="card" href="uw-bundle-combinations.png" target="_blank" rel="noopener">
@@ -1123,7 +1474,7 @@
 </div>
 
 <script>
-  const SECTIONS = ['started','show','share','rise','support','portal','tools'];
+  const SECTIONS = ['events','started','show','share','rise','support','portal','tools'];
 
   // ── MODE TOGGLE ──
   function setMode(mode) {
@@ -1132,7 +1483,7 @@
     document.getElementById('btn-builder').classList.toggle('active', mode === 'builder');
     try { localStorage.setItem('partnerMode', mode); } catch(e) {}
     // Recalculate open section heights after mode change
-    ['started','show','share','rise','support','portal','tools'].forEach(id => {
+    SECTIONS.forEach(id => {
       const b = document.getElementById('body-' + id);
       if (b && b.dataset.open === 'true') b.style.maxHeight = b.scrollHeight + 'px';
     });
@@ -1164,10 +1515,10 @@
 
     // If it wasn't open, open it
     if (!isOpen) {
-      body.style.maxHeight = body.scrollHeight + 'px';
-      body.style.opacity   = '1';
-      chev.style.transform = 'rotate(0deg)';
       body.dataset.open    = 'true';
+      body.style.opacity   = '1';
+      body.style.maxHeight = body.scrollHeight + 'px';
+      chev.style.transform = 'rotate(0deg)';
     }
 
     // Persist state
@@ -1195,10 +1546,10 @@
       const isOpen = states[id] === true;
 
       if (isOpen) {
-        body.style.maxHeight = body.scrollHeight + 'px';
-        body.style.opacity   = '1';
-        chev.style.transform = 'rotate(0deg)';
         body.dataset.open    = 'true';
+        body.style.opacity   = '1';
+        body.style.maxHeight = body.scrollHeight + 'px';
+        chev.style.transform = 'rotate(0deg)';
       } else {
         body.style.maxHeight = '0px';
         body.style.opacity   = '0';
@@ -1321,6 +1672,6 @@
     });
   });
 </script>
-<script src="search.js?v=1.1.1"></script>
+<script src="search.js?v=1.2.0"></script>
 </body>
 </html>
