@@ -440,6 +440,7 @@
       radial-gradient(ellipse 50% 35% at 5% 90%, rgba(14,148,132,0.12) 0%, transparent 55%);
   }
   body[data-mode="lite"] .builder-only { display: none !important; }
+  body[data-mode="builder"] .lite-only { display: none !important; }
 
   .mode-toggle {
     display: inline-flex;
@@ -859,6 +860,9 @@
   .sec-support { --tile-accent: #7c3aed; --tile-bg: #f4efff; }
   .sec-portal  { --tile-accent: #b86a12; --tile-bg: #fff5df; }
   .sec-tools   { --tile-accent: #0a7a6e; --tile-bg: #e9f7f4; }
+  .sec-bundle  { --tile-accent: #138a61; --tile-bg: #edf8ed; display: block; text-decoration: none; color: inherit; }
+  .sec-bundle:hover { transform: translateY(-1px); }
+  .sec-bundle .sec-chevron { font-size: 0.95rem; }
 
   .section-body .card,
   .section-body .copy-card,
@@ -1724,6 +1728,16 @@
 
     </div>
   </section>
+
+  <!-- DIRECT BUNDLE GUIDE FOR NEW PARTNERS -->
+  <a class="section sec-bundle lite-only" href="uw-bundle-combinations.png" target="_blank" rel="noopener" aria-label="Open Bundle Combinations and Benefits guide">
+    <div class="section-label">
+      <span class="sec-icon">🧩</span>
+      <span>Bundle Combinations &amp; Benefits</span>
+      <span class="sec-chevron" aria-hidden="true">↗</span>
+    </div>
+    <p class="section-sub">See which bundles unlock which benefits</p>
+  </a>
 
   <!-- USEFUL TOOLS -->
   <section class="section sec-tools builder-only">
