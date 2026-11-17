@@ -5,9 +5,9 @@
   const CURRENT_FIRST_60_DAYS_URL = 'https://aqcroft.github.io/UW_PET_GH_v2/sep26/earningstool-vfinal-coaching-preview-v21.html';
   const POWERUP_VIDEO_EMBED_URL = 'https://www.youtube.com/embed/dkNED0cslX0?rel=0&modestbranding=1';
   const APP_RELEASE = {
-    version: '1.3.3',
-    date: '7th Oct 2026',
-    summary: 'Removes the resource search bar to keep the mobile home screen tighter and focused on shortcuts and tiles.'
+    version: '1.3.4',
+    date: '17th Nov 2026',
+    summary: 'Adds a copy link button to individual UW Story search results.'
   };
 
   function updateFirst60DaysLink() {
@@ -357,22 +357,23 @@
     footer.appendChild(release);
   }
 
+  function loadUwStoriesSearch() {
+    // Version the catalogue UI script using the single app release number.
+    const script = document.createElement('script');
+    script.src = `uw-stories-search.js?v=${encodeURIComponent(APP_RELEASE.version)}`;
+    script.defer = true;
+    document.head.appendChild(script);
+  }
+
   function init() {
     updateFirst60DaysLink();
     updateEventsSection();
     initShortcutEditing();
     initWelcomeModal();
     renderReleaseInfo();
+    loadUwStoriesSearch();
   }
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
   else init();
-})();
-
-// UW Stories has its own richer topic search backed by a locally cached weekly catalogue.
-(() => {
-  const script = document.createElement('script');
-  script.src = 'uw-stories-search.js';
-  script.defer = true;
-  document.head.appendChild(script);
 })();
