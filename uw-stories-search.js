@@ -249,12 +249,18 @@
 
       results.innerHTML = matches.map(({ story }) => {
         const desc = excerpt(story, q);
+        const url = escapeHtml(story.url);
         return `
-        <a class="uw-story-result" href="${escapeHtml(story.url)}" target="_blank" rel="noopener">
-          <span class="uw-story-result-title">🎞️ ${highlightTerms(story.title, q)}</span>
-          <span class="uw-story-result-desc">${highlightTerms(desc, q)}</span>
-          <span class="uw-story-result-open">Open story →</span>
-        </a>`;
+        <div class="uw-story-result">
+          <a class="uw-story-result-main" href="${url}" target="_blank" rel="noopener">
+            <span class="uw-story-result-title">🎞️ ${highlightTerms(story.title, q)}</span>
+            <span class="uw-story-result-desc">${highlightTerms(desc, q)}</span>
+          </a>
+          <div class="uw-story-result-actions">
+            <a class="uw-story-result-open" href="${url}" target="_blank" rel="noopener">Open story →</a>
+            <button type="button" class="uw-story-result-copy" data-url="${url}" aria-label="Copy link to ${escapeHtml(story.title)}">⧉ Copy link</button>
+          </div>
+        </div>`;
       }).join('');
     } catch (error) {
       console.error(error);
@@ -262,6 +268,39 @@
       results.innerHTML = '';
     }
     resizeParent(wrapper);
+  }
+
+  async function copyStoryLink(button) {
+    const url = button.dataset.url;
+    if (!url) return;
+
+    let copied = false;
+    try {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        await navigator.clipboard.writeText(url);
+        copied = true;
+      }
+    } catch (error) {
+      // Some browsers restrict clipboard access; try the selection fallback.
+    }
+    if (!copied) {
+      const textarea = document.createElement('textarea');
+      textarea.value = url;
+      textarea.setAttribute('readonly', '');
+      textarea.style.cssText = 'position:fixed;left:-9999px;opacity:0;';
+      document.body.appendChild(textarea);
+      textarea.select();
+      try { copied = document.execCommand('copy'); } catch (error) {}
+      textarea.remove();
+    }
+
+    clearTimeout(button._copyResetTimer);
+    button.textContent = copied ? '✓ Copied!' : 'Copy failed';
+    button.classList.toggle('copied', copied);
+    button._copyResetTimer = setTimeout(() => {
+      button.textContent = '⧉ Copy link';
+      button.classList.remove('copied');
+    }, 2000);
   }
 
   function addStyles() {
@@ -281,7 +320,13 @@
       .uw-story-result:hover { border-color:rgba(124,58,237,.3); }
       .uw-story-result-title { display:block; color:var(--text-primary); font-size:.78rem; font-weight:650; margin-bottom:.16rem; }
       .uw-story-result-desc { display:block; color:var(--text-secondary); font-size:.7rem; line-height:1.4; }
-      .uw-story-result-open { display:block; color:var(--violet); font-size:.67rem; font-weight:650; margin-top:.28rem; }
+      .uw-story-result-main { display:block; text-decoration:none; }
+      .uw-story-result-actions { display:flex; flex-wrap:wrap; align-items:center; gap:.7rem; margin-top:.32rem; }
+      .uw-story-result-open { display:inline-block; color:var(--violet); font-size:.67rem; font-weight:650; text-decoration:none; }
+      .uw-story-result-copy { border:1px solid rgba(124,58,237,.25); background:rgba(124,58,237,.06); border-radius:.45rem; color:var(--violet); padding:.32rem .65rem; font:600 .67rem 'DM Sans',sans-serif; cursor:pointer; }
+      .uw-story-result-copy:hover { background:rgba(124,58,237,.13); }
+      .uw-story-result-copy.copied { color:var(--green); border-color:rgba(22,163,74,.3); background:rgba(22,163,74,.08); }
+      .uw-story-result-main:focus-visible, .uw-story-result-open:focus-visible, .uw-story-result-copy:focus-visible { outline:2px solid var(--violet); outline-offset:2px; }
       .uw-story-highlight { font-weight:800; color:var(--text-primary); }
     `;
     document.head.appendChild(style);
@@ -307,6 +352,14 @@
       <div class="uw-stories-results"></div>`;
 
     uwLink.insertAdjacentElement('afterend', wrapper);
+    const results = wrapper.querySelector('.uw-stories-results');
+    results.addEventListener('click', event => {
+      const button = event.target.closest('.uw-story-result-copy');
+      if (button && results.contains(button)) {
+        event.preventDefault();
+        copyStoryLink(button);
+      }
+    });
     const input = wrapper.querySelector('input');
     let timer;
     input.addEventListener('input', () => {
